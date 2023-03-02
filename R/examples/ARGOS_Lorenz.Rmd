@@ -1,0 +1,290 @@
+---
+title: "Lorenz_ARGOS_Identification"
+author: "Kevin Egan"
+date: "2023-03-01"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 6
+    theme: spacelab
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Import Packages and Functions
+
+```{r packages, include=FALSE}
+rm(list = ls())
+### Seed for reproducibility
+seed <- 100
+set.seed(seed)
+### For regression
+library(glmnet)
+### Used for tsboot bootstrap
+library(boot)
+### Determines blocklength with b.star
+library(np)
+### Dplyr as well as purrr
+library(plyr)
+library(tidyverse)
+### ODE solver
+library(deSolve)
+### Smoothing
+library(signal)
+### Parallel processing
+library(doParallel)
+### Use Python for ODE solver
+library(reticulate)
+### Set filepath
+source("~/Documents/GitHub.nosync/ARGOS/R/variable_selection_methods/alasso.R")
+source("~/Documents/GitHub.nosync/ARGOS/R/variable_selection_methods/lasso.R")
+source("~/Documents/GitHub.nosync/ARGOS/R/sg_optimal_combination.R")
+source("~/Documents/GitHub.nosync/ARGOS/R/bootstrap_methods/argos_3d.R")
+source_python("~/Documents/GitHub.nosync/ARGOS/additional_functions/dynamical_systems_models/Python/lorenz_ode.py")
+```
+
+# Generate Lorenz System
+
+$$\begin{equation}
+\dot{x}_1 =\sigma(x_2 - x_1)\\
+\dot{x}_2 =x_1(\rho - x_3) - x_2\\
+\dot{x}_3 =x_1x_2 - \zeta x_3\\
+\end{equation}$$
+
+```{r lorenz system generation}
+n_obs <- 5000
+x <- runif(1, min = -15, max = 15) # x1 initial condition bounds
+y <- runif(1, min = -15, max = 15) # x2 initial condition bounds
+z <- runif(1, min = 10, max = 40) # x3 initial condition bounds
+init_coniditons <- c(x, y, z)
+monomial_degree <- 5 # transform theta
+dt <- 0.001 # time-step
+snr <- 49
+lorenz_system <-
+  lorenz_ode(
+    n = n_obs,
+    dt = dt,
+    init_conditions = init_coniditons,
+    snr = snr
+  )
+# 80/20 split
+x_t_train <- lorenz_system[1:round((nrow(lorenz_system)*0.8), 0), ]
+
+# Identify SG filtering paramters
+xt_1 <- as.matrix(x_t_train[, 1])
+xt_2 <- as.matrix(x_t_train[, 2])
+xt_3 <- as.matrix(x_t_train[, 3])
+lorenz_porder_wl_combos_x1 <-
+  sg_optimal_combination(xt_1, dt, polyorder = 4)[[2]]
+lorenz_porder_wl_combos_x2 <-
+  sg_optimal_combination(xt_2, dt, polyorder = 4)[[2]]
+lorenz_porder_wl_combos_x3 <-
+  sg_optimal_combination(xt_3, dt, polyorder = 4)[[2]]
+```
+
+## ARGOS-Lasso Identification
+
+```{r argos_lasso}
+lasso_method <- lasso
+bs_method <- list(statistic = lasso_method,
+                  ols_ps = TRUE)
+alpha <- 0.05 # 95% confidence intervals
+num_samples <- 500 # 2000 BS samples in real example
+# xdot
+xdot_argos_lasso <- boot_lasso(
+  x_t = x_t_train,
+  monomial_degree = monomial_degree,
+  dt = dt,
+  alpha = alpha,
+  num_samples = num_samples,
+  sg_combinations_x1 = lorenz_porder_wl_combos_x1,
+  sg_combinations_x2 = lorenz_porder_wl_combos_x2,
+  sg_combinations_x3 = lorenz_porder_wl_combos_x3,
+  sr_method = "lasso",
+  bs_method = bs_method,
+  derivative = "xdot"
+)
+
+# ydot
+ydot_argos_lasso <- boot_lasso(
+  x_t = x_t_train,
+  monomial_degree = monomial_degree,
+  dt = dt,
+  alpha = alpha,
+  num_samples = num_samples,
+  sg_combinations_x1 = lorenz_porder_wl_combos_x1,
+  sg_combinations_x2 = lorenz_porder_wl_combos_x2,
+  sg_combinations_x3 = lorenz_porder_wl_combos_x3,
+  sr_method = "lasso",
+  bs_method = bs_method,
+  derivative = "ydot"
+)
+
+# zdot
+zdot_argos_lasso <- boot_lasso(
+  x_t = x_t_train,
+  monomial_degree = monomial_degree,
+  dt = dt,
+  alpha = alpha,
+  num_samples = num_samples,
+  sg_combinations_x1 = lorenz_porder_wl_combos_x1,
+  sg_combinations_x2 = lorenz_porder_wl_combos_x2,
+  sg_combinations_x3 = lorenz_porder_wl_combos_x3,
+  sr_method = "lasso",
+  bs_method = bs_method,
+  derivative = "zdot"
+)
+```
+
+### Confidence Intervals
+
+```{r xdot lasso confidence intervals}
+# xdot
+xdot_ci_df <- xdot_argos_lasso$ci
+colnames(xdot_ci_df) <- c("1", xdot_argos_lasso$theta_colnames[-1])
+rownames(xdot_ci_df) <- c("lo", "up")
+xdot_ci_df
+
+# ydot
+ydot_ci_df <- ydot_argos_lasso$ci
+colnames(ydot_ci_df) <- c("1", ydot_argos_lasso$theta_colnames[-1])
+rownames(ydot_ci_df) <- c("lo", "up")
+ydot_ci_df
+
+# zdot
+zdot_ci_df <- zdot_argos_lasso$ci
+colnames(zdot_ci_df) <- c("1", zdot_argos_lasso$theta_colnames[-1])
+rownames(zdot_ci_df) <- c("lo", "up")
+zdot_ci_df
+```
+
+### Point Estimates
+
+```{r xdot lasso point estimates}
+# xdot
+xdot_pe_df <- t(data.frame(xdot_argos_lasso$point_estimates))
+rownames(xdot_pe_df) <- "pe"
+colnames(xdot_pe_df) <- c("1", xdot_argos_lasso$theta_colnames[-1])
+xdot_pe_df
+
+# ydot
+ydot_pe_df <- t(data.frame(ydot_argos_lasso$point_estimates))
+rownames(ydot_pe_df) <- "pe"
+colnames(ydot_pe_df) <- c("1", ydot_argos_lasso$theta_colnames[-1])
+ydot_pe_df
+
+# zdot
+zdot_pe_df <- t(data.frame(zdot_argos_lasso$point_estimates))
+rownames(zdot_pe_df) <- "pe"
+colnames(zdot_pe_df) <- c("1", zdot_argos_lasso$theta_colnames[-1])
+zdot_pe_df
+
+```
+
+## ARGOS-Adaptive lasso Identification
+
+```{r argos_alasso}
+alasso_weights_method <- "ridge"
+lasso_method <- alasso
+bs_method <- list(
+  statistic = match.fun(lasso_method),
+  weights_method = alasso_weights_method,
+  ols_ps = TRUE
+)
+
+alpha <- 0.05 # 95% confidence intervals
+num_samples <- 500 # 2000 BS samples in real example
+# xdot
+xdot_argos_alasso <- boot_lasso(
+  x_t = x_t_train,
+  monomial_degree = monomial_degree,
+  dt = dt,
+  alpha = alpha,
+  num_samples = num_samples,
+  sg_combinations_x1 = lorenz_porder_wl_combos_x1,
+  sg_combinations_x2 = lorenz_porder_wl_combos_x2,
+  sg_combinations_x3 = lorenz_porder_wl_combos_x3,
+  sr_method = "alasso",
+  bs_method = bs_method,
+  derivative = "xdot"
+)
+
+# ydot
+ydot_argos_alasso <- boot_lasso(
+  x_t = x_t_train,
+  monomial_degree = monomial_degree,
+  dt = dt,
+  alpha = alpha,
+  num_samples = num_samples,
+  sg_combinations_x1 = lorenz_porder_wl_combos_x1,
+  sg_combinations_x2 = lorenz_porder_wl_combos_x2,
+  sg_combinations_x3 = lorenz_porder_wl_combos_x3,
+  sr_method = "alasso",
+  bs_method = bs_method,
+  derivative = "ydot"
+)
+
+# zdot
+zdot_argos_alasso <- boot_lasso(
+  x_t = x_t_train,
+  monomial_degree = monomial_degree,
+  dt = dt,
+  alpha = alpha,
+  num_samples = num_samples,
+  sg_combinations_x1 = lorenz_porder_wl_combos_x1,
+  sg_combinations_x2 = lorenz_porder_wl_combos_x2,
+  sg_combinations_x3 = lorenz_porder_wl_combos_x3,
+  sr_method = "alasso",
+  bs_method = bs_method,
+  derivative = "zdot"
+)
+```
+
+### Confidence Intervals
+
+```{r xdot alasso confidence intervals}
+# xdot
+xdot_ci_df <- xdot_argos_alasso$ci
+colnames(xdot_ci_df) <- c("1", xdot_argos_alasso$theta_colnames[-1])
+rownames(xdot_ci_df) <- c("lo", "up")
+xdot_ci_df
+
+# ydot
+ydot_ci_df <- ydot_argos_alasso$ci
+colnames(ydot_ci_df) <- c("1", ydot_argos_alasso$theta_colnames[-1])
+rownames(ydot_ci_df) <- c("lo", "up")
+ydot_ci_df
+
+# zdot
+zdot_ci_df <- zdot_argos_alasso$ci
+colnames(zdot_ci_df) <- c("1", zdot_argos_alasso$theta_colnames[-1])
+rownames(zdot_ci_df) <- c("lo", "up")
+zdot_ci_df
+```
+
+### Point Estimates
+
+```{r xdot alasso point estimates, include=FALSE}
+# xdot
+xdot_pe_df <- t(data.frame(xdot_argos_alasso$point_estimates))
+rownames(xdot_pe_df) <- "pe"
+colnames(xdot_pe_df) <- c("1", xdot_argos_alasso$theta_colnames[-1])
+xdot_pe_df
+
+# ydot
+ydot_pe_df <- t(data.frame(ydot_argos_alasso$point_estimates))
+rownames(ydot_pe_df) <- "pe"
+colnames(ydot_pe_df) <- c("1", ydot_argos_alasso$theta_colnames[-1])
+ydot_pe_df
+
+# zdot
+zdot_pe_df <- t(data.frame(zdot_argos_alasso$point_estimates))
+rownames(zdot_pe_df) <- "pe"
+colnames(zdot_pe_df) <- c("1", zdot_argos_alasso$theta_colnames[-1])
+zdot_pe_df
+
+```
