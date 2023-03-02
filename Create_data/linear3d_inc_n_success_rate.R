@@ -302,6 +302,33 @@ pysindy_eta_gather_df <- pysindy_count_vector %>%
          2:ncol(pysindy_count_vector))
 
 pysindy_eta_gather_df$eta <- as.numeric(pysindy_eta_gather_df$eta)
+xdot_pysindy_prediction_model <- data.frame(xdot_pysindy_pe_current_df)
+colnames(xdot_pysindy_prediction_model) <-
+  sub("\\_.*", "", colnames(xdot_pysindy_prediction_model))
+ydot_pysindy_prediction_model <- data.frame(ydot_pysindy_pe_current_df)
+colnames(ydot_pysindy_prediction_model) <-
+  sub("\\_.*", "", colnames(ydot_pysindy_prediction_model))
+zdot_pysindy_prediction_model <- data.frame(zdot_pysindy_pe_current_df)
+colnames(zdot_pysindy_prediction_model) <-
+  sub("\\_.*", "", colnames(zdot_pysindy_prediction_model))
+xdot_pysindy_prediction_models_list <- split(xdot_pysindy_prediction_model, 1:100)
+ydot_pysindy_prediction_models_list <- split(ydot_pysindy_prediction_model, 1:100)
+zdot_pysindy_prediction_models_list <- split(zdot_pysindy_prediction_model, 1:100)
+xdot_pysindy_prediction_models_ordered <-
+  data.frame(matrix(
+    unlist(xdot_pysindy_prediction_models_list),
+    ncol = length(prediction_model_names)
+  ))
+ydot_pysindy_prediction_models_ordered <-
+  data.frame(matrix(
+    unlist(ydot_pysindy_prediction_models_list),
+    ncol = length(prediction_model_names)
+  ))
+zdot_pysindy_prediction_models_ordered <-
+  data.frame(matrix(
+    unlist(zdot_pysindy_prediction_models_list),
+    ncol = length(prediction_model_names)
+  ))
 
 ## save files --------------------
 ## lasso

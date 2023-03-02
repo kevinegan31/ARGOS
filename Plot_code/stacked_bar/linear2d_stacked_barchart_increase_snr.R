@@ -42,7 +42,7 @@ ggplot_data_snr <- function(algorithm, xdot_linear2d, ydot_linear2d,threshold=40
     xdot_linear2d[((i-1)*100+1):((i-1)*100+1+99),]
   })
   x_dot_linear2d_terms_data = sapply(xdot_linear2d_reg_list, function(x) apply(x,2,function(c) sum(c!=0)))
-  rownames(x_dot_linear2d_terms_data)[1] <- "1"
+  rownames(x_dot_linear2d_terms_data)[1] <- "X1"
   plot_data_xdot <- cbind.data.frame(eq = 'xdot', names = rownames(x_dot_linear2d_terms_data),
       values = x_dot_linear2d_terms_data[, snr_seq_desired]
     )

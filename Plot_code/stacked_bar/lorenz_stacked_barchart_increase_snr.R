@@ -11,31 +11,18 @@ library(patchwork)
 library(reticulate)
 library(RColorBrewer)
 library(stringr)
-# setwd('D:/Users/Administrator/OneDrive - Durham University/Proc_Royal_Soc_A/Data/Lorenz')
-# setwd('/Users/kevinegan/OneDrive - Durham University/Proc_Royal_Soc_A/Data/Lorenz')
 file_wd <- paste(
   # "/Users/kevinegan/Documents/",
-  "~/",
+  "~/GitHub/ARGOS/",
   sep = ""
 )
-# file_wd <- "D:/"
-file_wd2 <- paste(file_wd, "GitHub/PrivateAutomaticSparseRegression/Data/Lorenz/Bernoulli_Prediction_Models/", sep = "")
+# file_wd <- "D:/GitHub/ARGOS/" # github path
+file_wd2 <- paste(file_wd, "Data/Lorenz/stacked_bar_csv/", sep = "")
 setwd(file_wd2)
+# setwd('C:/Users/cfzh32/Documents/GitHub/ARGOS/Data/Lorenz/stacked_bar_csv')
 ## never changed variables ------------------------
 snr_seq <- c(seq(1, 61, 3), Inf)
 snr_seq_desired <- c(1, 5, 9, 13, 17, 21, 22)
-
-# colors
-colors0 <- c(
-  "#a84b20", "#5e79e8", "#6eb729", "#7051c7", "#4fc656", "#bf6fe6", "#a6bb31",
-  "#ab3ca8", "#3d912e", "#c93c90", "#38c481", "#df3f79", "#86be59", "#e672c7",
-  "#648a2e", "#6b56ac", "#e4a231", "#5b92e0", "#e38421", "#53a7d7", "#d04229",
-  "#3abec8", "#e23c54", "#60caae", "#b33246", "#79bf80", "#ba87da", "#c4ad39",
-  "#4e68a5", "#e47333", "#9f9add", "#777c1b", "#8e5393", "#949b43", "#b64f7d",
-  "#47935a", "#dd6666", "#3d9c7e", "#e7835f", "#1a6447", "#d18abc", "#2f7038",
-  "#e78a96", "#2f7b63", "#bc7f2a", "#8d4768", "#698e4e", "#a65356", "#4d661f",
-  "#d7a468", "#62612c", "#afb873", "#9d613a", "#655d14", "#89834d", "#917127"
-)
 
 colors0 <- c(
   "#de815d","#3f64d9","#93bd2e","#8c5bd5","#3cc755","#cd6de3","#74c34d",
@@ -48,79 +35,38 @@ colors0 <- c(
   "#e49486","#69773d","#9a5738","#c8b275","#6c6214","#dda55c","#916f38"
 )
 
-# colors0 <- c("#549c65", "#9660ca", "#6ab646", "#ce4b9d", "#a8993f",
-#              "#6f81cb", "#c67640", "#4cbcce", "#ce474a", "#be6a8d", "#6c6c6c")
-# colors0 <- c("#8661d0", "#80b73c", "#c858ac", "#45b470", "#c75c75", "#47b4c5",
-#              "#c95938", "#7c7fc5", "#c59542", "#8eb172", "#5e7430")
-
 ggplot_data_snr <- function(algorithm, xdot_lorenz, ydot_lorenz, zdot_lorenz, threshold=40){
   # xdot_lorenz = xdot_lorenz_alasso;ydot_lorenz = ydot_lorenz_alasso;zdot_lorenz = zdot_lorenz_alasso;algorithm='alasso'
   ## x_dot
   xdot_lorenz_reg_list <- lapply(seq_along(snr_seq), function(i){
     xdot_lorenz[((i-1)*100+1):((i-1)*100+1+99),]
   })
-  # xdot_lorenz_reg_list <- split(xdot_lorenz, seq_along(snr_seq))
-  # apply(xdot_lorenz_reg_list[[1]], 2, function(c) sum(c!=0))
   x_dot_lorenz_terms_data = sapply(xdot_lorenz_reg_list, function(x) apply(x,2,function(c) sum(c!=0)))
   rownames(x_dot_lorenz_terms_data)[1] <- "1"
-  # snr_seq[c(seq(1,30,5)[-6],22)]
-  # index <- c(seq(1,30,5)[-6],22)
-  plot_data_xdot <-
-    cbind.data.frame(
-      eq = 'xdot',
-      names = rownames(x_dot_lorenz_terms_data),
-      values = x_dot_lorenz_terms_data[, snr_seq_desired]
-    )
+  plot_data_xdot <- cbind.data.frame(eq = 'xdot',names = rownames(x_dot_lorenz_terms_data),
+    values = x_dot_lorenz_terms_data[, snr_seq_desired])
   
   ## y_dot
   ydot_lorenz_reg_list <- lapply(seq_along(snr_seq), function(i){
     ydot_lorenz[((i-1)*100+1):((i-1)*100+1+99),]
   })
-  # ydot_lorenz_reg_list <- split(ydot_lorenz, seq_along(snr_seq))
-  # apply(ydot_lorenz_reg_list[[1]], 2, function(c) sum(c!=0))
   y_dot_lorenz_terms_data = sapply(ydot_lorenz_reg_list, function(x) apply(x,2,function(c) sum(c!=0)))
   rownames(y_dot_lorenz_terms_data)[1] <- "1"
-  # snr_seq[c(seq(1,30,5)[-6],22)]
-  # index <- c(seq(1,30,5)[-6],22)
-  plot_data_ydot <-
-    cbind.data.frame(
-      eq = 'ydot',
-      names = rownames(y_dot_lorenz_terms_data),
-      values = y_dot_lorenz_terms_data[, snr_seq_desired]
-    )
+  plot_data_ydot <- cbind.data.frame(eq = 'ydot',names = rownames(y_dot_lorenz_terms_data),
+      values = y_dot_lorenz_terms_data[, snr_seq_desired])
   
   ## z_dot
   zdot_lorenz_reg_list <- lapply(seq_along(snr_seq), function(i){
     zdot_lorenz[((i-1)*100+1):((i-1)*100+1+99),]
   })
-  # zdot_lorenz_reg_list <- split(zdot_lorenz, seq_along(snr_seq))
-  # apply(zdot_lorenz_reg_list[[1]], 2, function(c) sum(c!=0))
   z_dot_lorenz_terms_data = sapply(zdot_lorenz_reg_list, function(x) apply(x,2,function(c) sum(c!=0)))
   rownames(z_dot_lorenz_terms_data)[1] <- "1"
-  # snr_seq[c(seq(1,30,5)[-6],22)]
-  # index <- c(seq(1,30,5)[-6],22)
-  plot_data_zdot <-
-    cbind.data.frame(
-      eq = 'zdot',
-      names = rownames(z_dot_lorenz_terms_data),
-      values = z_dot_lorenz_terms_data[, snr_seq_desired]
-    )
-  
+  plot_data_zdot <- cbind.data.frame(eq = 'zdot', names = rownames(z_dot_lorenz_terms_data),
+      values = z_dot_lorenz_terms_data[, snr_seq_desired])
   plot_data <- rbind(plot_data_xdot,plot_data_ydot,plot_data_zdot)
   
   ## plot_data 
-  # library(reshape2)
-  # plot_data2 = melt(plot_data,'names')
-  plot_data1 <-
-    gather(
-      plot_data,
-      "snr",
-      "value",
-      -names, -eq
-    )
-  # plot_data1 <- subset(plot_data1, plot_data1$value>threshold | plot_data1$names=='x' | plot_data1$names=='y')
-  # plot_data1 <- plot_data1[-which(plot_data1$value<threshold & plot_data1$names!='x'& plot_data1$names!='y'),]
-  # plot_data1$names[which(plot_data1$value<threshold & plot_data1$names!='x'& plot_data1$names!='y')] <- 'others'
+  plot_data1 <- gather(plot_data, "snr", "value",-names,-eq)
   
   ## correct terms and incorrect terms frequency > threshold
   plot_data1 <- rbind(dplyr::filter(plot_data1, value>threshold|names=='x'|names=='y') %>% dplyr::filter(eq=='xdot'),
@@ -132,59 +78,35 @@ ggplot_data_snr <- function(algorithm, xdot_lorenz, ydot_lorenz, zdot_lorenz, th
     index <- which(x<threshold & terms!='x'& terms!='y')
     sum(x[index])
   })
-  
   others_values_ydot <- apply(subset(plot_data,plot_data[,1]=='ydot')[,-c(1,2)], 2, function(x){
     terms <- subset(plot_data,plot_data[,1]=='ydot')[,2]
     index <- which(x<threshold & terms!='x'& terms!='y'& terms!='xz')
     sum(x[index])
   })
-  
   others_values_zdot <- apply(subset(plot_data,plot_data[,1]=='zdot')[,-c(1,2)], 2, function(x){
     terms <- subset(plot_data,plot_data[,1]=='zdot')[,2]
     index <- which(x<threshold & terms!='z'& terms!='xy')
     sum(x[index])
   })
-  
   others_values <- cbind(xdot=others_values_xdot,ydot=others_values_ydot,zdot=others_values_zdot)
-  
   others <- cbind.data.frame(snr=names(plot_data)[-c(1,2)],others_values) %>% 
     reshape2::melt('snr',variable.name = 'eq') %>% cbind(names='others')
-  
-  # others <- cbind.data.frame(names=rep('others',nrow(others_values)),snr=names(plot_data)[-c(1,2)],value=others_values) %>% 
-  #   gather("snr","value",-names,-snr)
-  
   plot_data2 <- rbind(plot_data1,others) # the main plot data in ggplot
-  # plot_data2 <- filter(plot_data2, snr!='values.22') # remove snr=Inf
   rownames(plot_data2) <- 1:nrow(plot_data2)
-  
-  # plot_data2 <- plot_data1
   ## Add factors for variable order in Legend
   plot_data2$snr <-
     factor(plot_data2$snr,
            levels = unique(plot_data2$snr))
-  
   plot_data2$names <-
     factor(plot_data2$names,
            levels =
              c(rownames(x_dot_lorenz_terms_data),'others'))
-  
-  # image(1 : length(colors0), 1, as.matrix(1 : length(colors0)), col = colors0 ,xlab =  "", ylab = "", xaxt = "n", yaxt = "n", bty = "n")
-  # color_data <- cbind.data.frame(color=c(colors0,"#917127"), terms=c(rownames(x_dot_lorenz_terms_data),'others'))
-  
   ## need to replace x,y,z,... to x_1,x_2,x_3,...
-  # terms_show <- c('x','y','z',as.character(unique(sort(plot_data2$names))[-match(c('x','y','z','others'),unique(sort(plot_data2$names)))]))
   terms_show <- as.character(unique(sort(plot_data2$names)))
-  # terms_show <- subset(terms_show, terms_show!='others')
   plot_data2$names <-
     factor(plot_data2$names,
            levels = terms_show)
-  # c('others',terms_show[length(terms_show):1]))
   colors <- c(colors0[match(terms_show[-length(terms_show)],rownames(x_dot_lorenz_terms_data))], "#6c6c6c")
-  # colors <- colors0[c(match(terms_show[-length(terms_show)],rownames(x_dot_lorenz_terms_data)),11)]
-  # colors <- c(colors0[match(terms_show,rownames(x_dot_lorenz_terms_data))],"#917127")
-  # colors <- colors[length(colors):1]
-  # colors <- c("#B3B3B3", brewer.pal(length(terms_show), "Set2"))
-  # colors <- c(brewer.pal(length(terms_show), "Set2")[length(terms_show):1],"#B3B3B3")
   
   ## terms frequency label 
   plot_data2$label <- plot_data2$value
@@ -199,21 +121,15 @@ ggplot_data_snr <- function(algorithm, xdot_lorenz, ydot_lorenz, zdot_lorenz, th
   ## white break in the plot to show which equation 
   eq_breaks <- cbind(eq=rep(c('xdot','ydot','zdot'),each=length(snr_seq_desired)),
                      names='break',snr=rep(unique(plot_data1$snr),3),value=50,label=NA,names2='break')
-  
   plot_data2 <- rbind.data.frame(plot_data2,eq_breaks)
   plot_data2$value <- as.numeric(plot_data2$value)
   plot_data2$snr <-
     factor(plot_data2$snr,
            levels = unique(plot_data2$snr))
-  
   terms_legend_break <- sort(unique(plot_data2$names))
   terms_legend_break <- terms_legend_break[-match(c('others','break'),terms_legend_break)]
   terms_legend_lab <- c(unname(TeX(paste0('$',terms_legend_break %>%
                                             str_replace_all(c('x'='x_1','y'='x_2','z'='x_3')),'$'))),'Others','')
-  # terms_legend_break <- terms_legend_break[-match(c('others'),terms_legend_break)]
-  # terms_legend_lab <- c(unname(TeX(paste0('$',terms_legend_break %>%
-  #                                           str_replace_all(c('x'='x_1','y'='x_2','z'='x_3')),'$'))),'Others')
-  
   ## split each equations intop three bars
   x_axis <- rbind((1:length(colnames(plot_data)[-c(1,2)])-1)*3,
                   (1:length(colnames(plot_data)[-c(1,2)])-1)*3+1,
@@ -224,13 +140,10 @@ ggplot_data_snr <- function(algorithm, xdot_lorenz, ydot_lorenz, zdot_lorenz, th
   plot_data2$x_axis <- NA
   for(i in 1:length(colnames(plot_data)[-c(1,2)])){
     for(j in 1:length(unique(plot_data$eq))){
-      # print(which(plot_data2$eq==eqs[j] & plot_data2$snr==snr_value[i]))
-      # print(x_aixs[j,i])
       plot_data2$x_axis[which(plot_data2$eq==eqs[j] & plot_data2$snr==snr_value[i])] <- x_axis[j,i]
     }
   }
   plot_data2$x_axis <- as.factor(plot_data2$x_axis)
-  
   plot_data2$correct <- NA
   correct_terms <- c(which(plot_data2$eq=='xdot' & plot_data2$names=='x'),
                      which(plot_data2$eq=='xdot' & plot_data2$names=='y'),
@@ -245,31 +158,6 @@ ggplot_data_snr <- function(algorithm, xdot_lorenz, ydot_lorenz, zdot_lorenz, th
   plot_data2$correct_color <- as.numeric(plot_data2$correct)
   plot_data2$correct_color[which(plot_data2$correct_color == 2)] <- 'grey80'
   plot_data2$correct_color[which(plot_data2$correct_color == 1)] <- 'white'
-  
-  
-  ## white break terms dataset replace labels with latex
-  plot_data3 <- subset(plot_data2,names=='break')
-  plot_data3$label[which(plot_data3$eq=='xdot')] <- TeX('$\\dot{x}_1$')
-  plot_data3$label[which(plot_data3$eq=='ydot')] <- TeX('$\\dot{x}_2$')
-  plot_data3$label[which(plot_data3$eq=='zdot')] <- TeX('$\\dot{x}_3$')
-  
-  plot_data3$y_axis <- NA # define no stacked y-axis 
-  for(i in 1:nrow(plot_data3)){
-    plot_data3$y_axis[i] <- 
-      sum(dplyr::filter(plot_data2, eq==plot_data3$eq[i] & snr==plot_data3$snr[i] & names!=plot_data3$names[i])$value)
-  }
-  
-  plot_data3$y_axis2 <- NA # define stacked y-axis 
-  for(i in unique(plot_data3$snr)){
-    ind <- which(plot_data3$eq=='xdot' & plot_data3$snr==i)
-    ind2 <- which(plot_data3$snr==i)
-    plot_data3$y_axis2[ind] <- sum(plot_data3$y_axis[ind2])+25+50*2
-    ind <- which(plot_data3$eq=='ydot' & plot_data3$snr==i)
-    ind2 <- which(plot_data3$eq!='xdot' & plot_data3$snr==i)
-    plot_data3$y_axis2[ind] <- sum(plot_data3$y_axis[ind2])+25+50
-    ind <- which(plot_data3$eq=='zdot' & plot_data3$snr==i)
-    plot_data3$y_axis2[ind] <- plot_data3$y_axis[ind]+25
-  }
   
   ## plot_data2 with a colors column
   plot_data4 <- plot_data2
@@ -290,39 +178,13 @@ ggplot_data_snr <- function(algorithm, xdot_lorenz, ydot_lorenz, zdot_lorenz, th
   plot_data4$label2[which(plot_data4$eq=='xdot'&plot_data4$names=='break')] <- TeX('$\\dot{x}_1$')
   plot_data4$label2[which(plot_data4$eq=='ydot'&plot_data4$names=='break')] <- TeX('$\\dot{x}_2$')
   plot_data4$label2[which(plot_data4$eq=='zdot'&plot_data4$names=='break')] <- TeX('$\\dot{x}_3$')
-  # plot_data4[which(plot_data4$names=='break'),]$label2 <- plot_data3$label
-  # plot_data4 <- subset(plot_data4, !is.na(plot_data4$label)|plot_data4$names=='break')
-  
-  
-  # plot_data2 <- filter(plot_data2, snr!='values.22') # remove snr=Inf
-  # plot_data3 <- plot_data3[which(plot_data3$snr!='values.22'),] # remove snr=Inf
-  # plot_data4 <- plot_data4[which(plot_data4$snr!='values.22'),] # remove snr=Inf
-  
   snr_levels <- levels(plot_data4$snr)
   names_levels <- levels(plot_data4$names)
-  
-  plot_data5 <- plot_data4
-  plot_data5$eq_ord <- NA
-  plot_data5$eq_ord[which(plot_data5$eq=='xdot')] <- '3xdot'
-  plot_data5$eq_ord[which(plot_data5$eq=='ydot')] <- '2ydot'
-  plot_data5$eq_ord[which(plot_data5$eq=='zdot')] <- '1zdot'
-  plot_data5 <- plot_data5[with(plot_data5, order(snr, eq_ord, names)),]
-  
-  plot_data5$y_axis <- NA
-  for(i in snr_levels){
-    snr_index <- which(plot_data5$snr==i)
-    plot_data5$y_axis[snr_index] <- cumsum(plot_data5$value[snr_index])-plot_data5$value[snr_index]/2
-  }
-  plot_data5 <- plot_data5[which(!is.na(plot_data5$label)|plot_data5$names=='break'),]
-  plot_data5$color[which(plot_data5$names=='break')] <- 'black'
-  
   plot_data2$label2 <- plot_data4$label
   plot_data2$label2[which(plot_data2$names=='break')] <- "         "
   plot_data2$label2[which(plot_data2$names=='others'&!is.na(plot_data2$label2))] <- "            "
-  
   x_labels <- snr_seq[snr_seq_desired]
   x_labels[length(x_labels)] <- TeX("$\\infty$")
-  
   
   ## plot xdot data
   plot_xdot_data_index <- which(plot_data4$eq=='xdot' & plot_data4$names2 != 'breaks')
@@ -359,8 +221,6 @@ ggplot_data_snr <- function(algorithm, xdot_lorenz, ydot_lorenz, zdot_lorenz, th
   plot_zdot_data <- plot_zdot_data[which(plot_zdot_data$names!='break'),]
   plot_zdot_data$label2[which(is.na(plot_zdot_data$label))] <- '  '
   plot_zdot_data$correct_color[plot_zdot_data$correct==1] <- '#619CFF44'
-  
-  
   plot_data_xyz_dot <- rbind(plot_xdot_data, plot_ydot_data, plot_zdot_data)
   plot_data_xyz_dot$eq <- as.factor(plot_data_xyz_dot$eq)
   levels(plot_data_xyz_dot$eq) <- c(TeX('$\\dot{x}_1$'),TeX('$\\dot{x}_2$'),TeX('$\\dot{x}_3$'))
@@ -413,48 +273,27 @@ ggplot_data_snr <- function(algorithm, xdot_lorenz, ydot_lorenz, zdot_lorenz, th
 }
 
 ## lasso --------------
-xdot_lorenz_lasso <- read.csv("xdot_lorenz_lasso_increasing_snr_prediction_models_N_7000_TAPER_new_sg.csv")[,-1]
-ydot_lorenz_lasso <- read.csv("ydot_lorenz_lasso_increasing_snr_prediction_models_N_7000_TAPER_new_sg.csv")[,-1]
-zdot_lorenz_lasso <- read.csv("zdot_lorenz_lasso_increasing_snr_prediction_models_N_7000_TAPER_new_sg.csv")[,-1]
+xdot_lorenz_lasso <- read.csv("SNR/lorenz_inc_snr_xdot_lasso_pred_models_new_sg.csv")[,-1]
+ydot_lorenz_lasso <- read.csv("SNR/lorenz_inc_snr_ydot_lasso_pred_models_new_sg.csv")[,-1]
+zdot_lorenz_lasso <- read.csv("SNR/lorenz_inc_snr_zdot_lasso_pred_models_new_sg.csv")[,-1]
 lasso_plot_snr <- ggplot_data_snr('ARGOS-Lasso', xdot_lorenz_lasso, ydot_lorenz_lasso, zdot_lorenz_lasso,70)
 lasso_plot2_snr <- lasso_plot_snr+theme(legend.position='none')
-# legend <- get_legend(lasso_plot+theme(legend.position='bottom'))
-# cowplot::plot_grid(legend)
-
 ## alasso ------------------
-xdot_lorenz_alasso <- read.csv("xdot_lorenz_alasso_increasing_snr_prediction_models_new_sg.csv")[,-1]
-ydot_lorenz_alasso <- read.csv("ydot_lorenz_alasso_increasing_snr_prediction_models_new_sg.csv")[,-1]
-zdot_lorenz_alasso <- read.csv("zdot_lorenz_alasso_increasing_snr_prediction_models_new_sg.csv")[,-1]
+xdot_lorenz_alasso <- read.csv("SNR/lorenz_inc_snr_xdot_alasso_pred_models_new_sg.csv")[,-1]
+ydot_lorenz_alasso <- read.csv("SNR/lorenz_inc_snr_ydot_alasso_pred_models_new_sg.csv")[,-1]
+zdot_lorenz_alasso <- read.csv("SNR/lorenz_inc_snr_zdot_alasso_pred_models_new_sg.csv")[,-1]
 alasso_plot_snr <- ggplot_data_snr('ARGOS-Adaptive Lasso', xdot_lorenz_alasso, ydot_lorenz_alasso, zdot_lorenz_alasso,50)
 alasso_plot2_snr <- alasso_plot_snr+theme(legend.position='none')
-# legend <- get_legend(alasso_plot+theme(legend.position='bottom'))
-# cowplot::plot_grid(legend)
-
 ## STLS -------------------------
-xdot_lorenz_STLS <- read.csv("xdot_lorenz_sindy_increasing_snr_prediction_models_new_sg.csv")[,-1]
-ydot_lorenz_STLS <- read.csv("ydot_lorenz_sindy_increasing_snr_prediction_models_new_sg.csv")[,-1]
-zdot_lorenz_STLS <- read.csv("zdot_lorenz_sindy_increasing_snr_prediction_models_new_sg.csv")[,-1]
+xdot_lorenz_STLS <- read.csv("SNR/lorenz_inc_snr_xdot_sindy_pred_models_new_sg.csv")[,-1]
+ydot_lorenz_STLS <- read.csv("SNR/lorenz_inc_snr_ydot_sindy_pred_models_new_sg.csv")[,-1]
+zdot_lorenz_STLS <- read.csv("SNR/lorenz_inc_snr_zdot_sindy_pred_models_new_sg.csv")[,-1]
 STLS_plot_snr <- ggplot_data_snr('SINDy with AIC', xdot_lorenz_STLS, ydot_lorenz_STLS, zdot_lorenz_STLS)
 STLS_plot2_snr <- STLS_plot_snr+theme(legend.position='none')
-# legend <- get_legend(STLS_plot+theme(legend.position='bottom'))
-# cowplot::plot_grid(legend)
 
-# write.csv(x_dot_lorenz_lasso_terms_data,file = 'D:/Users/Administrator/OneDrive - Durham University/Proc_Royal_Soc_A/Plots/Lorenz/x_dot_lorenz_lasso_terms_data.csv')
-# scale_fill_manual(values = colors, breaks = unique(plot_data2$names), 
-#                   labels=unname(TeX(c("Other",'$\\dot{x}_1\\dot{x}_2$','$\\dot{x}_2\\dot{x}_3$','$\\dot{x}_1\\dot{x}_3$','$\\dot{x}_3$','$\\dot{x}_2$', '$\\dot{x}_1$'))), name='Terms') +
-
-## legend -------------------
-# x_legend <- xdot_lorenz_lasso[,c(1:5,7,8,10)]
-# x_legend <- xdot_lorenz_lasso[,1:11]
-# x_legend[,-1] <- 4
-# legend_plot <- ggplot_data('STLS', x_legend, x_legend, x_legend)
 legend <- get_legend(STLS_plot2_snr+theme(legend.position='bottom'))
 ggplot_legend <- cowplot::plot_grid(legend)
 
-## boxplot --------------------------
-# source(paste0(
-#   "D:/GitHub/",
-#   "Iterative-Sparse-Regression/Plot_Code/Lorenz/lorenz_boxplot_number_of_selected_variables_increasing_snr.R"))
 ## compose -----------------
 library(gridExtra)
 layout_matrix <- matrix(c(0,rep(1,20),rep(2,20),rep(3,20)), ncol=1)
