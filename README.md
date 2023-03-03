@@ -16,7 +16,8 @@ We also provide all tests run for the *Automatically identifying dynamical syste
 
 [**Python**](https://github.com/kevinegan31/ARGOS/tree/main/Python_Code) contains all code and tests we used for SINDy-AIC.
 
-[**Data**](https://github.com/kevinegan31/ARGOS/tree/main/Data) contains raw outputs (in .csv format) from test results for the *Automatically identifying dynamical systems from data* paper.
+[**Data**](https://github.com/kevinegan31/ARGOS/tree/main/Data) contains raw outputs (in .csv format) from test results for the *Automatically identifying dynamical systems from data* paper. 
+Users need to unzip the compressed `Data.zip` file to access the Data folder. 
 
 [**Create_data**](https://github.com/kevinegan31/ARGOS/tree/main/Create_data) enables users to create each file necessary for plotting the results.
 
