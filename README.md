@@ -5,22 +5,23 @@ This Github repository contains codes for the paper *Automatically identifying d
 ## Motivation
 The purpose of this code is to enable users to perform system identification of linear and nonlinear systems automatically.
 System identification refers to the process of building mathematical models of dynamical systems using measurements of the input and output signals of the system.
-A dynamical system is a system whose state varies over time and follows sets of ordinary or partial differential equations.
-We propose a framework that applies sparse regression algorithms with model selection methods to identify the governing equations that describe the data automatically.
+Dynamical systems can either be discrete or continous, and use ordinary or partial differential equations to describe its behavior whose state varies over time.
+The automatic regression for governing equations (ARGOS) provides a framework that leverages the optimal numerical derivative calculation with formal variable selection procedures to identify governing equations from data automatically.
 Upon identification, users can apply the resulting models to generalize and predict the systems existing in their data.
 
 ## Folders
-[**R_code**](https://github.com/kevinegan31/ARGOS/tree/master/R_Code) contains all codes used for implementing our method in `R`.
-We provide code for the bootstrap, lasso and adaptive lasso, and Savitzky-Golay filter.
+[**R**](https://github.com/kevinegan31/ARGOS/tree/main/R) contains all code used for implementing our method in `R`.
+We provide code for ARGOS, including the bootstrap, lasso and adaptive lasso, and Savitzky-Golay filter.
 We also provide all tests run for the *Automatically identifying dynamical systems from data* paper. 
 
-[**Python_code**](https://github.com/kevinegan31/ARGOS/tree/master/Python_Code) contains all code and tests we used for SINDy-AIC.
+[**Python**](https://github.com/kevinegan31/ARGOS/tree/main/Python_Code) contains all code and tests we used for SINDy-AIC.
 
-[**Data**](https://github.com/kevinegan31/ARGOS/tree/master/Data) contains raw outputs (in .csv format) from test results for the *Automatically identifying dynamical systems from data* paper.
+[**Data**](https://github.com/kevinegan31/ARGOS/tree/main/Data) contains raw outputs (in .csv format) from test results for the *Automatically identifying dynamical systems from data* paper.
 
-[**Plot_code**](https://github.com/kevinegan31/ARGOS/tree/master/Plot_Code) contains code for figures shown in the paper.
+[**Create_data**](https://github.com/kevinegan31/ARGOS/tree/main/Create_data) enables users to create each file necessary for plotting the results.
 
-[**RData**](https://github.com/kevinegan31/ARGOS/tree/master/RData) contains cleaned results data developed for the paper and implemented for the plots.
+[**Plot_code**](https://github.com/kevinegan31/ARGOS/tree/main/Plot_code) contains code for figures shown in the paper.
+
 
 ## Notice
 When using Windows system, please clone to the drive directly like 'C:\\' or 'D:\\', not the folders in 'C:\\' or 'D:\\',  because some file names are too long to be cloned in Windows.
