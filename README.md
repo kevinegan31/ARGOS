@@ -22,24 +22,8 @@ We also provide all tests run for the *Automatically identifying dynamical syste
 
 [**Plot_code**](https://github.com/kevinegan31/ARGOS/tree/main/Plot_code) contains code for figures shown in the paper.
 
+[**Additional_Functions**](https://github.com/kevinegan31/ARGOS/tree/main/additional_functions/) provides code to run each dynamical system examined in the paper.
 
 ## Notice
 When using Windows system, please clone to the drive directly like 'C:\\' or 'D:\\', not the folders in 'C:\\' or 'D:\\',  because some file names are too long to be cloned in Windows.
 MAC OS and Linux do not have this problem.
-
-Table of Contents
-Installation
-Usage
-Contributing
-License
-Installation
-Instructions on how to install the project, including any dependencies that need to be installed.
-
-Usage
-Instructions on how to use the project, including any command line options or configuration settings.
-
-Contributing
-Guidelines for contributing to the project, including information on how to submit bug reports or feature requests.
-
-License
-Information on the license under which the project is released. Include any relevant attribution or copyright notices.
