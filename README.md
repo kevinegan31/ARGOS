@@ -20,7 +20,7 @@ We also provide all tests run for the *Automatically identifying dynamical syste
 
 [**Plot_code**](https://github.com/kevinegan31/ARGOS/tree/master/Plot_Code) contains code for figures shown in the paper.
 
-[**RData**](https://github.com/kevinegan31/AutomaticSparseRegression/tree/master/RData) contains cleaned results data developed for the paper and implemented for the plots.
+[**RData**](https://github.com/kevinegan31/ARGOS/tree/master/RData) contains cleaned results data developed for the paper and implemented for the plots.
 
 ## Notice
 When using Windows system, please clone to the drive directly like 'C:\\' or 'D:\\', not the folders in 'C:\\' or 'D:\\',  because some file names are too long to be cloned in Windows.
