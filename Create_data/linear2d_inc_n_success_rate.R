@@ -240,6 +240,19 @@ pysindy_n_gather_df <- pysindy_count_vector %>%
 
 pysindy_n_gather_df$n <- as.numeric(pysindy_n_gather_df$n)
 
+xdot_pysindy_prediction_model <- data.frame(x_dot_pysindy_pe)
+colnames(xdot_pysindy_prediction_model) <-
+  sub("\\_.*", "", colnames(xdot_pysindy_prediction_model))
+ydot_pysindy_prediction_model <- data.frame(y_dot_pysindy_pe)
+colnames(ydot_pysindy_prediction_model) <-
+  sub("\\_.*", "", colnames(ydot_pysindy_prediction_model))
+xdot_pysindy_prediction_models_list <- split(xdot_pysindy_prediction_model, 1:100)
+ydot_pysindy_prediction_models_list <- split(ydot_pysindy_prediction_model, 1:100)
+xdot_pysindy_prediction_models_ordered <-
+  bind_rows(ydot_pysindy_prediction_models_list, .id = "column_label")
+ydot_pysindy_prediction_models_ordered <-
+  bind_rows(ydot_pysindy_prediction_models_list, .id = "column_label")
+
 ### ## save files --------------------
 ## lasso
 write.csv(xdot_lasso_prediction_model,
