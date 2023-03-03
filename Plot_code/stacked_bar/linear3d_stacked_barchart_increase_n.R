@@ -341,7 +341,7 @@ layout_matrix <- matrix(c(0,rep(1,20),rep(2,20),rep(3,20)), ncol=1)
 stacked_linear3d_n <-
   grid.arrange(
     ggplot() + labs(tag = expression(bold('a'))) + theme(
-      text = element_text(size = 25),
+      text = element_text(size = 35),
       plot.background = element_blank(),
       panel.background = element_blank()
     ) ,
