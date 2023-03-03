@@ -46,7 +46,7 @@ ggplot_data_n <- function(algorithm, xdot_linear3d, ydot_linear3d, zdot_linear3d
     xdot_linear3d[((i-1)*100+1):((i-1)*100+1+99),]
   })
   x_dot_linear3d_terms_data = sapply(xdot_linear3d_reg_list, function(x) apply(x,2,function(c) sum(c!=0)))
-  rownames(x_dot_linear3d_terms_data)[1] <- "X1"
+  rownames(x_dot_linear3d_terms_data)[1] <- "1"
   plot_data_xdot <- cbind.data.frame(eq = 'xdot', names = rownames(x_dot_linear3d_terms_data),
       values = x_dot_linear3d_terms_data[, n_seq_desired]
     )
@@ -56,7 +56,7 @@ ggplot_data_n <- function(algorithm, xdot_linear3d, ydot_linear3d, zdot_linear3d
     ydot_linear3d[((i-1)*100+1):((i-1)*100+1+99),]
   })
   y_dot_linear3d_terms_data = sapply(ydot_linear3d_reg_list, function(x) apply(x,2,function(c) sum(c!=0)))
-  rownames(y_dot_linear3d_terms_data)[1] <- "X1"
+  rownames(y_dot_linear3d_terms_data)[1] <- "1"
   plot_data_ydot <-
     cbind.data.frame(eq = 'ydot', names = rownames(y_dot_linear3d_terms_data),
       values = y_dot_linear3d_terms_data[, n_seq_desired]
@@ -67,7 +67,7 @@ ggplot_data_n <- function(algorithm, xdot_linear3d, ydot_linear3d, zdot_linear3d
     zdot_linear3d[((i-1)*100+1):((i-1)*100+1+99),]
   })
   z_dot_linear3d_terms_data = sapply(zdot_linear3d_reg_list, function(x) apply(x,2,function(c) sum(c!=0)))
-  rownames(z_dot_linear3d_terms_data)[1] <- "X1"
+  rownames(z_dot_linear3d_terms_data)[1] <- "1"
   plot_data_zdot <-
     cbind.data.frame(
       eq = 'zdot',
@@ -337,8 +337,6 @@ ggplot_legend <- cowplot::plot_grid(legend)
 
 ## compose -----------------
 library(gridExtra)
-# layout_matrix <- matrix(c(1,1,2,2,2,3,3,3,4,4,4),ncol=1)
-# grid.arrange(n_box1,lasso_plot2_n,alasso_plot2_n,STLS_plot2_n,nrow=4,ncol=1,layout_matrix = layout_matrix)
 layout_matrix <- matrix(c(0,rep(1,20),rep(2,20),rep(3,20)), ncol=1)
 stacked_linear3d_n <-
   grid.arrange(

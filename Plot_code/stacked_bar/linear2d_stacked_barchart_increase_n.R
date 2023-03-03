@@ -59,7 +59,7 @@ ggplot_data_n <- function(algorithm, xdot_linear2d, ydot_linear2d,threshold=40){
     ydot_linear2d[((i-1)*100+1):((i-1)*100+1+99),]
   })
   y_dot_linear2d_terms_data = sapply(ydot_linear2d_reg_list, function(x) apply(x,2,function(c) sum(c!=0)))
-  rownames(y_dot_linear2d_terms_data)[1] <- "X1"
+  rownames(y_dot_linear2d_terms_data)[1] <- "1"
   plot_data_ydot <- cbind.data.frame(eq = 'ydot', names = rownames(y_dot_linear2d_terms_data),
       values = y_dot_linear2d_terms_data[, n_seq_desired])
   
