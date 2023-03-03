@@ -40,11 +40,17 @@ library(doParallel)
 ### Use Python for ODE solver
 library(reticulate)
 ### Set filepath
-source("~/Documents/GitHub.nosync/ARGOS/R/variable_selection_methods/alasso.R")
-source("~/Documents/GitHub.nosync/ARGOS/R/variable_selection_methods/lasso.R")
-source("~/Documents/GitHub.nosync/ARGOS/R/sg_optimal_combination.R")
-source("~/Documents/GitHub.nosync/ARGOS/R/bootstrap_methods/argos_3d.R")
-source_python("~/Documents/GitHub.nosync/ARGOS/additional_functions/dynamical_systems_models/Python/lorenz_ode.py")
+setwd("C:/Users/cfzh32/Documents/GitHub/ARGOS") # Github path
+# source("~/Documents/GitHub.nosync/ARGOS/R/variable_selection_methods/alasso.R")
+# source("~/Documents/GitHub.nosync/ARGOS/R/variable_selection_methods/lasso.R")
+# source("~/Documents/GitHub.nosync/ARGOS/R/sg_optimal_combination.R")
+# source("~/Documents/GitHub.nosync/ARGOS/R/bootstrap_methods/argos_3d.R")
+# source_python("~/Documents/GitHub.nosync/ARGOS/additional_functions/dynamical_systems_models/Python/lorenz_ode.py")
+source("R/variable_selection_methods/alasso.R")
+source("R/variable_selection_methods/lasso.R")
+source("R/sg_optimal_combination.R")
+source("R/bootstrap_methods/argos_3d.R")
+source_python("additional_functions/dynamical_systems_models/Python/lorenz_ode.py")
 ```
 
 # Generate Lorenz System
@@ -93,9 +99,10 @@ lasso_method <- lasso
 bs_method <- list(statistic = lasso_method,
                   ols_ps = TRUE)
 alpha <- 0.05 # 95% confidence intervals
-num_samples <- 500 # 2000 BS samples in real example
+num_samples <- 2000 # 2000 BS samples in real example
 # xdot
-xdot_argos_lasso <- boot_lasso(
+start_time <- Sys.time()
+sys.time(xdot_argos_lasso <- boot_lasso(
   x_t = x_t_train,
   monomial_degree = monomial_degree,
   dt = dt,
@@ -107,10 +114,12 @@ xdot_argos_lasso <- boot_lasso(
   sr_method = "lasso",
   bs_method = bs_method,
   derivative = "xdot"
-)
-
+))
+end_time <- Sys.time()
+print(end_time - start_time)
 # ydot
-ydot_argos_lasso <- boot_lasso(
+
+(ydot_argos_lasso <- boot_lasso(
   x_t = x_t_train,
   monomial_degree = monomial_degree,
   dt = dt,
@@ -123,6 +132,7 @@ ydot_argos_lasso <- boot_lasso(
   bs_method = bs_method,
   derivative = "ydot"
 )
+）
 
 # zdot
 zdot_argos_lasso <- boot_lasso(
