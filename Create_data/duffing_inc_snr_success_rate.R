@@ -8,7 +8,7 @@ file_wd <-  "C:/Users/cfzh32/Documents/GitHub/ARGOS/"# Github path
 file_wd2 <- paste(file_wd, "Data/Duffing/", sep = "") # 
 setwd(file_wd2)
 ### Read functions
-source("../../R/Dynamical_Systems_Models/duffing_oscillator.R")
+source("../../Additional_functions/dynamical_systems_models/R/duffing_oscillator.R")
 source('../../Create_data/functions/get_candidate_names.R')
 source("../../Create_data/functions/conver_functions.R")
 lorenz_col_names <- get_can_names(duffing_oscillator(100,0.001,c(0.1,5),1,1,5))

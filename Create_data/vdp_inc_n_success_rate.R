@@ -8,7 +8,7 @@ file_wd <-  "C:/Users/cfzh32/Documents/GitHub/ARGOS/"# Github path
 file_wd2 <- paste(file_wd, "Data/Vdp/", sep = "") # 
 setwd(file_wd2)
 ### Read function
-source("../../R/Dynamical_Systems_Models/vdp_oscillator.R")
+source("../../Additional_functions/dynamical_systems_models/R/vdp_oscillator.R")
 source('../../Create_data/functions/get_candidate_names.R')
 source("../../Create_data/functions/conver_functions.R")
 vdp_col_names <- get_can_names(vdp_oscillator(100,0.01,c(0.1,1),2))

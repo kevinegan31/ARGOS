@@ -8,7 +8,7 @@ file_wd <-  "C:/Users/cfzh32/Documents/GitHub/ARGOS/"# Github path
 file_wd2 <- paste(file_wd, "Data/Cubic2D/", sep = "")
 setwd(file_wd2)
 ### Read functions
-source("../../R/Dynamical_Systems_Models/cubic2d_system.R")
+source("../../Additional_functions/dynamical_systems_models/R/cubic2d_system.R")
 source('../../Create_data/functions/get_candidate_names.R')
 source("../../Create_data/functions/conver_functions.R")
 cubic2d_col_names <- get_can_names(cubic2d_system(100,c(2,0),0.01))

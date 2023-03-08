@@ -9,7 +9,7 @@ file_wd <-  "C:/Users/cfzh32/Documents/GitHub/ARGOS/"# Github path
 file_wd2 <- paste(file_wd, "Data/Linear2D/", sep = "") # 
 setwd(file_wd2)
 ### Read functions
-source("../../R/Dynamical_Systems_Models/linear2d_system.R")
+source("../../Additional_functions/dynamical_systems_models/R/linear2d_system.R")
 source('../../Create_data/functions/get_candidate_names.R')
 source("../../Create_data/functions/conver_functions.R")
 linear2d_col_names <- get_can_names(linear2d_system(100,c(2,0),0.01))

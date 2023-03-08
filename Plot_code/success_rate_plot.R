@@ -129,7 +129,7 @@ create_separators <- function(x, extra_x, y, extra_y, angle = 45, scale = 1, len
 }
 
 ## linear2d plot -----------------
-source('../R/Dynamical_Systems_Models/linear2d_system.R')
+source('../Additional_functions/dynamical_systems_models/R/linear2d_system.R')
 
 init_conditions = c(2, 0)
 mu = matrix(c(-0.1,-2, 2,-0.1), 2, 2)
@@ -316,7 +316,7 @@ linear2d_snr <-
   arrangeGrob(#gglabel('b'), 
               snr_plot_all, prob_inrease_snr_bic_inter, heights=height_rate_label)
 ## linear3d plot -----------------
-source('../R/Dynamical_Systems_Models/linear3d_system.R')
+source('../Additional_functions/dynamical_systems_models/R/linear3d_system.R')
 
 init_conditions = c(2, 0, 1)
 mu = matrix(c(-0.1,-2, 0,
@@ -541,7 +541,7 @@ linear3d_snr <-
   arrangeGrob(#gglabel('d'), 
               snr_plot_all, prob_inrease_snr_bic_inter, heights=height_rate_label)
 ## cubic2d plot -----------------
-source('../R/Dynamical_Systems_Models/cubic2d_system.R')
+source('../Additional_functions/dynamical_systems_models/R/cubic2d_system.R')
 
 init_conditions = c(2, 0)
 matrix_a <- matrix(c(-0.1,-2, 2,-0.1), 2, 2)
@@ -726,7 +726,7 @@ cubic2d_snr <-
   arrangeGrob(#gglabel('f'), 
               snr_plot_all, prob_inrease_snr_bic_inter, heights=height_rate_label)
 ## rossler plot -----------------
-source('../R/Dynamical_Systems_Models/rossler_system.R')
+source('../Additional_functions/dynamical_systems_models/R/rossler_system.R')
 init_conditions = c(1, 1, 1)
 a = 0.2
 b = 0.2
@@ -949,7 +949,7 @@ rossler_snr <-
               snr_plot_all, prob_inrease_snr_bic_inter, heights=height_rate_label)
 
 ## lorenz plot -----------------
-source('../R/Dynamical_Systems_Models/lorenz_system.R')
+source('../Additional_functions/dynamical_systems_models/R/lorenz_system.R')
 
 init_conditions = c(2, 0, 1)
 mu = matrix(c(-0.1,-2, 0,
@@ -1175,7 +1175,7 @@ lorenz_snr <-
   arrangeGrob(#gglabel('j')+theme(plot.title = element_text(vjust = 3.4)), 
               snr_plot_all, prob_inrease_snr_bic_inter, heights=height_rate_label)
 ## vdp plots ----------------------
-source('../R/Dynamical_Systems_Models/vdp_oscillator.R')
+source('../Additional_functions/dynamical_systems_models/R/vdp_oscillator.R')
 init_conditions = c(2, 0)
 mu = 1.2
 dt = 0.01
@@ -1355,7 +1355,7 @@ vdp_snr <-
   arrangeGrob(#gglabel('l'), 
               snr_plot_all, prob_inrease_snr_bic_inter, heights=height_rate_label)
 ## duffing plot -----------------
-source('../R/Dynamical_Systems_Models/duffing_oscillator.R')
+source('../Additional_functions/dynamical_systems_models/R/duffing_oscillator.R')
 
 init_conditions = c(2, 0)
 mu = matrix(c(-0.1,-2, 2,-0.1), 2, 2)

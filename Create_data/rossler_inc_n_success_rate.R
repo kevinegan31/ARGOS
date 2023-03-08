@@ -8,7 +8,7 @@ file_wd <-  "C:/Users/cfzh32/Documents/GitHub/ARGOS/"# Github path
 file_wd2 <- paste(file_wd, "Data/Rossler/", sep = "") # 
 setwd(file_wd2)
 ### Read function
-source("../../R/Dynamical_Systems_Models/rossler_system.R")
+source("../../Additional_functions/dynamical_systems_models/R/rossler_system.R")
 source('../../Create_data/functions/get_candidate_names.R')
 source("../../Create_data/functions/conver_functions.R")
 rossler_col_names <- get_can_names(rossler_system(100,0.01,c(0.1,1,1),0.2,0.2,5.7))
