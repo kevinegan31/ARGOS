@@ -231,7 +231,7 @@ ggplot_data_snr <- function(algorithm, xdot_lorenz, ydot_lorenz, zdot_lorenz, th
     geom_bar(aes(colour=eq), fill=plot_data_xyz_dot$correct_color, position="stack", stat="identity",lwd=1.5) +
     facet_grid(rows = vars(eq), labeller = label_parsed) +
     geom_text(data = annotate_data, label = annotate_data$label2, color=1, size=5) +
-    labs(x = TeX("$\\text{SNR}_{\\text{dB}}$"),
+    labs(x = TeX("$SNR_{dB}$"),
          y = "Frequency",
          title=algorithm,
          # title = TeX('$\\dot{x}_2$')
