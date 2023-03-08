@@ -22,7 +22,7 @@ def f(x, t, a):
     ]
 
 dt = 0.01
-n_obs = int(os.getenv('N_OBS')) # 316
+n_obs = int(os.getenv('N_OBS')) # 5000
 max_iter_num = os.getenv('MAX_ITER') # 10
 num_validation_sets = 100
 noise_start = os.getenv('START') # 1
