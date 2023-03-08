@@ -5,8 +5,10 @@ import os
 # sys.path.append("../") # must at the file's location sys.path.append("../")
 import multiprocessing
 import pandas as pd
-sys.path.append("/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/Python_Code/")
-from functions_mangan_code import *
+import time
+# sys.path.append("/Users/kevinegan/Documents/GitHub.nosync/ARGOS/Python/sindy_with_aic")
+sys.path.append("C:/Users/cfzh32/Documents/GitHub/ARGOS/Python/sindy_with_aic")
+from functions import *
 ###################################################################################
 ###################################################################################
 ###################################################################################
@@ -35,11 +37,11 @@ np.random.seed(seed)
 poly_order = 5
 ### Create Random Initial Conditions
 n=int(len(f(true_matrix_a,0,true_matrix_a)))
-x_orig_init_conditions = np.random.uniform(-15,15,100,)
-y_orig_init_conditions = np.random.uniform(-15,15,100,)
-z_orig_init_conditions = np.random.uniform(10,40,100,)
+x_orig_init_conditions = np.random.uniform(-15,15,1,)
+y_orig_init_conditions = np.random.uniform(-15,15,1,)
+z_orig_init_conditions = np.random.uniform(10,40,1,)
 orig_init_condition_vector = [i for tup in zip(x_orig_init_conditions,y_orig_init_conditions,z_orig_init_conditions) for i in tup]
-orig_init_condition_vector_matrix = np.split(np.array(orig_init_condition_vector), 100)
+orig_init_condition_vector_matrix = np.split(np.array(orig_init_condition_vector), 1)
 orig_init_condition_vector_matrix_new = orig_init_condition_vector_matrix * int(len(noise_levels))
 x_val_init_conditions = np.random.uniform(-15,15,100,)
 y_val_init_conditions = np.random.uniform(-15,15,100,)
@@ -62,12 +64,11 @@ def get_results(i):
         stls_model.append(stls)
     return(stls_model)
 
-import time
 start = time.time()
-stls_models = []
-for i in range(len(snr_volt)):
-    stls_new = get_results(i)
-    stls_models.append(stls_new)
-
+# stls_models = []
+# for i in range(len(snr_volt)):
+i=0
+stls_new = get_results(i)
+# stls_models.append(stls_new)
 end = time.time()
 print(end - start)
