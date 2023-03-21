@@ -19,7 +19,7 @@ setwd(file_wd2)
 # setwd('/Users/cfzh32/GitHub/ARGOS/Data')
 # setwd('C:/Users/cfzh32/Documents/GitHub/ARGOS/Data')
 ## main ---------------
-noise_levels <- c(1, 37, Inf)
+noise_levels <- c(1, 25, Inf)
 n_obs = c(10 ^ 2, 10 ^ 3.5, 10 ^ 4)+1
 n_log10 <- c(2, 3.5, 5)
 ggplot_3d_path <- '../Plot_code/ggplot2_3d'
@@ -147,9 +147,9 @@ snr_data <-
 snr_ggplot_list <- list()
 for (i in seq_along(snr_data)) {
   if (noise_levels[i] == Inf) {
-    plot_title <- TeX('$SNR_{dB} = \\infty^ $')
+    plot_title <- TeX('$SNR = \\infty $')
   } else{
-    plot_title <- TeX(paste0('$SNR_{dB}$ = ', noise_levels[i]))
+    plot_title <- TeX(paste0('SNR = ', noise_levels[i],' dB'))
   }
   snr_ggplot_list[[i]] <-
     ggplot(data = snr_data[[i]]) + geom_path(aes(x = `1`, y = `2`), color =
@@ -291,7 +291,7 @@ prob_inrease_snr_bic_inter <-
          )) +
   geom_point(size = 4) +
   labs(y = "Success Rate",
-       x = TeX("$SNR_{dB}$")) +
+       x = TeX("SNR(dB)")) +
   scale_x_continuous(limits = c(min(x_breaks),
                                 max(x_breaks)),
                      labels = x_labels,
@@ -339,9 +339,9 @@ theta = 135
 phi = 50
 for (i in seq_along(snr_data)) {
   if (noise_levels[i] == Inf) {
-    plot_title <- TeX('$SNR_{dB} = \\infty^ $')
+    plot_title <- TeX('$SNR = \\infty$')
   } else{
-    plot_title <- TeX(paste0('$SNR_{dB}$ = ', noise_levels[i]))
+    plot_title <- TeX(paste0('SNR = ', noise_levels[i], ' dB'))
   }
   snr_ggplot_list[[i]] <-
     ggplot(snr_data[[i]], aes(x = `1`, y = `2`, z = `3`)) + axes_3D(theta =
@@ -517,7 +517,7 @@ prob_inrease_snr_bic_inter <-
          )) +
   geom_point(size = 4) +
   labs(y = "Success Rate",
-       x = TeX("$SNR_{dB}$")) +
+       x = TeX("SNR(dB)")) +
   scale_x_continuous(limits = c(min(x_breaks),
                                 max(x_breaks)),
                      labels = x_labels,
@@ -559,9 +559,9 @@ snr_data <-
 snr_ggplot_list <- list()
 for (i in seq_along(snr_data)) {
   if (noise_levels[i] == Inf) {
-    plot_title <- TeX('$SNR_{dB} = \\infty^ $')
+    plot_title <- TeX('$SNR = \\infty^ $')
   } else{
-    plot_title <- TeX(paste0('$SNR_{dB}$ = ', noise_levels[i]))
+    plot_title <- TeX(paste0('SNR = ', noise_levels[i], ' dB'))
   }
   snr_ggplot_list[[i]] <-
     ggplot(data = snr_data[[i]]) + geom_path(aes(x = `1`, y = `2`), color =
@@ -701,7 +701,7 @@ prob_inrease_snr_bic_inter <-
          )) +
   geom_point(size = 4) +
   labs(y = "Success Rate",
-       x = TeX("$SNR_{dB}$")) +
+       x = TeX("SNR(dB)")) +
   scale_x_continuous(limits = c(min(x_breaks),
                                 max(x_breaks)),
                      labels = x_labels,
@@ -725,6 +725,193 @@ prob_inrease_snr_bic_inter <-
 cubic2d_snr <-
   arrangeGrob(#gglabel('f'), 
               snr_plot_all, prob_inrease_snr_bic_inter, heights=height_rate_label)
+## LV plot -----------------
+source("../Additional_functions/dynamical_systems_models/R/lotka_volterra.R")
+
+init_conditions = c(4, 1)
+dt = 0.01
+
+## noisy plot
+n_obs2 = 5001
+# noise_levels <- c(1, 25, 49, Inf)
+# snr_volt = 10 ** -(noise_levels / 20)
+t_span = seq(0, n_obs2 * dt, dt)
+
+snr_data <-
+  lapply(noise_levels, function(i)
+    as.data.frame(lotka_volterra(n_obs2, init_conditions, dt, snr = i)[seq(1,n_obs2,10),]))
+snr_ggplot_list <- list()
+for (i in seq_along(snr_data)) {
+  if (noise_levels[i] == Inf) {
+    plot_title <- TeX('$SNR = \\infty^ $')
+  } else{
+    plot_title <- TeX(paste0('SNR = ', noise_levels[i], ' dB'))
+  }
+  snr_ggplot_list[[i]] <-
+    ggplot(data = snr_data[[i]]) + geom_path(aes(x = `1`, y = `2`), color =
+                                               '#3b9a9c') +
+    labs(x = NULL, y = NULL, title = plot_title) +
+    lims(x = c(min(snr_data[[i]][, 1]), max(snr_data[[i]][, 1])), y = c(min(snr_data[[i]][, 2]), max(snr_data[[i]][, 2]))) +
+    dynamics2d_theme1
+}
+# arrangeGrob
+# grid.arrange(snr_ggplot_list[[1]], snr_ggplot_list[[2]], snr_ggplot_list[[3]], snr_ggplot_list[[4]], nrow=1,ncol=4)
+snr_plot_all <-
+  arrangeGrob(
+    empty_ggplot,
+    snr_ggplot_list[[1]],
+    snr_ggplot_list[[2]],
+    snr_ggplot_list[[3]],
+    # snr_ggplot_list[[4]],
+    empty_ggplot,
+    nrow = 1,
+    ncol = 5,
+    widths = widths_traj
+  )
+## n plot
+# n_obs = c(10 ^ 2, 10 ^ 3, 10 ^ 4, 10 ^ 5)+1 #c(10 ^ 2, 10 ^ 3, 10 ^ 4, 10 ^ 5)+1
+n_data <- lapply(n_obs, function(i){
+  # t_span = seq(0, n_obs[i]*dt, dt) 
+  as.data.frame(lotka_volterra(i, init_conditions, dt, snr = 49))
+})
+
+n_ggplot_list <- list()
+for (i in seq_along(n_data)) {
+  plot_title <- TeX(paste0('\\textit{n} = ', '$10^{', n_log10[i], '}$'))
+  n_ggplot_list[[i]] <-
+    ggplot(data = n_data[[i]], aes(x = `1`, y = `2`)) + geom_path(color = '#3b9a9c') +
+    labs(x = NULL, y = NULL, title = plot_title) +
+    lims(x = c(min(n_data[[i]][, 1]), max(n_data[[i]][, 1])), y = c(min(n_data[[i]][, 2]), max(n_data[[i]][, 2]))) +
+    dynamics2d_theme1
+}
+
+n_plot_all <-
+  arrangeGrob(
+    empty_ggplot,
+    n_ggplot_list[[1]],
+    n_ggplot_list[[2]],
+    n_ggplot_list[[3]],
+    # n_ggplot_list[[4]],
+    empty_ggplot,
+    nrow = 1,
+    ncol = 5,
+    widths = c(1,6,6,6,1)
+  )
+
+## LV success rate n ---------------------------------
+load("LV/success_rate_RData/LV_inc_n_success_rate_new_sg.RData")
+total_correct <- total_correct_increasing_n_df
+
+total_correct[which(total_correct$Model == 'STLS'), ]$Model <- 'SINDy-AIC'
+models_name <- unique(total_correct$Model)
+new_levels <- models_name[c(2,3,1)]
+total_correct$Model <- factor(total_correct$Model, levels = new_levels)
+total_correct <- arrange(total_correct, Model)
+models_name <- new_levels[c(1,3,2)]
+
+x_labels <- c(
+  expression(paste("10" ^ "2")),
+  expression(paste("10" ^ "2.5")),
+  expression(paste("10" ^ "3")),
+  expression(paste("10" ^ "3.5")),
+  expression(paste("10" ^ "4")),
+  expression(paste("10" ^ "4.5")),
+  expression(paste("10" ^ "5"))
+)
+
+x_breaks <- pretty_breaks()(n_seq)
+y_breaks <-
+  y_labels <- pretty_breaks()(c(0, max(total_correct$Value)))
+prob_increase_n <-
+  ggplot(total_correct,
+         aes(
+           x = eta,
+           y = Value,
+           fill = Model,
+           col = Model,
+           shape = Model
+         )) +
+  geom_point(size = 4) +
+  labs(y = "Success Rate",
+       x = expression(italic("n"))) +
+  scale_x_continuous(labels = x_labels,
+                     breaks = x_breaks) +
+  scale_y_continuous(labels = y_labels,
+                     breaks = y_breaks,
+                     limits = c(0, max(y_labels))) +
+  ggplot_theme1 +
+  scale_fill_manual(values = colors_correct, breaks = models_name, labels  = models_name) +
+  scale_colour_manual(values = colors_correct, breaks = models_name, labels  = models_name) +
+  scale_shape_manual(values = shapes, breaks = models_name, labels  = models_name)
+
+LV_n <-
+  arrangeGrob(#gglabel('a'), 
+    n_plot_all, prob_increase_n, heights=height_rate_label)
+
+## LV success rate snr bic intercept -------------------------------------
+load(
+  "LV/success_rate_RData/LV_inc_snr_success_rate_new_sg.RData"
+)
+total_correct <- total_correct_increasing_snr_df
+total_correct[which(total_correct$Model == 'STLS'), ]$Model <- 'SINDy-AIC'
+models_name <- unique(total_correct$Model)
+new_levels <- models_name[c(2,3,1)]
+total_correct$Model <- factor(total_correct$Model, levels = new_levels)
+total_correct <- arrange(total_correct, Model)
+models_name <- new_levels[c(1,3,2)]
+
+# x_labels <- x_breaks <- pretty_breaks()(c(0, max(total_correct$eta)))
+x_labels <- x_breaks <- seq(1, 73, by = 12)
+# x_labels[length(x_labels)] <- "Inf"
+x_labels[length(x_labels)] <- TeX("$\\infty$")
+
+y_labels <-
+  y_breaks <-
+  pretty_breaks()(c(min(total_correct$Value), max(total_correct$Value)))
+
+xstart <- 65.5
+xend <- 69.5
+extra_x <- 1
+y_sep <- min(total_correct$Value) - 0.05*(min(total_correct$Value))
+myseg <- create_separators(c(xstart, xend), extra_x = 1, y = y_sep, extra_y = 0.1, angle = 75)
+
+# myseg$y <- -0.00005
+prob_inrease_snr_bic_inter <-
+  ggplot(total_correct,
+         aes(
+           x = eta,
+           y = Value,
+           fill = Model,
+           col = Model,
+           shape = Model
+         )) +
+  geom_point(size = 4) +
+  labs(y = "Success Rate",
+       x = TeX("SNR(dB)")) +
+  scale_x_continuous(limits = c(min(x_breaks),
+                                max(x_breaks)),
+                     labels = x_labels,
+                     breaks = x_breaks) +
+  scale_y_continuous(labels = y_labels,
+                     breaks = y_breaks,
+                     limits = c(NA, max(y_breaks))
+  ) +
+  ggplot_theme1 +
+  scale_fill_manual(values = colors_correct, breaks = models_name, labels  = models_name) +
+  scale_colour_manual(values = colors_correct, breaks = models_name, labels  = models_name) +
+  scale_shape_manual(values = shapes, breaks = models_name, labels  = models_name) +
+  guides(x = guide_axis_truncated(
+    trunc_lower = c(-Inf, xend + extra_x/2),
+    trunc_upper = c(xstart + extra_x/2, Inf)
+  )) +
+  annotate("segment", 
+           x = myseg$x, xend = myseg$xend,
+           y = myseg$y + 0.05, yend = myseg$yend)  +
+  coord_cartesian(clip = "off", ylim = c(-0.0005, NA))
+LV_snr <-
+  arrangeGrob(#gglabel('b'), 
+    snr_plot_all, prob_inrease_snr_bic_inter, heights=height_rate_label)
+
 ## rossler plot -----------------
 source('../Additional_functions/dynamical_systems_models/R/rossler_system.R')
 init_conditions = c(1, 1, 1)
@@ -746,9 +933,9 @@ theta = 0
 phi = 0 # theta=135; phi=70
 for (i in seq_along(snr_data)) {
   if (noise_levels[i] == Inf) {
-    plot_title <- TeX('$SNR_{dB} = \\infty^ $')
+    plot_title <- TeX('$SNR = \\infty^ $')
   } else{
-    plot_title <- TeX(paste0('$SNR_{dB}$ = ', noise_levels[i]))
+    plot_title <- TeX(paste0('SNR = ', noise_levels[i], ' dB'))
   }
   snr_ggplot_list[[i]] <-
     ggplot(snr_data[[i]], aes(x = `1`, y = `2`, z = `3`)) + axes_3D(theta =
@@ -924,7 +1111,7 @@ prob_inrease_snr_bic_inter <-
          )) +
   geom_point(size = 4) +
   labs(y = "Success Rate",
-       x = TeX("$SNR_{dB}$")) +
+       x = TeX("SNR(dB)")) +
   scale_x_continuous(limits = c(min(x_breaks),
                                 max(x_breaks)),
                      labels = x_labels,
@@ -973,9 +1160,9 @@ theta = 0
 phi = 0
 for (i in seq_along(snr_data)) {
   if (noise_levels[i] == Inf) {
-    plot_title <- TeX('$SNR_{dB} = \\infty^ $')
+    plot_title <- TeX('$SNR = \\infty^ $')
   } else{
-    plot_title <- TeX(paste0('$SNR_{dB}$ = ', noise_levels[i]))
+    plot_title <- TeX(paste0('SNR = ', noise_levels[i], ' dB'))
   }
   snr_ggplot_list[[i]] <-
     ggplot(snr_data[[i]], aes(x = `1`, y = `2`, z = `3`)) + axes_3D(theta =
@@ -1151,7 +1338,7 @@ prob_inrease_snr_bic_inter <-
          )) +
   geom_point(size = 4) +
   labs(y = "Success Rate",
-       x = TeX("$SNR_{dB}$")) +
+       x = TeX("SNR(dB)")) +
   scale_x_continuous(limits = c(min(x_breaks),
                                 max(x_breaks)),
                      labels = x_labels,
@@ -1192,9 +1379,9 @@ snr_data <-
 snr_ggplot_list <- list()
 for (i in seq_along(snr_data)) {
   if (noise_levels[i] == Inf) {
-    plot_title <- TeX('$SNR_{dB} = \\infty^ $')
+    plot_title <- TeX('$SNR = \\infty^ $')
   } else{
-    plot_title <- TeX(paste0('$SNR_{dB}$ = ', noise_levels[i]))
+    plot_title <- TeX(paste0('SNR = ', noise_levels[i], ' dB'))
   }
   snr_ggplot_list[[i]] <-
     ggplot(data = snr_data[[i]]) + geom_path(aes(x = `1`, y = `2`), color =
@@ -1331,7 +1518,7 @@ prob_inrease_snr_bic_inter <-
          )) +
   geom_point(size = 4) +
   labs(y = "Success Rate",
-       x = TeX("$SNR_{dB}$")) +
+       x = TeX("SNR(dB)")) +
   scale_x_continuous(limits = c(min(x_breaks),
                                 max(x_breaks)),
                      labels = x_labels,
@@ -1385,9 +1572,9 @@ snr_data <- lapply(noise_levels, function(i)
 snr_ggplot_list <- list()
 for (i in seq_along(snr_data)) {
   if (noise_levels[i] == Inf) {
-    plot_title <- TeX('$SNR_{dB} = \\infty^ $')
+    plot_title <- TeX('$SNR = \\infty^ $')
   } else{
-    plot_title <- TeX(paste0('$SNR_{dB}$ = ', noise_levels[i]))
+    plot_title <- TeX(paste0('SNR = ', noise_levels[i], ' dB'))
   }
   snr_ggplot_list[[i]] <-
     ggplot(data = snr_data[[i]]) + geom_path(aes(x = `1`, y = `2`), color =
@@ -1535,7 +1722,7 @@ prob_inrease_snr_bic_inter <-
          )) +
   geom_point(size = 4) +
   labs(y = "Success Rate",
-       x = TeX("$SNR_{dB}$")) +
+       x = TeX("SNR(dB)")) +
   scale_x_continuous(limits = c(min(x_breaks),
                                 max(x_breaks)),
                      labels = x_labels,
@@ -1560,7 +1747,7 @@ duffing_snr <-
               snr_plot_all, prob_inrease_snr_bic_inter, heights=height_rate_label)
 ## out plot ---------------
 # linear system
-## linear2d 
+## linear2d --------------------
 linear2d_exp <- ggplot()+annotate('label',x=0,y=0,
   label=TeX('$\\dot{x}_1 = -0.1x_1 + 2x_2,$\n 
     $\\dot{x}_2 = -2x_1 - 0.1x_2 .$'),
@@ -1582,7 +1769,7 @@ ggsave(linear2d_out,
        width = 13,
        height = 7)
 
-## linear3d 
+## linear3d ---------------------------------
 linear3d_exp <- ggplot() +
   annotate('label', x = 0, y = 0,
     label = TeX('$\\dot{x}_1 = -0.1x_1 + 2x_2 ,$\n
@@ -1591,7 +1778,7 @@ linear3d_exp <- ggplot() +
     size = 10, fill = 'grey90', label.size = NA) +
   theme_nothing()
 linear3d_out <- grid.arrange(
-  arrangeGrob(gg_title('b',0,label_size=65),gg_title('Three-dimensional linear system',0,vjust=-0.5),nrow=1,widths=c(1,9)),
+  arrangeGrob(gg_title('b',0,label_size=65,vjust=0.3),gg_title('Three-dimensional linear system',0,vjust=-0.5),nrow=1,widths=c(1,9)),
   # gg_title('Three-dimensional linear system'),
   arrangeGrob(linear3d_n,
               linear3d_snr,
@@ -1605,7 +1792,7 @@ ggsave(linear3d_out,
        width = 13,
        height = 7)
 
-## cubic2d
+## cubic2d ------------------------------
 cubic2d_exp <- ggplot() +
   annotate('label', x = 0, y = 0,
            label = TeX('$\\dot{x}_1 = -0.1x_1^{3} + 2x_2^{3},$\n
@@ -1627,7 +1814,30 @@ ggsave(cubic2d_out,
        width = 13,
        height = 7)
 
-## rossler
+## LV ------------------------------
+LV_exp <- ggplot() +
+  annotate('label', x = 0, y = 0,
+           label = TeX('$\\dot{x}_1 = x-xy,$\n
+    $\\dot{x}_2 = xy-y.$'),
+           size = 10, fill = 'grey90', label.size = NA) +
+  theme_nothing()
+LV_out <- grid.arrange(
+  arrangeGrob(gg_title('d',0,label_size=65,vjust=0.3),gg_title('Lotka–Volterra equations',0,vjust=-0.5),nrow=1,widths=c(1,9)),
+  # gg_title('Two-dimensional cubic system'),
+  arrangeGrob(LV_n,
+              LV_snr,
+              ncol = 2),
+  LV_exp,
+  nrow = 3,
+  heights = height_rate_title
+)
+ggsave(LV_out,
+       filename = '../Figures/succ_rate/LV_systems_success_rate.pdf',
+       width = 13,
+       height = 7)
+
+
+## rossler --------------------------------
 rossler_exp <- ggplot() +
   annotate('label', x = 0, y = 0,
            label = TeX('$\\dot{x}_1 = -x_2-x_3,$\n
@@ -1636,7 +1846,7 @@ rossler_exp <- ggplot() +
     size = 10, fill = 'grey90', label.size = NA) +
   theme_nothing()
 rossler_out <- grid.arrange(
-  arrangeGrob(gg_title('d',0,label_size=65),gg_title('Rossler system',0,vjust=-0.5),nrow=1,widths=c(1,9)),
+  arrangeGrob(gg_title('e',0,label_size=65,vjust=1),gg_title('Rossler system',0,vjust=-0.5),nrow=1,widths=c(1,9)),
   # gg_title('Rossler system'),
   arrangeGrob(rossler_n,
               rossler_snr,
@@ -1650,7 +1860,7 @@ ggsave(rossler_out,
        width = 13,
        height = 7)
 
-## Lorenz 
+## Lorenz -----------------------------
 lorenz_exp <- ggplot()+
   annotate('label',x=0,y=0,label=TeX('$\\dot{x}_1 = 10(x_2-x_1),$\n
      $\\dot{x}_2 = x_1(28 - x_3) -x_2,$\n
@@ -1658,7 +1868,7 @@ lorenz_exp <- ggplot()+
     size=10, fill = 'grey90',label.size=NA)+
   theme_nothing()
 lorenz_out <- grid.arrange(
-  arrangeGrob(gg_title('e',0,label_size=65,vjust=1),gg_title('Lorenz system',0,vjust=-0.5),nrow=1,widths=c(1,9)),
+  arrangeGrob(gg_title('f',0,label_size=65,vjust=0.3),gg_title('Lorenz system',0,vjust=-0.5),nrow=1,widths=c(1,9)),
   # gg_title('Lorenz system'),
   arrangeGrob(lorenz_n,
               lorenz_snr,
@@ -1672,14 +1882,14 @@ ggsave(lorenz_out,
        width = 13,
        height = 7)
 
-## vdp
+## vdp -------------------------------------
 vdp_exp <- ggplot()+
   annotate('label',x=0,y=0,label=TeX('$\\dot{x}_1 = x_2,$\n
     $\\dot{x}_2 = 1.2(1-x_1^2)x_2 - x_1.$'),
     size=10, fill = 'grey90', label.size=NA)+
   theme_nothing()
 vdp_out <- grid.arrange(
-  arrangeGrob(gg_title('f',0,label_size=65),gg_title('Van der Pol oscillator',0,vjust=-0.5),nrow=1,widths=c(1,9)),
+  arrangeGrob(gg_title('g',0,label_size=65,vjust=1),gg_title('Van der Pol oscillator',0,vjust=-0.5),nrow=1,widths=c(1,9)),
   # gg_title('Van der Pol oscillator'),
   arrangeGrob(vdp_n,
               vdp_snr,
@@ -1693,14 +1903,14 @@ ggsave(vdp_out,
        width = 13,
        height = 7)
 
-#duffing 
+## duffing -----------------------------
 duffing_exp <- ggplot()+
   annotate('label',x=0,y=0,label=TeX('$\\dot{x}_1 = x_2,$\n
     $\\dot{x}_2 = - x_2 -  x_1 - 5 x_1^3.$'),
            size=10, fill = 'grey90', label.size=NA)+
   theme_nothing()
 duffing_out <- grid.arrange(
-  arrangeGrob(gg_title('g',0,label_size=65,vjust=1),gg_title('Duffing oscillator',0,vjust=-0.5),nrow=1,widths=c(1,9)),
+  arrangeGrob(gg_title('h',0,label_size=65,vjust=0.3),gg_title('Duffing oscillator',0,vjust=-0.5),nrow=1,widths=c(1,9)),
   # gg_title('Duffing oscillator'),
   arrangeGrob(duffing_n,
               duffing_snr,
