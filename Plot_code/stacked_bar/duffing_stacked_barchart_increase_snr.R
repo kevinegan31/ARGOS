@@ -13,8 +13,8 @@ library(RColorBrewer)
 library(stringr)
 library(gridExtra)
 file_wd <- paste(
-  # "/Users/kevinegan/Documents/",
-  "~/GitHub/ARGOS/",
+  "/Users/kevinegan/Documents/GitHub.nosync/ARGOS/",
+  # "~//GitHub/ARGOS/",
   sep = ""
 )
 # file_wd <- "D:/GitHub/ARGOS/" # github path
@@ -211,7 +211,7 @@ ggplot_data_snr <- function(algorithm, xdot_duffing, ydot_duffing, threshold=40)
     geom_bar(aes(colour=eq), fill=plot_data_xy_dot$correct_color, position="stack", stat="identity",lwd=1.5) +
     facet_grid(rows = vars(eq), labeller = label_parsed) +
     geom_text(data = annotate_data, label = annotate_data$label2, color=1, size=5) +
-    labs(x = TeX("$SNR_{dB}$"),
+    labs(x = TeX("$SNR(dB)$"),
          y = "Frequency",
          title=algorithm,
          # title = TeX('$\\dot{x}_2$')
@@ -291,5 +291,11 @@ stacked_duffing_snr <-
     # layout_matrix = layout_matrix
     heights = c(1,10,10,10)
   )
-ggsave(stacked_duffing_snr, filename = '../../../Figures/stacked_duffing_snr.pdf', width = 10, height = 15, dpi = 300)
-ggsave(stacked_duffing_snr, filename = '../../../Figures/stacked_duffing_snr.png', width = 10, height = 15, dpi = 300)
+file_wd <- paste(
+  "/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/",
+  # "~//GitHub/ARGOS/",
+  sep = ""
+)
+setwd(file_wd)
+ggsave(stacked_duffing_snr, filename = './Figures/stacked_duffing_snr.pdf', width = 10, height = 15, dpi = 300)
+ggsave(stacked_duffing_snr, filename = './Figures/stacked_duffing_snr.png', width = 10, height = 15, dpi = 300)

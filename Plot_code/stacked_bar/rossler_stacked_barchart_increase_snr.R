@@ -12,10 +12,11 @@ library(reticulate)
 library(RColorBrewer)
 library(stringr)
 file_wd <- paste(
-  # "/Users/kevinegan/Documents/",
-  "~/GitHub/ARGOS/",
+  "/Users/kevinegan/Documents/GitHub.nosync/ARGOS/",
+  # "~//GitHub/ARGOS/",
   sep = ""
 )
+setwd(file_wd)
 # file_wd <- "D:/GitHub/ARGOS/" # github path
 file_wd2 <- paste(file_wd, "Data/Rossler/stacked_bar_csv/", sep = "")
 setwd(file_wd2)
@@ -231,7 +232,7 @@ ggplot_data_snr <- function(algorithm, xdot_rossler, ydot_rossler, zdot_rossler,
     geom_bar(aes(colour=eq), fill=plot_data_xyz_dot$correct_color, position="stack", stat="identity",lwd=1.5) +
     facet_grid(rows = vars(eq), labeller = label_parsed) +
     geom_text(data = annotate_data, label = annotate_data$label2, color=1, size=5) +
-    labs(x = TeX("$SNR_{dB}$"),
+    labs(x = TeX("$SNR(dB)$"),
          y = "Frequency",
          title=algorithm,
          # title = TeX('$\\dot{x}_2$')
@@ -313,5 +314,11 @@ stacked_rossler <-
     # layout_matrix = layout_matrix
     heights = c(1,10,10,10)
   )
-ggsave(stacked_rossler, filename = '../../../Figures/stacked_rossler_snr.pdf', width = 10, height = 15, dpi = 300)
-ggsave(stacked_rossler, filename = '../../../Figures/stacked_rossler_snr.png', width = 10, height = 15, dpi = 300)
+file_wd <- paste(
+  "/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/",
+  # "~//GitHub/ARGOS/",
+  sep = ""
+)
+setwd(file_wd)
+ggsave(stacked_rossler, filename = './Figures/stacked_rossler_snr.pdf', width = 10, height = 15, dpi = 300)
+ggsave(stacked_rossler, filename = './Figures/stacked_rossler_snr.png', width = 10, height = 15, dpi = 300)
