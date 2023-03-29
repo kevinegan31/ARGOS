@@ -70,7 +70,7 @@ shapes <- c(15, 16, 17)
 # grid_title <- function(text, color="#f4f0e6", fontsize=35){
 #   grobTree(rectGrob(gp=gpar(fill=color,col=color)), textGrob(text, y=0.5,vjust=0.5, gp=gpar(fontsize=fontsize, fontface=2)))
 # }
-
+rect1<- data.frame(xmin=-Inf, xmax=Inf, ymin=0.8, ymax=Inf)
 ## ggplot theme ------------------
 ggplot_theme0 <- theme(
   # plot.background = element_rect(fill = 0, colour = 1),
@@ -227,15 +227,17 @@ x_breaks <- pretty_breaks()(n_seq)
 y_breaks <-
   y_labels <- pretty_breaks()(c(0, max(total_correct$Value)))
 prob_increase_n <-
-  ggplot(total_correct,
-         aes(
-           x = n,
-           y = Value,
-           fill = Model,
-           col = Model,
-           shape = Model
-         )) +
-  geom_point(size = 4) +
+  ggplot() +
+  geom_hline(yintercept = 0.8, lty=2)+
+  geom_rect(data=rect1,aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),alpha=0.2,fill="#9de0e6")+
+  geom_point(data=total_correct,
+             aes(
+               x = n,
+               y = Value,
+               fill = Model,
+               col = Model,
+               shape = Model
+             ),size = 4) +
   labs(y = "Success Rate",
        x = expression(italic("n"))) +
   scale_x_continuous(labels = x_labels,
@@ -281,15 +283,17 @@ myseg <- create_separators(c(xstart, xend), extra_x = 1, y = y_sep, extra_y = 0.
 
 # myseg$y <- -0.00005
 prob_inrease_snr_bic_inter <-
-  ggplot(total_correct,
-         aes(
-           x = eta,
-           y = Value,
-           fill = Model,
-           col = Model,
-           shape = Model
-         )) +
-  geom_point(size = 4) +
+  ggplot() +
+  geom_hline(yintercept = 0.8, lty=2)+
+  geom_rect(data=rect1,aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),alpha=0.2,fill="#9de0e6")+
+  geom_point(data = total_correct,
+             aes(
+               x = eta,
+               y = Value,
+               fill = Model,
+               col = Model,
+               shape = Model
+             ),size = 4) +
   labs(y = "Success Rate",
        x = TeX("SNR(dB)")) +
   scale_x_continuous(limits = c(min(x_breaks),
@@ -457,15 +461,17 @@ x_breaks <- pretty_breaks()(n_seq)
 y_breaks <-
   y_labels <- pretty_breaks()(c(0, max(total_correct$Value)))
 prob_increase_n <-
-  ggplot(total_correct,
-         aes(
-           x = eta,
-           y = Value,
-           fill = Model,
-           col = Model,
-           shape = Model
-         )) +
-  geom_point(size = 4) +
+  ggplot() +
+  geom_hline(yintercept = 0.8, lty=2)+
+  geom_rect(data=rect1,aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),alpha=0.2,fill="#9de0e6")+
+  geom_point(data=total_correct,
+             aes(
+               x = eta,
+               y = Value,
+               fill = Model,
+               col = Model,
+               shape = Model
+             ),size = 4) +
   labs(y = "Success Rate",
        x = expression(italic("n"))) +
   scale_x_continuous(labels = x_labels,
@@ -507,15 +513,17 @@ y_sep <- min(total_correct$Value) - 0.05*(min(total_correct$Value))
 myseg <- create_separators(c(xstart, xend), extra_x = 1, y = y_sep, extra_y = 0.1, angle = 75)
 
 prob_inrease_snr_bic_inter <-
-  ggplot(total_correct,
-         aes(
-           x = eta,
-           y = Value,
-           fill = Model,
-           col = Model,
-           shape = Model
-         )) +
-  geom_point(size = 4) +
+  ggplot() +
+  geom_hline(yintercept = 0.8, lty=2)+
+  geom_rect(data=rect1,aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),alpha=0.2,fill="#9de0e6")+
+  geom_point(data=total_correct,
+             aes(
+               x = eta,
+               y = Value,
+               fill = Model,
+               col = Model,
+               shape = Model
+             ),size = 4) +
   labs(y = "Success Rate",
        x = TeX("SNR(dB)")) +
   scale_x_continuous(limits = c(min(x_breaks),
@@ -639,15 +647,17 @@ x_breaks <- pretty_breaks()(n_seq)
 y_breaks <-
   y_labels <- pretty_breaks()(c(0, max(total_correct$Value)))
 prob_increase_n <-
-  ggplot(total_correct,
-         aes(
-           x = eta,
-           y = Value,
-           fill = Model,
-           col = Model,
-           shape = Model
-         )) +
-  geom_point(size = 4) +
+  ggplot() +
+  geom_hline(yintercept = 0.8, lty=2)+
+  geom_rect(data=rect1,aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),alpha=0.2,fill="#9de0e6")+
+  geom_point(data=total_correct,
+             aes(
+               x = eta,
+               y = Value,
+               fill = Model,
+               col = Model,
+               shape = Model
+             ),size = 4) +
   labs(y = "Success Rate",
        x = expression(italic("n"))) +
   scale_x_continuous(labels = x_labels,
@@ -688,18 +698,20 @@ xstart <- 65.5
 xend <- 69.5
 extra_x <- 1
 y_sep <- min(total_correct$Value) - 0.05*(min(total_correct$Value))
-myseg <- create_separators(c(xstart, xend), extra_x = 1, y = 0.043, extra_y = 0.1, angle = 75, scale=0.12)
+myseg <- create_separators(c(xstart, xend), extra_x = 1, y = y_sep, extra_y = 0.1, angle = 75)
 
 prob_inrease_snr_bic_inter <-
-  ggplot(total_correct,
-         aes(
-           x = eta,
-           y = Value,
-           fill = Model,
-           col = Model,
-           shape = Model
-         )) +
-  geom_point(size = 4) +
+  ggplot() +
+  geom_hline(yintercept = 0.8, lty=2)+
+  geom_rect(data=rect1,aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),alpha=0.2,fill="#9de0e6")+
+  geom_point(data=total_correct,
+             aes(
+               x = eta,
+               y = Value,
+               fill = Model,
+               col = Model,
+               shape = Model
+             ),size = 4) +
   labs(y = "Success Rate",
        x = TeX("SNR(dB)")) +
   scale_x_continuous(limits = c(min(x_breaks),
@@ -823,15 +835,17 @@ x_breaks <- pretty_breaks()(n_seq)
 y_breaks <-
   y_labels <- pretty_breaks()(c(0, max(total_correct$Value)))
 prob_increase_n <-
-  ggplot(total_correct,
-         aes(
-           x = eta,
-           y = Value,
-           fill = Model,
-           col = Model,
-           shape = Model
-         )) +
-  geom_point(size = 4) +
+  ggplot() +
+  geom_hline(yintercept = 0.8, lty=2)+
+  geom_rect(data=rect1,aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),alpha=0.2,fill="#9de0e6")+
+  geom_point(data=total_correct,
+             aes(
+               x = eta,
+               y = Value,
+               fill = Model,
+               col = Model,
+               shape = Model
+             ),size = 4) +
   labs(y = "Success Rate",
        x = expression(italic("n"))) +
   scale_x_continuous(labels = x_labels,
@@ -877,15 +891,17 @@ myseg <- create_separators(c(xstart, xend), extra_x = 1, y = y_sep, extra_y = 0.
 
 # myseg$y <- -0.00005
 prob_inrease_snr_bic_inter <-
-  ggplot(total_correct,
-         aes(
-           x = eta,
-           y = Value,
-           fill = Model,
-           col = Model,
-           shape = Model
-         )) +
-  geom_point(size = 4) +
+  ggplot() +
+  geom_hline(yintercept = 0.8, lty=2)+
+  geom_rect(data=rect1,aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),alpha=0.2,fill="#9de0e6")+
+  geom_point(data=total_correct,
+             aes(
+               x = eta,
+               y = Value,
+               fill = Model,
+               col = Model,
+               shape = Model
+             ),size = 4) +
   labs(y = "Success Rate",
        x = TeX("SNR(dB)")) +
   scale_x_continuous(limits = c(min(x_breaks),
@@ -1052,15 +1068,17 @@ x_breaks <- pretty_breaks()(n_seq)
 y_breaks <-
   y_labels <- pretty_breaks()(c(0, max(total_correct$Value)))
 prob_increase_n <-
-  ggplot(total_correct,
-         aes(
-           x = eta,
-           y = Value,
-           fill = Model,
-           col = Model,
-           shape = Model
-         )) +
-  geom_point(size = 4) +
+  ggplot() +
+  geom_hline(yintercept = 0.8, lty=2)+
+  geom_rect(data=rect1,aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),alpha=0.2,fill="#9de0e6")+
+  geom_point(data=total_correct,
+             aes(
+               x = eta,
+               y = Value,
+               fill = Model,
+               col = Model,
+               shape = Model
+             ),size = 4) +
   labs(y = "Success Rate",
        x = expression(italic("n"))) +
   scale_x_continuous(labels = x_labels,
@@ -1101,15 +1119,17 @@ y_sep <- min(total_correct$Value) - 0.05*(min(total_correct$Value))
 myseg <- create_separators(c(xstart, xend), extra_x = 1, y = y_sep, extra_y = 0.1, angle = 75)
 
 prob_inrease_snr_bic_inter <-
-  ggplot(total_correct,
-         aes(
-           x = eta,
-           y = Value,
-           fill = Model,
-           col = Model,
-           shape = Model
-         )) +
-  geom_point(size = 4) +
+  ggplot() +
+  geom_hline(yintercept = 0.8, lty=2)+
+  geom_rect(data=rect1,aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),alpha=0.2,fill="#9de0e6")+
+  geom_point(data=total_correct,
+             aes(
+               x = eta,
+               y = Value,
+               fill = Model,
+               col = Model,
+               shape = Model
+             ),size = 4) +
   labs(y = "Success Rate",
        x = TeX("SNR(dB)")) +
   scale_x_continuous(limits = c(min(x_breaks),
@@ -1278,15 +1298,17 @@ x_breaks <- pretty_breaks()(n_seq)
 y_breaks <-
   y_labels <- pretty_breaks()(c(0, max(total_correct$Value)))
 prob_increase_n <-
-  ggplot(total_correct,
-         aes(
-           x = eta,
-           y = Value,
-           fill = Model,
-           col = Model,
-           shape = Model
-         )) +
-  geom_point(size = 4) +
+  ggplot() +
+  geom_hline(yintercept = 0.8, lty=2)+
+  geom_rect(data=rect1,aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),alpha=0.2,fill="#9de0e6")+
+  geom_point(data=total_correct,
+             aes(
+               x = eta,
+               y = Value,
+               fill = Model,
+               col = Model,
+               shape = Model
+             ),size = 4) +
   labs(y = "Success Rate",
        x = expression(italic("n"))) +
   scale_x_continuous(labels = x_labels,
@@ -1328,15 +1350,17 @@ y_sep <- min(total_correct$Value) - 0.05*(min(total_correct$Value))
 myseg <- create_separators(c(xstart, xend), extra_x = 1, y = y_sep, extra_y = 0.1, angle = 75)
 
 prob_inrease_snr_bic_inter <-
-  ggplot(total_correct,
-         aes(
-           x = eta,
-           y = Value,
-           fill = Model,
-           col = Model,
-           shape = Model
-         )) +
-  geom_point(size = 4) +
+  ggplot() +
+  geom_hline(yintercept = 0.8, lty=2)+
+  geom_rect(data=rect1,aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),alpha=0.2,fill="#9de0e6")+
+  geom_point(data=total_correct,
+             aes(
+               x = eta,
+               y = Value,
+               fill = Model,
+               col = Model,
+               shape = Model
+             ),size = 4) +
   labs(y = "Success Rate",
        x = TeX("SNR(dB)")) +
   scale_x_continuous(limits = c(min(x_breaks),
@@ -1458,15 +1482,17 @@ x_breaks <- pretty_breaks()(n_seq)
 y_breaks <-
   y_labels <- pretty_breaks()(c(0, max(total_correct$Value)))
 prob_increase_n <-
-  ggplot(total_correct,
-         aes(
-           x = eta,
-           y = Value,
-           fill = Model,
-           col = Model,
-           shape = Model
-         )) +
-  geom_point(size = 4) +
+  ggplot() +
+  geom_hline(yintercept = 0.8, lty=2)+
+  geom_rect(data=rect1,aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),alpha=0.2,fill="#9de0e6")+
+  geom_point(data=total_correct,
+             aes(
+               x = eta,
+               y = Value,
+               fill = Model,
+               col = Model,
+               shape = Model
+             ),size = 4) +
   labs(y = "Success Rate",
        x = expression(italic("n"))) +
   scale_x_continuous(labels = x_labels,
@@ -1508,15 +1534,17 @@ y_sep <- min(total_correct$Value) - 0.05*(min(total_correct$Value))
 myseg <- create_separators(c(xstart, xend), extra_x = 1, y = y_sep, extra_y = 0.1, angle = 75)
 
 prob_inrease_snr_bic_inter <-
-  ggplot(total_correct,
-         aes(
-           x = eta,
-           y = Value,
-           fill = Model,
-           col = Model,
-           shape = Model
-         )) +
-  geom_point(size = 4) +
+  ggplot() +
+  geom_hline(yintercept = 0.8, lty=2)+
+  geom_rect(data=rect1,aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),alpha=0.2,fill="#9de0e6")+
+  geom_point(data=total_correct,
+             aes(
+               x = eta,
+               y = Value,
+               fill = Model,
+               col = Model,
+               shape = Model
+             ),size = 4) +
   labs(y = "Success Rate",
        x = TeX("SNR(dB)")) +
   scale_x_continuous(limits = c(min(x_breaks),
@@ -1662,15 +1690,17 @@ x_breaks <- pretty_breaks()(n_seq)
 y_breaks <-
   y_labels <- pretty_breaks()(c(0, max(total_correct$Value)))
 prob_increase_n <-
-  ggplot(total_correct,
-         aes(
-           x = eta,
-           y = Value,
-           fill = Model,
-           col = Model,
-           shape = Model
-         )) +
-  geom_point(size = 4) +
+  ggplot() +
+  geom_hline(yintercept = 0.8, lty=2)+
+  geom_rect(data=rect1,aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),alpha=0.2,fill="#9de0e6")+
+  geom_point(data=total_correct,
+             aes(
+               x = eta,
+               y = Value,
+               fill = Model,
+               col = Model,
+               shape = Model
+             ),size = 4) +
   labs(y = "Success Rate",
        x = expression(italic("n"))) +
   scale_x_continuous(labels = x_labels,
@@ -1712,15 +1742,17 @@ y_sep <- min(total_correct$Value) - 0.05*(min(total_correct$Value))
 myseg <- create_separators(c(xstart, xend), extra_x = 1, y = y_sep, extra_y = 0.1, angle = 75)
 
 prob_inrease_snr_bic_inter <-
-  ggplot(total_correct,
-         aes(
-           x = eta,
-           y = Value,
-           fill = Model,
-           col = Model,
-           shape = Model
-         )) +
-  geom_point(size = 4) +
+  ggplot() +
+  geom_hline(yintercept = 0.8, lty=2)+
+  geom_rect(data=rect1,aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),alpha=0.2,fill="#9de0e6")+
+  geom_point(data=total_correct,
+             aes(
+               x = eta,
+               y = Value,
+               fill = Model,
+               col = Model,
+               shape = Model
+             ),size = 4) +
   labs(y = "Success Rate",
        x = TeX("SNR(dB)")) +
   scale_x_continuous(limits = c(min(x_breaks),
@@ -1755,7 +1787,7 @@ linear2d_exp <- ggplot()+annotate('label',x=0,y=0,
   theme_nothing()
 linear2d_out <- grid.arrange(
   arrangeGrob(gg_title('a',0,label_size=65,vjust=1),
-              gg_title('Two-dimensional linear system',0,vjust=-0.5),
+              gg_title('Two-dimensional linear',0,vjust=-0.5),
               nrow=1,widths=c(1,9)),
   arrangeGrob(linear2d_n,
               linear2d_snr,
@@ -1778,7 +1810,7 @@ linear3d_exp <- ggplot() +
     size = 10, fill = 'grey90', label.size = NA) +
   theme_nothing()
 linear3d_out <- grid.arrange(
-  arrangeGrob(gg_title('b',0,label_size=65,vjust=0.3),gg_title('Three-dimensional linear system',0,vjust=-0.5),nrow=1,widths=c(1,9)),
+  arrangeGrob(gg_title('b',0,label_size=65,vjust=0.3),gg_title('Three-dimensional linear',0,vjust=-0.5),nrow=1,widths=c(1,9)),
   # gg_title('Three-dimensional linear system'),
   arrangeGrob(linear3d_n,
               linear3d_snr,
@@ -1800,7 +1832,7 @@ cubic2d_exp <- ggplot() +
     size = 10, fill = 'grey90', label.size = NA) +
   theme_nothing()
 cubic2d_out <- grid.arrange(
-  arrangeGrob(gg_title('c',0,label_size=65,vjust=1),gg_title('Two-dimensional cubic system',0,vjust=-0.5),nrow=1,widths=c(1,9)),
+  arrangeGrob(gg_title('c',0,label_size=65,vjust=1),gg_title('Two-dimensional cubic',0,vjust=-0.5),nrow=1,widths=c(1,9)),
   # gg_title('Two-dimensional cubic system'),
   arrangeGrob(cubic2d_n,
               cubic2d_snr,
@@ -1822,7 +1854,7 @@ LV_exp <- ggplot() +
            size = 10, fill = 'grey90', label.size = NA) +
   theme_nothing()
 LV_out <- grid.arrange(
-  arrangeGrob(gg_title('d',0,label_size=65,vjust=0.3),gg_title('Lotka–Volterra equations',0,vjust=-0.5),nrow=1,widths=c(1,9)),
+  arrangeGrob(gg_title('d',0,label_size=65,vjust=0.3),gg_title('Lotka–Volterra',0,vjust=-0.5),nrow=1,widths=c(1,9)),
   # gg_title('Two-dimensional cubic system'),
   arrangeGrob(LV_n,
               LV_snr,
@@ -1846,7 +1878,7 @@ rossler_exp <- ggplot() +
     size = 10, fill = 'grey90', label.size = NA) +
   theme_nothing()
 rossler_out <- grid.arrange(
-  arrangeGrob(gg_title('e',0,label_size=65,vjust=1),gg_title('Rossler system',0,vjust=-0.5),nrow=1,widths=c(1,9)),
+  arrangeGrob(gg_title('e',0,label_size=65,vjust=1),gg_title('Rossler',0,vjust=-0.5),nrow=1,widths=c(1,9)),
   # gg_title('Rossler system'),
   arrangeGrob(rossler_n,
               rossler_snr,
@@ -1868,7 +1900,7 @@ lorenz_exp <- ggplot()+
     size=10, fill = 'grey90',label.size=NA)+
   theme_nothing()
 lorenz_out <- grid.arrange(
-  arrangeGrob(gg_title('f',0,label_size=65,vjust=0.3),gg_title('Lorenz system',0,vjust=-0.5),nrow=1,widths=c(1,9)),
+  arrangeGrob(gg_title('f',0,label_size=65,vjust=0.3),gg_title('Lorenz',0,vjust=-0.5),nrow=1,widths=c(1,9)),
   # gg_title('Lorenz system'),
   arrangeGrob(lorenz_n,
               lorenz_snr,
@@ -1889,7 +1921,7 @@ vdp_exp <- ggplot()+
     size=10, fill = 'grey90', label.size=NA)+
   theme_nothing()
 vdp_out <- grid.arrange(
-  arrangeGrob(gg_title('g',0,label_size=65,vjust=1),gg_title('Van der Pol oscillator',0,vjust=-0.5),nrow=1,widths=c(1,9)),
+  arrangeGrob(gg_title('g',0,label_size=65,vjust=1),gg_title('Van der Pol',0,vjust=-0.5),nrow=1,widths=c(1,9)),
   # gg_title('Van der Pol oscillator'),
   arrangeGrob(vdp_n,
               vdp_snr,
@@ -1910,7 +1942,7 @@ duffing_exp <- ggplot()+
            size=10, fill = 'grey90', label.size=NA)+
   theme_nothing()
 duffing_out <- grid.arrange(
-  arrangeGrob(gg_title('h',0,label_size=65,vjust=0.3),gg_title('Duffing oscillator',0,vjust=-0.5),nrow=1,widths=c(1,9)),
+  arrangeGrob(gg_title('h',0,label_size=65,vjust=0.3),gg_title('Duffing',0,vjust=-0.5),nrow=1,widths=c(1,9)),
   # gg_title('Duffing oscillator'),
   arrangeGrob(duffing_n,
               duffing_snr,

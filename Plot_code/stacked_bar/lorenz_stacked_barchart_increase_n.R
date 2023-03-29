@@ -12,6 +12,7 @@ library(reticulate)
 library(RColorBrewer)
 library(stringr)
 library(gridExtra)
+
 file_wd <- paste(
   # "/Users/kevinegan/Documents/",
   "~/GitHub/ARGOS/",
@@ -286,13 +287,17 @@ xdot_lorenz_lasso_reg_df <- read.csv("N/lorenz_inc_n_xdot_lasso_pred_models_new_
 ydot_lorenz_lasso_reg_df <- read.csv("N/lorenz_inc_n_ydot_lasso_pred_models_new_sg.csv")[-1]
 zdot_lorenz_lasso_reg_df <- read.csv("N/lorenz_inc_n_zdot_lasso_pred_models_new_sg.csv")[-1]
 lasso_plot_n <- ggplot_data_n('ARGOS-Lasso', xdot_lorenz_lasso_reg_df, ydot_lorenz_lasso_reg_df, zdot_lorenz_lasso_reg_df)
-lasso_plot2_n <- lasso_plot_n+theme(legend.position='none')
+lasso_plot2_n <- lasso_plot_n+theme(legend.position='none')+
+  annotate("rect", xmin = 4.5, xmax = 7.5, ymin = -10, ymax = 320,
+           alpha = 0, color= "purple",lwd=1) 
 ## alasso ------------------
 xdot_lorenz_alasso_reg_df <- read.csv("N/lorenz_inc_n_xdot_alasso_pred_models_new_sg.csv")[-1]
 ydot_lorenz_alasso_reg_df <- read.csv("N/lorenz_inc_n_ydot_alasso_pred_models_new_sg.csv")[-1]
 zdot_lorenz_alasso_reg_df <- read.csv("N/lorenz_inc_n_zdot_alasso_pred_models_new_sg.csv")[-1]
 alasso_plot_n <- ggplot_data_n('ARGOS-Adaptive Lasso', xdot_lorenz_alasso_reg_df, ydot_lorenz_alasso_reg_df, zdot_lorenz_alasso_reg_df)
-alasso_plot2_n <- alasso_plot_n+theme(legend.position='none')
+alasso_plot2_n <- alasso_plot_n+theme(legend.position='none')+
+  annotate("rect", xmin = 4.5, xmax = 7.5, ymin = -10, ymax = 320,
+           alpha = 0, color= "purple",lwd=1) 
 ## STLS -------------------------
 xdot_lorenz_sindy_reg_df <- read.csv("N/lorenz_inc_n_xdot_sindy_pred_models_new_sg.csv")[-1]
 ydot_lorenz_sindy_reg_df <- read.csv("N/lorenz_inc_n_ydot_sindy_pred_models_new_sg.csv")[-1]
@@ -330,5 +335,6 @@ stacked_lorenz_n <-
     # layout_matrix = layout_matrix
     heights = c(1,10,10,10)
   )
-ggsave(stacked_lorenz_n, filename = '../../../Figures/stacked_lorenz_n.pdf', width = 10, height = 15, dpi = 300)
-ggsave(stacked_lorenz_n, filename = '../../../Figures/stacked_lorenz_n.png', width = 10, height = 15, dpi = 300)
+ggsave(stacked_lorenz_n, filename = 'Figures/stacked_lorenz_n.pdf', width = 10, height = 15, dpi = 300)
+ggsave(stacked_lorenz_n, filename = 'Figures/stacked_lorenz_n.png', width = 10, height = 15, dpi = 300)
+ggsave(stacked_lorenz_n, filename = 'Figures/stacked_lorenz_n.svg', width = 10, height = 15, dpi = 300)

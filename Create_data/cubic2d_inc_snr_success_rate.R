@@ -256,7 +256,7 @@ write.csv(ydot_alasso_prediction_model,
 write.csv(xdot_pysindy_prediction_model,
           "stacked_bar_csv/SNR/cubic2d_inc_snr_xdot_sindy_pred_models_new_sg.csv")
 write.csv(ydot_pysindy_prediction_model,
-          "stacked_bar_csv/SNR/cubic2d_inc_snt_ydot_sindy_pred_models_new_sg.csv")
+          "stacked_bar_csv/SNR/cubic2d_inc_snr_ydot_sindy_pred_models_new_sg.csv")
 
 ## more_together
 pysindy_eta_gather_df$Model <- "STLS"
