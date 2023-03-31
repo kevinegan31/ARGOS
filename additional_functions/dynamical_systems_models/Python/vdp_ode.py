@@ -3,7 +3,7 @@ import numpy as np
 from scipy.integrate import odeint
 
 
-def vdp_osc(x_t, t, mu):
+def vdp_osc(x_t, time, mu):
     """Van der Pol Oscillator"""
     return [x_t[1], mu * (1 - x_t[0] ** 2) * x_t[1] - x_t[0]]
 
