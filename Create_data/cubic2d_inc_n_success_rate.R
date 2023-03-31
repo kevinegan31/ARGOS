@@ -4,7 +4,8 @@ library(tidyverse)
 library(scales)
 library(latex2exp)
 library(cowplot)
-file_wd <-  "C:/Users/cfzh32/Documents/GitHub/ARGOS/"# Github path
+# file_wd <-  "C:/Users/cfzh32/Documents/GitHub/ARGOS/"# Github path
+file_wd <- "~/Documents/GitHub.nosync/ARGOS/"
 file_wd2 <- paste(file_wd, "Data/Cubic2D/", sep = "")
 setwd(file_wd2)
 ### Read functions
@@ -264,7 +265,7 @@ write.csv(xdot_pysindy_prediction_model,
 write.csv(ydot_pysindy_prediction_model,
           "stacked_bar_csv/N/cubic2d_inc_n_ydot_sindy_pred_models_new_sg.csv")
 
-## more_together
+## Create RData
 pysindy_eta_gather_df$Model <- "STLS"
 lasso_eta_gather_df$Model <- "Lasso"
 alasso_eta_gather_df$Model <- "Adaptive Lasso"

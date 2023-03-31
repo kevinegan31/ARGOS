@@ -1,17 +1,4 @@
-### For regression
-# library(glmnet)
-# ### Used for tsboot bootstrap
-# library(boot)
-# ### Determines blocklength with b.star
-# library(np)
-# ### Dplyr as well as purrr
-# library(plyr)
-# library(tidyverse)
-# ### ODE solver
-# library(deSolve)
-# ### Smoothing
-# library(signal)
-### Automatic Regression for Governing Equations (ARGOS) -- 2D
+### Automatic Regression for Governing Equations (ARGOS) -- 3D
 boot_lasso <- function(x_t,
                        monomial_degree = 5,
                        dt = 1,
@@ -154,8 +141,6 @@ boot_lasso <- function(x_t,
       new_theta_order == length(monomial_orders)) {
     post_lasso_matrix <- data
   } else {
-    # adding 1 to include derivative variable and intercept
-    # intercept not in monomial orders
     post_lasso_matrix <- data[-1][, 1:(new_theta_order)]
     post_lasso_matrix <-
       cbind.data.frame(data[1], post_lasso_matrix)
@@ -165,10 +150,10 @@ boot_lasso <- function(x_t,
   boot_info <-
     c(list(data = post_lasso_matrix, R = num_samples), bs_method)
   # Run boot on function using
-  boot_ts <- do.call(boot, boot_info)
+  boot_s <- do.call(boot, boot_info)
   # Matrix of coefficients from bootstrap samples
-  boot_t0 <- boot_ts$t0
-  boot_t <- boot_ts$t
+  boot_t0 <- boot_s$t0
+  boot_t <- boot_s$t
   ### In case of string/character, change to numeric
   boot_t <-
     matrix(as.numeric(boot_t),

@@ -12,8 +12,8 @@ library(RColorBrewer)
 library(stringr)
 library(gridExtra)
 file_wd <- paste(
-  # "/Users/kevinegan/Documents/",
-  "~/GitHub/ARGOS/",
+  "~/Documents/GitHub.nosync/ARGOS/",
+  # "~/GitHub/ARGOS/",
   sep = ""
 )
 # file_wd <- "D:/GitHub/ARGOS/" # github path
@@ -266,7 +266,9 @@ xdot_cubic2d_lasso_reg_df <- read.csv("N/cubic2d_inc_n_xdot_lasso_pred_models_ne
 ydot_cubic2d_lasso_reg_df <- read.csv("N/cubic2d_inc_n_ydot_lasso_pred_models_new_sg.csv")[-1]
 lasso_plot_n <- ggplot_data_n('ARGOS-Lasso', xdot_cubic2d_lasso_reg_df, ydot_cubic2d_lasso_reg_df,27)
 lasso_plot2_n <- lasso_plot_n+theme(legend.position='none')
-
+lasso_plot2_n <- lasso_plot_n+theme(legend.position='none')+
+  annotate("rect", xmin = 4.5, xmax = 7.5, ymin = -10, ymax = 320,
+           alpha = 0, color= "purple",lwd=1)
 ## alasso ------------------
 xdot_cubic2d_alasso_reg_df <- read.csv("N/cubic2d_inc_n_xdot_alasso_pred_models_new_sg.csv")[-1]
 ydot_cubic2d_alasso_reg_df <- read.csv("N/cubic2d_inc_n_ydot_alasso_pred_models_new_sg.csv")[-1]
