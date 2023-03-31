@@ -13,8 +13,8 @@ library(RColorBrewer)
 library(stringr)
 library(gridExtra)
 file_wd <- paste(
-  # "/Users/kevinegan/Documents/",
-  "~/GitHub/ARGOS/",
+  "~/Documents/GitHub.nosync/ARGOS/",
+  # "~/GitHub/ARGOS/",
   sep = ""
 )
 # file_wd <- "D:/GitHub/ARGOS/" # github path
@@ -259,11 +259,17 @@ xdot_duffing_lasso_reg_df <- read.csv("N/duffing_inc_n_xdot_lasso_pred_models_ne
 ydot_duffing_lasso_reg_df <- read.csv("N/duffing_inc_n_ydot_lasso_pred_models_new_sg.csv")[-1]
 lasso_plot_n <- ggplot_data_n('ARGOS-Lasso', xdot_duffing_lasso_reg_df, ydot_duffing_lasso_reg_df)
 lasso_plot2_n <- lasso_plot_n+theme(legend.position='none')
+lasso_plot2_n <- lasso_plot_n+theme(legend.position='none')+
+  annotate("rect", xmin = 1.5, xmax = 7.5, ymin = -10, ymax = 320,
+           alpha = 0, color= "purple",lwd=1)
 ## alasso ------------------
 xdot_duffing_alasso_reg_df <- read.csv("N/duffing_inc_n_xdot_alasso_pred_models_new_sg.csv")[-1]
 ydot_duffing_alasso_reg_df <- read.csv("N/duffing_inc_n_ydot_alasso_pred_models_new_sg.csv")[-1]
 alasso_plot_n <- ggplot_data_n('ARGOS-Adaptive Lasso', xdot_duffing_alasso_reg_df, ydot_duffing_alasso_reg_df)
 alasso_plot2_n <- alasso_plot_n+theme(legend.position='none')
+alasso_plot2_n <- alasso_plot_n+theme(legend.position='none')+
+  annotate("rect", xmin = 2.5, xmax = 7.5, ymin = -10, ymax = 320,
+           alpha = 0, color= "purple",lwd=1)
 ## STLS -------------------------
 xdot_duffing_sindy_reg_df <- read.csv("N/duffing_inc_n_xdot_sindy_pred_models_new_sg.csv")[-1]
 ydot_duffing_sindy_reg_df <- read.csv("N/duffing_inc_n_ydot_sindy_pred_models_new_sg.csv")[-1]
@@ -272,6 +278,9 @@ STLS_plot2_n <- STLS_plot_n+theme(legend.position='none')
 n_seq_desired <- c(6, 11, 16, 21, 26, 31)
 STLS_plot_n <- ggplot_data_n('SINDy with AIC', xdot_duffing_sindy_reg_df, ydot_duffing_sindy_reg_df)
 STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none')
+STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none')+
+  annotate("rect", xmin = 2, xmax = 7.5, ymin = -10, ymax = 320,
+           alpha = 0, color= "purple",lwd=1)
 ## compose -----------------
 library(gridExtra)
 layout_matrix <-matrix(c(0,rep(1,20),rep(2,20),rep(3,20)), ncol=1)

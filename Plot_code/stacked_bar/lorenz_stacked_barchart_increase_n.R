@@ -12,12 +12,16 @@ library(reticulate)
 library(RColorBrewer)
 library(stringr)
 library(gridExtra)
-
 file_wd <- paste(
-  # "/Users/kevinegan/Documents/",
-  "~/GitHub/ARGOS/",
+  "~/Documents/GitHub.nosync/ARGOS/",
+  # "~/GitHub/ARGOS/",
   sep = ""
 )
+# file_wd <- paste(
+#   # "/Users/kevinegan/Documents/",
+#   "~/GitHub/ARGOS/",
+#   sep = ""
+# )
 # file_wd <- "D:/GitHub/ARGOS/" # github path
 file_wd2 <- paste(file_wd, "Data/Lorenz/stacked_bar_csv/", sep = "")
 setwd(file_wd2)
