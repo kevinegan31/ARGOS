@@ -1,28 +1,34 @@
+"""rossler_ode.py"""
 import numpy as np
-import pandas as pd
-import math
-from scipy import signal
 from scipy.integrate import odeint
 
+# Rossler parameters
 a = 0.2
 b = 0.2
 c = 5.7
 true_matrix_a = np.array([a, b, c])
-def f(x, t, a):
+
+
+def rossler_eq(x_t, time, parameters):
+    """Rossler system"""
     return [
-        -x[1] - x[2],
-        x[0] + (a[0]*x[1]),
-        a[1] + (x[2]*(x[0] -  a[2]))
+        -x_t[1] - x_t[2],
+        x_t[0] + (parameters[0] * x_t[1]),
+        parameters[1] + (x_t[2] * (x_t[0] - parameters[2])),
     ]
 
-def rossler_ode(n, dt, init_conditions, snr):
-    t_span = np.arange(0, float(n)*dt, dt) 
-    x_total = odeint(f, init_conditions, t_span, args=(true_matrix_a,)) # noiseless data
-    eps = 10 ** -(snr / 20)
-    if eps != 0:
+
+def rossler_ode(n_obs, dt, init_conditions, snr):
+    """Expand system"""
+    t_span = np.arange(0, float(n_obs) * dt, dt)
+    x_total = odeint(rossler_eq, init_conditions, t_span, args=(true_matrix_a,))
+    snr_db = 10 ** -(snr / 20)
+    # Add noise (dB)
+    if snr_db != 0:
         x_init = x_total.copy()
         for i in range(int(x_total.shape[1])):
-            x_total[:,i] = x_total[:, i] + eps * np.random.normal(scale=np.std(x_init[:,i]), size=x_init[:,i].shape)
-    
-    return(x_total)
-    
+            x_total[:, i] = x_total[:, i] + snr_db * np.random.normal(
+                scale=np.std(x_init[:, i]), size=x_init[:, i].shape
+            )
+
+    return x_total
