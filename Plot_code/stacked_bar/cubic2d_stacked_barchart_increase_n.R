@@ -267,24 +267,28 @@ ydot_cubic2d_lasso_reg_df <- read.csv("N/cubic2d_inc_n_ydot_lasso_pred_models_ne
 lasso_plot_n <- ggplot_data_n('ARGOS-Lasso', xdot_cubic2d_lasso_reg_df, ydot_cubic2d_lasso_reg_df,27)
 lasso_plot2_n <- lasso_plot_n+theme(legend.position='none')
 lasso_plot2_n <- lasso_plot_n+theme(legend.position='none')+
-  annotate("rect", xmin = 4.5, xmax = 7.5, ymin = -10, ymax = 320,
+  annotate("rect", xmin = 2.5, xmax = 7.5, ymin = -10, ymax = 320,
            alpha = 0, color= "purple",lwd=1)
 ## alasso ------------------
 xdot_cubic2d_alasso_reg_df <- read.csv("N/cubic2d_inc_n_xdot_alasso_pred_models_new_sg.csv")[-1]
 ydot_cubic2d_alasso_reg_df <- read.csv("N/cubic2d_inc_n_ydot_alasso_pred_models_new_sg.csv")[-1]
 alasso_plot_n <- ggplot_data_n('ARGOS-Adaptive Lasso', xdot_cubic2d_alasso_reg_df, ydot_cubic2d_alasso_reg_df,28)
 alasso_plot2_n <- alasso_plot_n+theme(legend.position='none')
+alasso_plot2_n <- alasso_plot_n+theme(legend.position='none')+
+  annotate("rect", xmin = 4.5, xmax = 7.5, ymin = -10, ymax = 320,
+           alpha = 0, color= "purple",lwd=1)
 
 ## STLS -------------------------
 xdot_cubic2d_sindy_reg_df <- read.csv("N/cubic2d_inc_n_xdot_sindy_pred_models_new_sg.csv")[-1]
 ydot_cubic2d_sindy_reg_df <- read.csv("N/cubic2d_inc_n_ydot_sindy_pred_models_new_sg.csv")[-1]
-STLS_plot_n <- ggplot_data_n('SINDy with AIC', xdot_cubic2d_sindy_reg_df, ydot_cubic2d_sindy_reg_df)
+STLS_plot_n <- ggplot_data_n('SINDy with AIC', xdot_cubic2d_sindy_reg_df, ydot_cubic2d_sindy_reg_df, 80)
 STLS_plot2_n <- STLS_plot_n+theme(legend.position='none')
-
-n_seq_desired <- c(6, 11, 16, 21, 26, 31)
-STLS_plot_n <- ggplot_data_n('SINDy with AIC', xdot_cubic2d_sindy_reg_df, ydot_cubic2d_sindy_reg_df)
-STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none')
-
+STLS_plot2_n <- STLS_plot_n+theme(legend.position='none')+
+  annotate("rect", xmin = 3.5, xmax = 7.5, ymin = -10, ymax = 320,
+           alpha = 0, color= "purple",lwd=1)
+# n_seq_desired <- c(6, 11, 16, 21, 26, 31)
+# STLS_plot_n <- ggplot_data_n('SINDy with AIC', xdot_cubic2d_sindy_reg_df, ydot_cubic2d_sindy_reg_df)
+# STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none')
 ## legend -------------------
 legend <- get_legend(STLS_plot2_n+theme(legend.position='bottom'))
 ggplot_legend <- cowplot::plot_grid(legend)
@@ -306,5 +310,11 @@ stacked_cubic2d_n <-
     ncol = 1,
     heights = c(1,10,10,10)
   )
-ggsave(stacked_cubic2d_n, filename = '../../../Figures/stacked_cubic2d_n.pdf', width = 10, height = 15, dpi = 300)
-ggsave(stacked_cubic2d_n, filename = '../../../Figures/stacked_cubic2d_n.png', width = 10, height = 15, dpi = 300)
+file_wd <- paste(
+  "~/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/",
+  # "~/GitHub/ARGOS/",
+  sep = ""
+)
+setwd(file_wd)
+ggsave(stacked_cubic2d_n, filename = './Figures/stacked_cubic2d_n.pdf', width = 10, height = 15, dpi = 300)
+ggsave(stacked_cubic2d_n, filename = './Figures/stacked_cubic2d_n.png', width = 10, height = 15, dpi = 300)

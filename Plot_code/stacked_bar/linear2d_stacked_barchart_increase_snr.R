@@ -257,19 +257,29 @@ xdot_linear2d_lasso <- read.csv("SNR/linear2d_inc_snr_xdot_lasso_pred_models_new
 ydot_linear2d_lasso <- read.csv("SNR/linear2d_inc_snr_ydot_lasso_pred_models_new_sg.csv")[,-1]
 lasso_plot_snr <- ggplot_data_snr('ARGOS-Lasso', xdot_linear2d_lasso, ydot_linear2d_lasso)
 lasso_plot2_snr <- lasso_plot_snr+theme(legend.position='none')
+lasso_plot2_snr <- lasso_plot_snr+theme(legend.position='none')+
+  annotate("rect", xmin = 2.5, xmax = 7.5, ymin = -10, ymax = 320,
+           alpha = 0, color= "purple",lwd=1)
 
 ## alasso ------------------
 xdot_linear2d_alasso <- read.csv("SNR/linear2d_inc_snr_xdot_alasso_pred_models_new_sg.csv")[,-1]
 ydot_linear2d_alasso <- read.csv("SNR/linear2d_inc_snr_ydot_alasso_pred_models_new_sg.csv")[,-1]
 alasso_plot_snr <- ggplot_data_snr('ARGOS-Adaptive Lasso', xdot_linear2d_alasso, ydot_linear2d_alasso,50)
 alasso_plot2_snr <- alasso_plot_snr+theme(legend.position='none')
+alasso_plot2_snr <- alasso_plot_snr+theme(legend.position='none')+
+  annotate("rect", xmin = 2.5, xmax = 7.5, ymin = -10, ymax = 320,
+           alpha = 0, color= "purple",lwd=1)
 
 ## STLS -------------------------
 xdot_linear2d_STLS <- read.csv("SNR/linear2d_inc_snr_xdot_sindy_pred_models_new_sg.csv")[,-1]
 ydot_linear2d_STLS <- read.csv("SNR/linear2d_inc_snr_ydot_sindy_pred_models_new_sg.csv")[,-1]
 STLS_plot_snr <- ggplot_data_snr('SINDy with AIC', xdot_linear2d_STLS, ydot_linear2d_STLS,50)
 STLS_plot2_snr <- STLS_plot_snr+theme(legend.position='none')
+STLS_plot2_snr <- STLS_plot_snr+theme(legend.position='none')+
+  annotate("rect", xmin = 3.5, xmax = 7.5, ymin = -10, ymax = 320,
+           alpha = 0, color= "purple",lwd=1)
 
+### Legend
 legend <- get_legend(STLS_plot2_snr+theme(legend.position='bottom'))
 ggplot_legend <- cowplot::plot_grid(legend)
 

@@ -12,8 +12,8 @@ library(reticulate)
 library(RColorBrewer)
 library(stringr)
 file_wd <- paste(
-  # "/Users/kevinegan/Documents/",
-  "~/GitHub/ARGOS/",
+  "/Users/kevinegan/Documents/GitHub.nosync/ARGOS/",
+  # "~//GitHub/ARGOS/",
   sep = ""
 )
 # file_wd <- "D:/GitHub/ARGOS/" # github path
@@ -254,11 +254,17 @@ xdot_vdp_lasso_reg_df <- read.csv("N/vdp_inc_n_xdot_lasso_pred_models_new_sg.csv
 ydot_vdp_lasso_reg_df <- read.csv("N/vdp_inc_n_ydot_lasso_pred_models_new_sg.csv")[-1]
 lasso_plot_n <- ggplot_data_n('ARGOS-Lasso', xdot_vdp_lasso_reg_df, ydot_vdp_lasso_reg_df)
 lasso_plot2_n <- lasso_plot_n+theme(legend.position='none')
+lasso_plot2_n <- lasso_plot_n+theme(legend.position='none')+
+  annotate("rect", xmin = 2.5, xmax = 7.5, ymin = -10, ymax = 320,
+           alpha = 0, color= "purple",lwd=1)
 ## alasso ------------------
 xdot_vdp_alasso_reg_df <- read.csv("N/vdp_inc_n_xdot_alasso_pred_models_new_sg.csv")[-1]
 ydot_vdp_alasso_reg_df <- read.csv("N/vdp_inc_n_ydot_alasso_pred_models_new_sg.csv")[-1]
 alasso_plot_n <- ggplot_data_n('ARGOS-Adaptive Lasso', xdot_vdp_alasso_reg_df, ydot_vdp_alasso_reg_df)
 alasso_plot2_n <- alasso_plot_n+theme(legend.position='none')
+alasso_plot2_n <- alasso_plot_n+theme(legend.position='none')+
+  annotate("rect", xmin = 2.5, xmax = 7.5, ymin = -10, ymax = 320,
+           alpha = 0, color= "purple",lwd=1)
 ## STLS -------------------------
 xdot_vdp_sindy_reg_df <- read.csv("N/vdp_inc_n_xdot_sindy_pred_models_new_sg.csv")[-1]
 ydot_vdp_sindy_reg_df <- read.csv("N/vdp_inc_n_ydot_sindy_pred_models_new_sg.csv")[-1]
@@ -271,9 +277,14 @@ STLS_plot2_n <- STLS_plot_n+theme(legend.position='none',
 n_seq_desired <- c(6, 11, 16, 21, 26, 31)
 STLS_plot_n <- ggplot_data_n('   ', xdot_vdp_sindy_reg_df, ydot_vdp_sindy_reg_df,70)
 STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none',axis.title.y = element_blank())
-
+STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none')+
+  annotate("rect", xmin = 1.5, xmax = 6.5, ymin = -10, ymax = 350,
+           alpha = 0, color= "purple",lwd=1)
 layout_matrix <- matrix(c(rep(2,1),rep(1,4)),nrow=1)
 n_STLS <- grid.arrange(STLS_plot2_n2,STLS_plot2_n,layout_matrix = layout_matrix,nrow=1,ncol=2)
+
+
+
 
 legend <- get_legend(STLS_plot2_n+theme(legend.position='bottom'))
 ggplot_legend <- cowplot::plot_grid(legend)
@@ -297,5 +308,11 @@ stacked_vdp_n <-
     # layout_matrix = layout_matrix
     heights = c(1,10,10,10)
   )
-ggsave(stacked_vdp_n, filename = '../../../Figures/stacked_vdp_n.pdf', width = 10, height = 15, dpi = 300)
-ggsave(stacked_vdp_n, filename = '../../../Figures/stacked_vdp_n.png', width = 10, height = 15, dpi = 300)
+file_wd <- paste(
+  "/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/",
+  # "~//GitHub/ARGOS/",
+  sep = ""
+)
+setwd(file_wd)
+ggsave(stacked_vdp_n, filename = './Figures/stacked_vdp_n.pdf', width = 10, height = 15, dpi = 300)
+ggsave(stacked_vdp_n, filename = './Figures/stacked_vdp_n.png', width = 10, height = 15, dpi = 300)

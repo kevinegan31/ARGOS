@@ -275,11 +275,8 @@ xdot_duffing_sindy_reg_df <- read.csv("N/duffing_inc_n_xdot_sindy_pred_models_ne
 ydot_duffing_sindy_reg_df <- read.csv("N/duffing_inc_n_ydot_sindy_pred_models_new_sg.csv")[-1]
 STLS_plot_n <- ggplot_data_n('SINDy with AIC', xdot_duffing_sindy_reg_df, ydot_duffing_sindy_reg_df)
 STLS_plot2_n <- STLS_plot_n+theme(legend.position='none')
-n_seq_desired <- c(6, 11, 16, 21, 26, 31)
-STLS_plot_n <- ggplot_data_n('SINDy with AIC', xdot_duffing_sindy_reg_df, ydot_duffing_sindy_reg_df)
-STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none')
-STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none')+
-  annotate("rect", xmin = 2, xmax = 7.5, ymin = -10, ymax = 320,
+STLS_plot2_n <- STLS_plot_n+theme(legend.position='none')+
+  annotate("rect", xmin = 2.5, xmax = 7.5, ymin = -10, ymax = 320,
            alpha = 0, color= "purple",lwd=1)
 ## compose -----------------
 library(gridExtra)
@@ -298,5 +295,11 @@ stacked_duffing_n <-
     ncol = 1,
     heights = c(1,10,10,10)
   )
-ggsave(stacked_duffing_n, filename = '../../../Figures/stacked_duffing_n.pdf', width = 10, height = 15, dpi = 300)
-ggsave(stacked_duffing_n, filename = '../../../Figures/stacked_duffing_n.png', width = 10, height = 15, dpi = 300)
+file_wd <- paste(
+  "~/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/",
+  # "~/GitHub/ARGOS/",
+  sep = ""
+)
+setwd(file_wd)
+ggsave(stacked_duffing_n, filename = './Figures/stacked_duffing_n.pdf', width = 10, height = 15, dpi = 300)
+ggsave(stacked_duffing_n, filename = './Figures/stacked_duffing_n.png', width = 10, height = 15, dpi = 300)

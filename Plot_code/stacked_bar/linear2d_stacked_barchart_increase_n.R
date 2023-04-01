@@ -13,8 +13,8 @@ library(RColorBrewer)
 library(stringr)
 library(gridExtra)
 file_wd <- paste(
-  # "/Users/kevinegan/Documents/",
-  "~/GitHub/ARGOS/",
+  "/Users/kevinegan/Documents/GitHub.nosync/ARGOS/",
+  # "~//GitHub/ARGOS/",
   sep = ""
 )
 # file_wd <- "D:/GitHub/ARGOS/" # github path
@@ -256,19 +256,33 @@ xdot_linear2d_lasso_reg_df <- read.csv("N/linear2d_inc_n_xdot_lasso_pred_models_
 ydot_linear2d_lasso_reg_df <- read.csv("N/linear2d_inc_n_ydot_lasso_pred_models_new_sg.csv")[-1]
 lasso_plot_n <- ggplot_data_n('ARGOS-Lasso', xdot_linear2d_lasso_reg_df, ydot_linear2d_lasso_reg_df)
 lasso_plot2_n <- lasso_plot_n+theme(legend.position='none')
+lasso_plot2_n <- lasso_plot_n+theme(legend.position='none')+
+  annotate("rect", xmin = 1.5, xmax = 7.5, ymin = -10, ymax = 320,
+           alpha = 0, color= "purple",lwd=1)
 ## alasso ------------------
 xdot_linear2d_alasso_reg_df <- read.csv("N/linear2d_inc_n_xdot_alasso_pred_models_new_sg.csv")[-1]
 ydot_linear2d_alasso_reg_df <- read.csv("N/linear2d_inc_n_ydot_alasso_pred_models_new_sg.csv")[-1]
 alasso_plot_n <- ggplot_data_n('ARGOS-Adaptive Lasso', xdot_linear2d_alasso_reg_df, ydot_linear2d_alasso_reg_df)
 alasso_plot2_n <- alasso_plot_n+theme(legend.position='none')
+alasso_plot2_n <- alasso_plot_n+theme(legend.position='none')+
+  annotate("rect", xmin = 1.5, xmax = 7.5, ymin = -10, ymax = 320,
+           alpha = 0, color= "purple",lwd=1)
 ## STLS -------------------------
 xdot_linear2d_sindy_reg_df <- read.csv("N/linear2d_inc_n_xdot_sindy_pred_models_new_sg.csv")[-1]
 ydot_linear2d_sindy_reg_df <- read.csv("N/linear2d_inc_n_ydot_sindy_pred_models_new_sg.csv")[-1]
 STLS_plot_n <- ggplot_data_n('SINDy with AIC', xdot_linear2d_sindy_reg_df, ydot_linear2d_sindy_reg_df)
 STLS_plot2_n <- STLS_plot_n+theme(legend.position='none')
-n_seq_desired <- c(6, 11, 16, 21, 26, 31)
-STLS_plot_n <- ggplot_data_n('SINDy with AIC', xdot_linear2d_sindy_reg_df, ydot_linear2d_sindy_reg_df)
-STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none')
+STLS_plot2_n <- STLS_plot_n+theme(legend.position='none')+
+  annotate("rect", xmin = 3.5, xmax = 7.5, ymin = -10, ymax = 250,
+           alpha = 0, color= "purple",lwd=1)
+# n_seq_desired <- c(6, 11, 16, 21, 26, 31)
+# STLS_plot_n <- ggplot_data_n('SINDy with AIC', xdot_linear2d_sindy_reg_df, ydot_linear2d_sindy_reg_df)
+# STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none')
+# 
+# 
+# layout_matrix <- matrix(c(rep(2,1),rep(1,4)),nrow=1)
+# n_STLS <- grid.arrange(STLS_plot2_n2,STLS_plot2_n,layout_matrix = layout_matrix,nrow=1,ncol=2)
+### Legend
 legend <- get_legend(STLS_plot2_n+theme(legend.position='bottom'))
 ggplot_legend <- cowplot::plot_grid(legend)
 ## compose -----------------
@@ -291,5 +305,11 @@ stacked_linear2d_n <-
     # layout_matrix = layout_matrix
     heights = c(1,10,10,10)
   )
-ggsave(stacked_linear2d_n, filename = '../../../Figures/stacked_linear2d_n.pdf', width = 10, height = 15, dpi = 300)
-ggsave(stacked_linear2d_n, filename = '../../../Figures/stacked_linear2d_n.png', width = 10, height = 15, dpi = 300)
+file_wd <- paste(
+  "/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/",
+  # "~//GitHub/ARGOS/",
+  sep = ""
+)
+setwd(file_wd)
+ggsave(stacked_linear2d_n, filename = './Figures/stacked_linear2d_n.pdf', width = 10, height = 15, dpi = 300)
+ggsave(stacked_linear2d_n, filename = './Figures/stacked_linear2d_n.png', width = 10, height = 15, dpi = 300)

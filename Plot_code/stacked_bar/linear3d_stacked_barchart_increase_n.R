@@ -13,8 +13,8 @@ library(RColorBrewer)
 library(stringr)
 library(gridExtra)
 file_wd <- paste(
-  # "/Users/kevinegan/Documents/",
-  "~/GitHub/ARGOS/",
+  "/Users/kevinegan/Documents/GitHub.nosync/ARGOS/",
+  # "~//GitHub/ARGOS/",
   sep = ""
 )
 # file_wd <- "D:/GitHub/ARGOS/" # github path
@@ -303,11 +303,31 @@ ggplot_data_n <- function(algorithm, xdot_linear3d, ydot_linear3d, zdot_linear3d
 }
 
 ## lasso --------------
-xdot_linear3d_lasso_reg_df <- read.csv("N/linear3d_inc_n_xdot_lasso_pred_models_new_sg.csv")[-1]
-ydot_linear3d_lasso_reg_df <- read.csv("N/linear3d_inc_n_ydot_lasso_pred_models_new_sg.csv")[-1]
-zdot_linear3d_lasso_reg_df <- read.csv("N/linear3d_inc_n_zdot_lasso_pred_models_new_sg.csv")[-1]
-lasso_plot_n <- ggplot_data_n('ARGOS-Lasso', xdot_linear3d_lasso_reg_df, ydot_linear3d_lasso_reg_df, zdot_linear3d_lasso_reg_df)
-lasso_plot2_n <- lasso_plot_n+theme(legend.position='none')
+xdot_linear3d_lasso_reg_df <-
+  read.csv("N/linear3d_inc_n_xdot_lasso_pred_models_new_sg.csv")[-1]
+ydot_linear3d_lasso_reg_df <-
+  read.csv("N/linear3d_inc_n_ydot_lasso_pred_models_new_sg.csv")[-1]
+zdot_linear3d_lasso_reg_df <-
+  read.csv("N/linear3d_inc_n_zdot_lasso_pred_models_new_sg.csv")[-1]
+lasso_plot_n <-
+  ggplot_data_n(
+    'ARGOS-Lasso',
+    xdot_linear3d_lasso_reg_df,
+    ydot_linear3d_lasso_reg_df,
+    zdot_linear3d_lasso_reg_df
+  )
+lasso_plot2_n <- lasso_plot_n + theme(legend.position = 'none')
+lasso_plot2_n <- lasso_plot_n + theme(legend.position = 'none') +
+  annotate(
+    "rect",
+    xmin = 2.5,
+    xmax = 7.5,
+    ymin = -10,
+    ymax = 250,
+    alpha = 0,
+    color = "purple",
+    lwd = 1
+  )
 
 ## alasso ------------------
 xdot_linear3d_alasso_reg_df <- read.csv("N/linear3d_inc_n_xdot_alasso_pred_models_new_sg.csv")[-1]
@@ -315,6 +335,17 @@ ydot_linear3d_alasso_reg_df <- read.csv("N/linear3d_inc_n_ydot_alasso_pred_model
 zdot_linear3d_alasso_reg_df <- read.csv("N/linear3d_inc_n_zdot_alasso_pred_models_new_sg.csv")[-1]
 alasso_plot_n <- ggplot_data_n('ARGOS-Adaptive Lasso', xdot_linear3d_alasso_reg_df, ydot_linear3d_alasso_reg_df, zdot_linear3d_alasso_reg_df)
 alasso_plot2_n <- alasso_plot_n+theme(legend.position='none')
+alasso_plot2_n <- alasso_plot_n + theme(legend.position = 'none') +
+  annotate(
+    "rect",
+    xmin = 2.5,
+    xmax = 7.5,
+    ymin = -10,
+    ymax = 220,
+    alpha = 0,
+    color = "purple",
+    lwd = 1
+  )
 
 ## STLS -------------------------
 xdot_linear3d_sindy_reg_df <- read.csv("N/linear3d_inc_n_xdot_sindy_pred_models_new_sg.csv")[-1]
@@ -332,6 +363,7 @@ STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none',axis.title.y = element
 layout_matrix <- matrix(c(rep(1,1),rep(2,2)),nrow=1)
 n_STLS <- grid.arrange(STLS_plot2_n,STLS_plot2_n2,layout_matrix = layout_matrix,nrow=1,ncol=2)
 
+## legend -----------------
 legend <- get_legend(STLS_plot2_n+theme(legend.position='bottom'))
 ggplot_legend <- cowplot::plot_grid(legend)
 
@@ -354,5 +386,11 @@ stacked_linear3d_n <-
     # layout_matrix = layout_matrix
     heights = c(1,10,10,10)
   )
-ggsave(stacked_linear3d_n, filename = '../../../Figures/stacked_linear3d_n.pdf', width = 10, height = 15, dpi = 300)
-ggsave(stacked_linear3d_n, filename = '../../../Figures/stacked_linear3d_n.png', width = 10, height = 15, dpi = 300)
+file_wd <- paste(
+  "/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/",
+  # "~//GitHub/ARGOS/",
+  sep = ""
+)
+setwd(file_wd)
+ggsave(stacked_linear3d_n, filename = './Figures/stacked_linear3d_n.pdf', width = 10, height = 15, dpi = 300)
+ggsave(stacked_linear3d_n, filename = './Figures/stacked_linear3d_n.png', width = 10, height = 15, dpi = 300)

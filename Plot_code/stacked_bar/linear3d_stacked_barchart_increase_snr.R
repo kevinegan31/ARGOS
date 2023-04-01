@@ -284,18 +284,27 @@ ydot_linear3d_lasso <- read.csv("SNR/linear3d_inc_snr_ydot_lasso_pred_models_new
 zdot_linear3d_lasso <- read.csv("SNR/linear3d_inc_snr_zdot_lasso_pred_models_new_sg.csv")[,-1]
 lasso_plot_snr <- ggplot_data_snr('ARGOS-Lasso', xdot_linear3d_lasso, ydot_linear3d_lasso, zdot_linear3d_lasso)
 lasso_plot2_snr <- lasso_plot_snr+theme(legend.position='none')
+lasso_plot2_snr <- lasso_plot_snr+theme(legend.position='none')+
+  annotate("rect", xmin = 3.5, xmax = 7.5, ymin = -10, ymax = 250,
+           alpha = 0, color= "purple",lwd=1)
 ## alasso ------------------
 xdot_linear3d_alasso <- read.csv("SNR/linear3d_inc_snr_xdot_alasso_pred_models_new_sg.csv")[,-1]
 ydot_linear3d_alasso <- read.csv("SNR/linear3d_inc_snr_ydot_alasso_pred_models_new_sg.csv")[,-1]
 zdot_linear3d_alasso <- read.csv("SNR/linear3d_inc_snr_zdot_alasso_pred_models_new_sg.csv")[,-1]
 alasso_plot_snr <- ggplot_data_snr('ARGOS-Adaptive Lasso', xdot_linear3d_alasso, ydot_linear3d_alasso, zdot_linear3d_alasso)
 alasso_plot2_snr <- alasso_plot_snr+theme(legend.position='none')
+alasso_plot2_snr <- alasso_plot_snr+theme(legend.position='none')+
+  annotate("rect", xmin = 3.5, xmax = 6.5, ymin = -10, ymax = 250,
+           alpha = 0, color= "purple",lwd=1)
 ## STLS -------------------------
 xdot_linear3d_STLS <- read.csv("SNR/linear3d_inc_snr_xdot_sindy_pred_models_new_sg.csv")[,-1]
 ydot_linear3d_STLS <- read.csv("SNR/linear3d_inc_snr_ydot_sindy_pred_models_new_sg.csv")[,-1]
 zdot_linear3d_STLS <- read.csv("SNR/linear3d_inc_snr_zdot_sindy_pred_models_new_sg.csv")[,-1]
 STLS_plot_snr <- ggplot_data_snr('SINDy with AIC', xdot_linear3d_STLS, ydot_linear3d_STLS, zdot_linear3d_STLS,100)
 STLS_plot2_snr <- STLS_plot_snr+theme(legend.position='none')
+STLS_plot2_snr <- STLS_plot_snr+theme(legend.position='none')+
+  annotate("rect", xmin = 6.5, xmax = 7.5, ymin = -10, ymax = 250,
+           alpha = 0, color= "purple",lwd=1)
 
 legend <- get_legend(STLS_plot2_snr+theme(legend.position='bottom'))
 ggplot_legend <- cowplot::plot_grid(legend)

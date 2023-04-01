@@ -279,12 +279,18 @@ ydot_rossler_lasso <- read.csv("SNR/rossler_inc_snr_ydot_lasso_pred_models_new_s
 zdot_rossler_lasso <- read.csv("SNR/rossler_inc_snr_zdot_lasso_pred_models_new_sg.csv")[,-1]
 lasso_plot_snr <- ggplot_data_snr('ARGOS-Lasso', xdot_rossler_lasso, ydot_rossler_lasso, zdot_rossler_lasso,60)
 lasso_plot2_snr <- lasso_plot_snr+theme(legend.position='none')
+lasso_plot2_snr <- lasso_plot_snr+theme(legend.position='none')+
+  annotate("rect", xmin = 3.5, xmax = 7.5, ymin = -10, ymax = 400,
+           alpha = 0, color= "purple",lwd=1)
 ## alasso ------------------
 xdot_rossler_alasso <- read.csv("SNR/rossler_inc_snr_xdot_alasso_pred_models_new_sg.csv")[,-1]
 ydot_rossler_alasso <- read.csv("SNR/rossler_inc_snr_ydot_alasso_pred_models_new_sg.csv")[,-1]
 zdot_rossler_alasso <- read.csv("SNR/rossler_inc_snr_zdot_alasso_pred_models_new_sg.csv")[,-1]
 alasso_plot_snr <- ggplot_data_snr('ARGOS-Adaptive Lasso', xdot_rossler_alasso, ydot_rossler_alasso, zdot_rossler_alasso)
 alasso_plot2_snr <- alasso_plot_snr+theme(legend.position='none')
+alasso_plot2_snr <- alasso_plot_snr+theme(legend.position='none')+
+  annotate("rect", xmin = 3.5, xmax = 7.5, ymin = -10, ymax = 350,
+           alpha = 0, color= "purple",lwd=1)
 ## STLS -------------------------
 xdot_rossler_STLS <- read.csv("SNR/rossler_inc_snr_xdot_sindy_pred_models_new_sg.csv")[,-1]
 ydot_rossler_STLS <- read.csv("SNR/rossler_inc_snr_ydot_sindy_pred_models_new_sg.csv")[,-1]
