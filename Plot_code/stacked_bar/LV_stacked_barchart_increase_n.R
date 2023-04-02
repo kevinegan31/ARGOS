@@ -276,7 +276,7 @@ STLS_plot2_n <- STLS_plot_n+theme(legend.position='none',
 n_seq_desired <- c(6, 11, 16, 21, 26, 31)
 STLS_plot_n <- ggplot_data_n('   ', xdot_LV_sindy_reg_df, ydot_LV_sindy_reg_df,70)
 STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none',axis.title.y = element_blank())
-STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none')+
+STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none',axis.title.y = element_blank())+
   annotate("rect", xmin = 2.5, xmax = 6.5, ymin = -10, ymax = 250,
            alpha = 0, color= "purple",lwd=1)
 

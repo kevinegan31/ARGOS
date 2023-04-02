@@ -304,18 +304,26 @@ alasso_plot2_n <- alasso_plot_n+theme(legend.position='none')+
 xdot_rossler_sindy_reg_df <- read.csv("N/rossler_inc_n_xdot_sindy_pred_models_new_sg.csv")[,-1]
 ydot_rossler_sindy_reg_df <- read.csv("N/rossler_inc_n_ydot_sindy_pred_models_new_sg.csv")[,-1]
 zdot_rossler_sindy_reg_df <- read.csv("N/rossler_inc_n_zdot_sindy_pred_models_new_sg.csv")[,-1]
-n_seq_desired = 1
-STLS_plot_n <- ggplot_data_n('SINDy with AIC', xdot_rossler_sindy_reg_df, ydot_rossler_sindy_reg_df, zdot_rossler_sindy_reg_df,100)
+n_seq_desired = c(1)
+STLS_plot_n <- ggplot_data_n('SINDy with AIC',
+                             xdot_rossler_sindy_reg_df,
+                             ydot_rossler_sindy_reg_df,
+                             zdot_rossler_sindy_reg_df, 100)
 STLS_plot2_n <- STLS_plot_n+theme(legend.position='none',  
                                   strip.background = element_blank(),
                                   strip.text = element_blank())
 n_seq_desired <- c(6, 11, 16, 21, 26, 31)
-STLS_plot_n <- ggplot_data_n('   ', xdot_rossler_sindy_reg_df, ydot_rossler_sindy_reg_df, zdot_rossler_sindy_reg_df,70)
+STLS_plot_n <- ggplot_data_n('   ',
+                             xdot_rossler_sindy_reg_df,
+                             ydot_rossler_sindy_reg_df,
+                             zdot_rossler_sindy_reg_df,100)
 STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none',axis.title.y = element_blank())
-STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none')+
+STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none',axis.title.y = element_blank())+
   annotate("rect", xmin = 2.5, xmax = 6.5, ymin = -10, ymax = 250,
            alpha = 0, color= "purple",lwd=1)
 
+# layout_matrix <- matrix(c(rep(2,1),rep(1,4)),nrow=1)
+# layout_matrix <- matrix(c(rep(1,1),rep(2,2)),nrow=1)
 layout_matrix <- matrix(c(rep(2,1),rep(1,4)),nrow=1)
 n_STLS <- arrangeGrob(STLS_plot2_n2,STLS_plot2_n,layout_matrix = layout_matrix,nrow=1,ncol=2)
 

@@ -273,7 +273,7 @@ alasso_plot2_snr <- alasso_plot_snr+theme(legend.position='none')+
 ## STLS -------------------------
 xdot_duffing_STLS <- read.csv("SNR/duffing_inc_snr_xdot_sindy_pred_models_new_sg.csv")[,-1]
 ydot_duffing_STLS <- read.csv("SNR/duffing_inc_snr_ydot_sindy_pred_models_new_sg.csv")[,-1]
-STLS_plot_snr <- ggplot_data_snr('SINDy with AIC', xdot_duffing_STLS, ydot_duffing_STLS)
+STLS_plot_snr <- ggplot_data_snr('SINDy with AIC', xdot_duffing_STLS, ydot_duffing_STLS, 50)
 STLS_plot2_snr <- STLS_plot_snr+theme(legend.position='none')
 STLS_plot2_snr <- STLS_plot_snr+theme(legend.position='none')+
   annotate("rect", xmin = 3.5, xmax = 6.5, ymin = -10, ymax = 320,

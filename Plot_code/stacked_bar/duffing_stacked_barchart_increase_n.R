@@ -70,12 +70,12 @@ ggplot_data_n <- function(algorithm, xdot_duffing, ydot_duffing,threshold=40){
   ## correct terms and incorrect terms frequency > threshold
   plot_data1 <- rbind(dplyr::filter(plot_data1, value>threshold|names=='y') %>% dplyr::filter(eq=='xdot'),
                       dplyr::filter(plot_data1, value>threshold|names=='x'|names=='y' | names=='xxx') %>% dplyr::filter(eq=='ydot'))
-  others_values_xdot <- apply(subset(plot_data,plot_data[,1]=='xdot')[,-c(1,2)], 2, function(x){
+  others_values_xdot <- apply(as.data.frame(subset(plot_data,plot_data[,1]=='xdot')[,-c(1,2)]), 2, function(x){
     terms <- subset(plot_data,plot_data[,1]=='xdot')[,2]
     index <- which(x<threshold & terms!='y')
     sum(x[index])
   })
-  others_values_ydot <- apply(subset(plot_data,plot_data[,1]=='ydot')[,-c(1,2)], 2, function(x){
+  others_values_ydot <- apply(as.data.frame(subset(plot_data,plot_data[,1]=='ydot')[,-c(1,2)]), 2, function(x){
     terms <- subset(plot_data,plot_data[,1]=='ydot')[,2]
     index <- which(x<threshold & terms!='x' & terms!='y' & terms!='xxx')
     sum(x[index])
@@ -171,8 +171,12 @@ ggplot_data_n <- function(algorithm, xdot_duffing, ydot_duffing,threshold=40){
   if(length(latex_index)!=0){plot_data4[latex_index,]$label2 <- TeX(paste0('$',plot_data4[latex_index,]$label2,'$'))}
   plot_data4$label2[which(plot_data4$eq=='xdot'&plot_data4$names=='break')] <- TeX('$\\dot{x}_1$')
   plot_data4$label2[which(plot_data4$eq=='ydot'&plot_data4$names=='break')] <- TeX('$\\dot{x}_2$')
+  
+  
   n_levels <- levels(plot_data4$n)
   names_levels <- levels(plot_data4$names)
+  
+  
   plot_data2$label2[which(plot_data2$names=='break')] <- "         "
   plot_data2$label2[which(plot_data2$names=='others'&!is.na(plot_data2$label2))] <- "            "
   x_labels <- unname(TeX(paste0('$','10^{',n_seq[n_seq_desired],'}','$')))
@@ -273,11 +277,30 @@ alasso_plot2_n <- alasso_plot_n+theme(legend.position='none')+
 ## STLS -------------------------
 xdot_duffing_sindy_reg_df <- read.csv("N/duffing_inc_n_xdot_sindy_pred_models_new_sg.csv")[-1]
 ydot_duffing_sindy_reg_df <- read.csv("N/duffing_inc_n_ydot_sindy_pred_models_new_sg.csv")[-1]
-STLS_plot_n <- ggplot_data_n('SINDy with AIC', xdot_duffing_sindy_reg_df, ydot_duffing_sindy_reg_df)
-STLS_plot2_n <- STLS_plot_n+theme(legend.position='none')
-STLS_plot2_n <- STLS_plot_n+theme(legend.position='none')+
-  annotate("rect", xmin = 2.5, xmax = 7.5, ymin = -10, ymax = 320,
+# STLS_plot_n <- ggplot_data_n('SINDy with AIC', xdot_duffing_sindy_reg_df, ydot_duffing_sindy_reg_df)
+# STLS_plot2_n <- STLS_plot_n+theme(legend.position='none')
+# STLS_plot2_n <- STLS_plot_n+theme(legend.position='none')+
+#   annotate("rect", xmin = 2.5, xmax = 7.5, ymin = -10, ymax = 320,
+#            alpha = 0, color= "purple",lwd=1)
+
+n_seq_desired <- c(1)
+STLS_plot_n <- ggplot_data_n('SINDy with AIC',
+                             xdot_duffing_sindy_reg_df,
+                             ydot_duffing_sindy_reg_df, 100)
+STLS_plot2_n <- STLS_plot_n+theme(legend.position='none',  
+                                  strip.background = element_blank(),
+                                  strip.text = element_blank())
+n_seq_desired <- c(6, 11, 16, 21, 26, 31)
+STLS_plot_n <- ggplot_data_n('   ', xdot_duffing_sindy_reg_df, ydot_duffing_sindy_reg_df,70)
+STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none',axis.title.y = element_blank())
+STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none', axis.title.y = element_blank())+
+  annotate("rect", xmin = 1.5, xmax = 6.5, ymin = -10, ymax = 320,
            alpha = 0, color= "purple",lwd=1)
+
+layout_matrix <- matrix(c(rep(2,1),rep(1,4)),nrow=1)
+n_STLS <- arrangeGrob(STLS_plot2_n2,STLS_plot2_n,layout_matrix = layout_matrix,nrow=1,ncol=2)
+
+
 ## compose -----------------
 library(gridExtra)
 layout_matrix <-matrix(c(0,rep(1,20),rep(2,20),rep(3,20)), ncol=1)
@@ -290,7 +313,7 @@ stacked_duffing_n <-
     ),
     lasso_plot2_n,
     alasso_plot2_n,
-    STLS_plot2_n,
+    n_STLS,
     nrow = 4,
     ncol = 1,
     heights = c(1,10,10,10)

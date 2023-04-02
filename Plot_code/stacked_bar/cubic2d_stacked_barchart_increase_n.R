@@ -38,7 +38,7 @@ colors0 <- c(
   "#e49486","#69773d","#9a5738","#c8b275","#6c6214","#dda55c","#916f38"
 )
 
-ggplot_data_n <- function(algorithm, xdot_cubic2d, ydot_cubic2d,threshold=40){
+ggplot_data_n <- function(algorithm, xdot_cubic2d, ydot_cubic2d, threshold=40){
   # xdot_cubic2d = xdot_cubic2d_alasso_reg_df;ydot_cubic2d = ydot_cubic2d_alasso_reg_df;algorithm='alasso'
   ## x_dot
   xdot_cubic2d_reg_list <- lapply(seq_along(n_seq), function(i){
@@ -174,7 +174,8 @@ ggplot_data_n <- function(algorithm, xdot_cubic2d, ydot_cubic2d,threshold=40){
   plot_data4[which(plot_data4$label2=='others'),]$label2 <- 'Others'
   try(plot_data4[which(plot_data4$value<threshold),]$label2 <- NA, T)
   latex_index <- which(plot_data4$label2!='Others' & !is.na(plot_data4$label2) & plot_data4$label2!='break')
-  plot_data4[latex_index,]$label2 <- TeX(paste0('$',plot_data4[latex_index,]$label2,'$'))
+  if(length(latex_index)!=0){plot_data4[latex_index,]$label2 <- TeX(paste0('$',plot_data4[latex_index,]$label2,'$'))}
+  # plot_data4[latex_index,]$label2 <- TeX(paste0('$',plot_data4[latex_index,]$label2,'$'))
   plot_data4$label2[which(plot_data4$eq=='xdot'&plot_data4$names=='break')] <- TeX('$\\dot{x}_1$')
   plot_data4$label2[which(plot_data4$eq=='ydot'&plot_data4$names=='break')] <- TeX('$\\dot{x}_2$')
   
@@ -281,14 +282,20 @@ alasso_plot2_n <- alasso_plot_n+theme(legend.position='none')+
 ## STLS -------------------------
 xdot_cubic2d_sindy_reg_df <- read.csv("N/cubic2d_inc_n_xdot_sindy_pred_models_new_sg.csv")[-1]
 ydot_cubic2d_sindy_reg_df <- read.csv("N/cubic2d_inc_n_ydot_sindy_pred_models_new_sg.csv")[-1]
-STLS_plot_n <- ggplot_data_n('SINDy with AIC', xdot_cubic2d_sindy_reg_df, ydot_cubic2d_sindy_reg_df, 80)
-STLS_plot2_n <- STLS_plot_n+theme(legend.position='none')
-STLS_plot2_n <- STLS_plot_n+theme(legend.position='none')+
-  annotate("rect", xmin = 3.5, xmax = 7.5, ymin = -10, ymax = 320,
+n_seq_desired <- c(1,6)
+STLS_plot_n <- ggplot_data_n('SINDy with AIC', xdot_cubic2d_sindy_reg_df, ydot_cubic2d_sindy_reg_df,100)
+STLS_plot2_n <- STLS_plot_n+theme(legend.position='none',  
+                                  strip.background = element_blank(),
+                                  strip.text = element_blank())
+n_seq_desired <- c(11, 16, 21, 26, 31)
+STLS_plot_n <- ggplot_data_n('   ', xdot_cubic2d_sindy_reg_df, ydot_cubic2d_sindy_reg_df,70)
+STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none',axis.title.y = element_blank())
+STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none', axis.title.y = element_blank())+
+  annotate("rect", xmin = 1.5, xmax = 5.5, ymin = -10, ymax = 320,
            alpha = 0, color= "purple",lwd=1)
-# n_seq_desired <- c(6, 11, 16, 21, 26, 31)
-# STLS_plot_n <- ggplot_data_n('SINDy with AIC', xdot_cubic2d_sindy_reg_df, ydot_cubic2d_sindy_reg_df)
-# STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none')
+layout_matrix <- matrix(c(rep(1,1),rep(2,2)),nrow=1)
+n_STLS <- grid.arrange(STLS_plot2_n,STLS_plot2_n2,layout_matrix = layout_matrix,nrow=1,ncol=2)
+
 ## legend -------------------
 legend <- get_legend(STLS_plot2_n+theme(legend.position='bottom'))
 ggplot_legend <- cowplot::plot_grid(legend)
@@ -305,7 +312,7 @@ stacked_cubic2d_n <-
     ) ,
     lasso_plot2_n,
     alasso_plot2_n,
-    STLS_plot2_n,
+    n_STLS,
     nrow = 4,
     ncol = 1,
     heights = c(1,10,10,10)
