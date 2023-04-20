@@ -257,7 +257,7 @@ ydot_linear2d_lasso_reg_df <- read.csv("N/linear2d_inc_n_ydot_lasso_pred_models_
 lasso_plot_n <- ggplot_data_n('ARGOS-Lasso', xdot_linear2d_lasso_reg_df, ydot_linear2d_lasso_reg_df)
 lasso_plot2_n <- lasso_plot_n+theme(legend.position='none')
 lasso_plot2_n <- lasso_plot_n+theme(legend.position='none')+
-  annotate("rect", xmin = 1.5, xmax = 7.5, ymin = -10, ymax = 320,
+  annotate("rect", xmin = 2.5, xmax = 7.5, ymin = -10, ymax = 320,
            alpha = 0, color= "purple",lwd=1)
 ## alasso ------------------
 xdot_linear2d_alasso_reg_df <- read.csv("N/linear2d_inc_n_xdot_alasso_pred_models_new_sg.csv")[-1]
@@ -265,7 +265,7 @@ ydot_linear2d_alasso_reg_df <- read.csv("N/linear2d_inc_n_ydot_alasso_pred_model
 alasso_plot_n <- ggplot_data_n('ARGOS-Adaptive Lasso', xdot_linear2d_alasso_reg_df, ydot_linear2d_alasso_reg_df)
 alasso_plot2_n <- alasso_plot_n+theme(legend.position='none')
 alasso_plot2_n <- alasso_plot_n+theme(legend.position='none')+
-  annotate("rect", xmin = 1.5, xmax = 7.5, ymin = -10, ymax = 320,
+  annotate("rect", xmin = 2.5, xmax = 7.5, ymin = -10, ymax = 320,
            alpha = 0, color= "purple",lwd=1)
 ## STLS -------------------------
 xdot_linear2d_sindy_reg_df <- read.csv("N/linear2d_inc_n_xdot_sindy_pred_models_new_sg.csv")[-1]

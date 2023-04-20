@@ -294,7 +294,7 @@ zdot_linear3d_alasso <- read.csv("SNR/linear3d_inc_snr_zdot_alasso_pred_models_n
 alasso_plot_snr <- ggplot_data_snr('ARGOS-Adaptive Lasso', xdot_linear3d_alasso, ydot_linear3d_alasso, zdot_linear3d_alasso)
 alasso_plot2_snr <- alasso_plot_snr+theme(legend.position='none')
 alasso_plot2_snr <- alasso_plot_snr+theme(legend.position='none')+
-  annotate("rect", xmin = 3.5, xmax = 6.5, ymin = -10, ymax = 250,
+  annotate("rect", xmin = 4.5, xmax = 6.5, ymin = -10, ymax = 250,
            alpha = 0, color= "purple",lwd=1)
 ## STLS -------------------------
 xdot_linear3d_STLS <- read.csv("SNR/linear3d_inc_snr_xdot_sindy_pred_models_new_sg.csv")[,-1]

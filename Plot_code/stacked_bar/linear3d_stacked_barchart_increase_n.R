@@ -338,7 +338,7 @@ alasso_plot2_n <- alasso_plot_n+theme(legend.position='none')
 alasso_plot2_n <- alasso_plot_n + theme(legend.position = 'none') +
   annotate(
     "rect",
-    xmin = 2.5,
+    xmin = 3.5,
     xmax = 7.5,
     ymin = -10,
     ymax = 220,
