@@ -189,14 +189,13 @@ boot_lasso <- function(x_t,
     length(which(x == 0)) / length(x)
   })
   df_columns <- colnames(post_lasso_matrix)
-  
   result_matrix <- matrix(data = NA, nrow = length(boot_t0))
   rownames(result_matrix) <- c("Intercept", df_columns[-1])
   CI <- bound_percentile_normal
   ### Check if confidence intervals contain variable and do not cross zero
   for (i in seq_along(result_matrix)) {
     if (CI[1, i] <= boot_t0[i] & CI[2, i] >= boot_t0[i] &
-        (unname((CI[1, i] < 0 && CI[2, i] > 0) || (CI[1, i] > 0 && CI[2,i] < 0)) == FALSE)){
+        ((CI[1, i] <= 0 && CI[2, i] >= 0))==FALSE) {
       result_matrix[i,] <- boot_t0[i]
     } else {
       result_matrix[i,] <- 0
@@ -206,6 +205,7 @@ boot_lasso <- function(x_t,
     list(
       point_estimates = boot_t0,
       ci = bound_percentile_normal,
+      identified_model = result_matrix,
       num_bs_zero = count_zero,
       percent_bs_zero = percent_zero,
       theta_colnames = df_columns

@@ -311,3 +311,23 @@ colnames(zdot_pe_df) <- c("1", zdot_argos_alasso$theta_colnames[-1])
 zdot_pe_df
 
 ```
+
+### Identified Models
+
+```{r xdot alasso point estimates}
+# xdot
+xdot_identified_model <- t(data.frame(xdot_argos_alasso$identified_model))
+xdot_identified_model
+
+# ydot
+ydot_identified_model <- t(data.frame(ydot_argos_alasso$identified_model))
+ydot_identified_model
+
+# zdot
+zdot_identified_model <- t(data.frame(zdot_argos_alasso$identified_model))
+zdot_identified_model
+
+```
+
+
+
