@@ -1,30 +1,33 @@
 # Automatic Regression for Governing Equations (ARGOS)
 
-This Github repository contains codes for the paper *Automatically identifying dynamical systems from data*. 
+This Github repository contains codes for the paper _Automatically identifying dynamical systems from data_.
 
 ## Motivation
-The purpose of this code is to enable users to perform system identification of linear and nonlinear systems automatically.
-System identification refers to the process of building mathematical models of dynamical systems using measurements of the input and output signals of the system.
-Dynamical systems can either be discrete or continous, and use ordinary or partial differential equations to describe its behavior whose state varies over time.
-The automatic regression for governing equations (ARGOS) provides a framework that leverages the optimal numerical derivative calculation with formal variable selection procedures to identify governing equations from data automatically.
+
+The purpose of this repository is to enable users to perform system identification of linear and nonlinear systems automatically.
+System identification refers to the process of building mathematical models of dynamical systems using measurements of the input and output signals.
+Dynamical systems can either be discrete or continuous and use ordinary or partial differential equations to describe their time-varying behavior.
+The Automatic Regression for Governing Equations (ARGOS) algorithm combines optimal numerical derivatives with formal variable selection procedures for automatic discovery of dynamical systems from data.
 Upon identification, users can apply the resulting models to generalize and predict the systems existing in their data.
 
 ## Folders
-[**R**](https://github.com/kevinegan31/ARGOS/tree/main/R) contains all code used for implementing our method in `R`.
+
+The [**R**](https://github.com/kevinegan31/ARGOS/tree/main/R) folder contains all code used for implementing our method in `R`.
 We provide code for ARGOS, including the bootstrap, lasso and adaptive lasso, and Savitzky-Golay filter.
-We also provide all tests run for the *Automatically identifying dynamical systems from data* paper. 
+We also provide all tests run for the _Automatically identifying dynamical systems from data_ paper.
 
-[**Python**](https://github.com/kevinegan31/ARGOS/tree/main/Python_Code) contains all code and tests we used for SINDy-AIC.
+The [**Python**](https://github.com/kevinegan31/ARGOS/tree/main/Python_Code) folder contains all code and tests we used for SINDy-AIC.
 
-[**Data**](https://github.com/kevinegan31/ARGOS/tree/main/Data) contains raw outputs (in .csv format) from test results for the *Automatically identifying dynamical systems from data* paper. 
-Users need to unzip the compressed `Data.zip` file to access the Data folder. 
+The [**Data**](https://github.com/kevinegan31/ARGOS/tree/main/Data) folder contains raw outputs (in .csv format) from test results for the _Automatically identifying dynamical systems from data_ paper.
+To access the data, users need to unzip the compressed `Data.zip` file.
 
-[**Create_data**](https://github.com/kevinegan31/ARGOS/tree/main/Create_data) enables users to create each file necessary for plotting the results.
+The [**Create_data**](https://github.com/kevinegan31/ARGOS/tree/main/Create_data) folder enables users to create each file necessary for plotting the results.
 
-[**Plot_code**](https://github.com/kevinegan31/ARGOS/tree/main/Plot_code) contains code for figures shown in the paper.
+The [**Plot_code**](https://github.com/kevinegan31/ARGOS/tree/main/Plot_code) folder contains code for figures shown in the paper.
 
-[**Additional_Functions**](https://github.com/kevinegan31/ARGOS/tree/main/additional_functions/) provides code to run each dynamical system examined in the paper.
+The [**Additional_Functions**](https://github.com/kevinegan31/ARGOS/tree/main/additional_functions/) folder provides code to run each dynamical system examined in the paper.
 
 ## Notice
-When using Windows system, please clone to the drive directly like 'C:\\' or 'D:\\', not the folders in 'C:\\' or 'D:\\',  because some file names are too long to be cloned in Windows.
-MAC OS and Linux do not have this problem.
+
+For users running Windows, please clone to the drive directly to a drive(e.g., 'C:\\' or 'D:\\') rather than a folder within the drive, as some file names may be too long for Windows to handle.
+This issue does not affect macOS and Linux users.
