@@ -37,7 +37,7 @@ dt <- 0.001 # time-step
 snr <- 49
 lorenz_system <-
   lorenz_ode(
-    n = n_obs,
+    n_obs = n_obs,
     dt = dt,
     init_conditions = init_coniditons,
     snr = snr
@@ -86,7 +86,7 @@ print(end_time_xdot_lasso - start_time_xdot_lasso)
 ```
 
 ```
-## Time difference of 7.54683 mins
+## Time difference of 7.581495 mins
 ```
 
 ```r
@@ -110,7 +110,7 @@ print(end_time_ydot_lasso - start_time_ydot_lasso)
 ```
 
 ```
-## Time difference of 13.84031 mins
+## Time difference of 14.49926 mins
 ```
 
 ```r
@@ -134,7 +134,7 @@ print(end_time_zdot_lasso - start_time_zdot_lasso)
 ```
 
 ```
-## Time difference of 9.447675 mins
+## Time difference of 9.944773 mins
 ```
 
 ### Confidence Intervals
@@ -149,9 +149,9 @@ xdot_ci_df
 ```
 
 ```
-##             1          x         y z
-## lo -0.1215687 -10.024299  9.981784 0
-## up  0.1026217  -9.979109 10.020094 0
+##              1          x         y z
+## lo -0.12606784 -10.022962  9.982457 0
+## up  0.07948886  -9.981166 10.019820 0
 ```
 
 ```r
@@ -163,24 +163,27 @@ ydot_ci_df
 ```
 
 ```
-##            1         x         y         z xx xy        xz        yy        yz
-## lo -2164.528 -4.321953 -12.34734 -232.5497  0  0 -1.023624 -1.673062 -7.992269
-## up  1521.716 32.043614  75.00502  366.1304  0  0  0.000000  1.690300  1.569840
-##           zz xxx xxy xxz xyy xyz         xzz         yyy yyz        yzz
-## lo -24.15585   0   0   0   0   0 -0.03294063 -0.09203942   0 -0.2091023
-## up  11.26304   0   0   0   0   0  0.06842158  0.10352487   0  0.2877750
-##           zzz         xxxx xxxy xxxz xxyy xxyz xxzz xyyy xyyz xyzz         xzzz
-## lo -0.2703509 -0.016266972    0    0    0    0    0    0    0    0 -0.002031304
-## up  0.6794228  0.002324193    0    0    0    0    0    0    0    0  0.000000000
-##    yyyy yyyz yyzz        yzzz         zzzz         xxxxx        xxxxy
-## lo    0    0    0 -0.00422784 -0.007985563 -0.0014651076 0.0000000000
-## up    0    0    0  0.00919804  0.002468146  0.0002872366 0.0005505999
-##            xxxxz xxxyy xxxyz xxxzz xxyyy xxyyz xxyzz xxzzz xyyyy xyyyz xyyzz
-## lo -4.413720e-06     0     0     0     0     0     0     0     0     0     0
-## up  3.264858e-05     0     0     0     0     0     0     0     0     0     0
-##    xyzzz xzzzz         yyyyy yyyyz yyyzz yyzzz         yzzzz zzzzz
-## lo     0     0 -0.0001368170     0     0     0 -1.166816e-04     0
-## up     0     0  0.0001200714     0     0     0  4.579797e-05     0
+##            1         x         y         z       xx xy        xz         yy
+## lo -19467.47 -1894.104 -436.9667 -6463.626 -116.336  0 -417.9717 -132.92265
+## up  30048.47  2630.282  187.4883  3626.301  437.901  0  330.0606   12.54023
+##           yz        zz       xxx xxy       xxz       xyy xyz       xzz
+## lo -95.41838 -197.5438 -49.52875   0 -73.07075 -4.603644   0 -37.04583
+## up 163.13612  572.2341  82.65690   0  94.08769  2.001244   0  31.09190
+##            yyy yyz        yzz        zzz       xxxx xxxy      xxxz xxyy xxyz
+## lo -18.5489452   0 -12.696480 -25.414204 -8.1064249    0 -13.63886    0    0
+## up   0.3758551   0   8.632602   1.896885  0.1604806    0   0.00000    0    0
+##         xxzz       xyyy xyyz xyzz      xzzz        yyyy yyyz yyzz       yzzz
+## lo -9.679513 -0.6474298    0    0 -2.322287 -1.27183592    0    0 -0.3018287
+## up  0.000000  0.0000000    0    0  1.068005  0.00183738    0    0  0.3029794
+##            zzzz         xxxxx xxxxy         xxxxz xxxyy xxxyz    xxxzz xxyyy
+## lo -0.002918286 -0.0003135381     0 -7.621362e-05     0     0 0.000000     0
+## up  0.480086411  1.3262417534     0  2.197529e+00     0     0 1.455209     0
+##    xxyyz xxyzz     xxzzz xyyyy xyyyz xyyzz xyzzz      xzzzz         yyyyy
+## lo     0     0 0.0000000     0     0     0     0 0.00000000 -0.0347140827
+## up     0     0 0.5021074     0     0     0     0 0.09083445  0.0001596347
+##          yyyyz yyyzz yyzzz        yzzzz        zzzzz
+## lo 0.000000000     0     0 -0.002744475 0.0000000000
+## up 0.007426805     0     0  0.004598174 0.0007985947
 ```
 
 ```r
@@ -192,12 +195,12 @@ zdot_ci_df
 ```
 
 ```
-##            1          x          y         z          xx         xy xz yy yz zz
-## lo -5.160595 -0.9247501 -3.7352904 -2.899516 -0.24209566 0.07910777  0  0  0  0
-## up  6.443528  0.9862844  0.4722972 -2.525139  0.06490658 1.04259853  0  0  0  0
-##    xxx         xxy xxz xyy xyz xzz yyy yyz yzz zzz
-## lo   0 -0.03997833   0   0   0   0   0   0   0   0
-## up   0  0.00000000   0   0   0   0   0   0   0   0
+##            1          x          y         z          xx        xy xz yy yz zz
+## lo -4.584256 -0.8793619 -0.4275108 -2.788865 -0.06538658 0.9508661  0  0  0  0
+## up  4.202247  0.5467150  0.3412243 -2.595295  0.05567838 1.0356410  0  0  0  0
+##    xxx xxy xxz xyy xyz xzz yyy yyz yzz zzz
+## lo   0   0   0   0   0   0   0   0   0   0
+## up   0   0   0   0   0   0   0   0   0   0
 ```
 
 ### Point Estimates
@@ -213,7 +216,7 @@ xdot_pe_df
 
 ```
 ##    1         x        y z
-## pe 0 -10.00029 10.00061 0
+## pe 0 -10.00104 10.00107 0
 ```
 
 ```r
@@ -225,16 +228,16 @@ ydot_pe_df
 ```
 
 ```
-##           1        x y       z xx xy xz         yy        yz      zz xxx xxy
-## pe 183.6141 12.54877 0 -27.676  0  0  0 0.06649409 0.1910356 1.33645   0   0
-##    xxz xyy xyz xzz         yyy yyz         yzz         zzz xxxx xxxy xxxz xxyy
-## pe   0   0   0   0 0.006053078   0 -0.02385398 -0.02086066    0    0    0    0
+##           1        x        y       z xx xy xz         yy yz         zz xxx xxy
+## pe 5.797536 3.007343 10.52701 3.79403  0  0  0 0.09206813  0 -0.4251225   0   0
+##    xxz xyy xyz xzz         yyy yyz         yzz        zzz xxxx xxxy xxxz xxyy
+## pe   0   0   0   0 0.002379009   0 -0.02784551 0.01054497    0    0    0    0
 ##    xxyz xxzz xyyy xyyz xyzz          xzzz yyyy yyyz yyzz         yzzz zzzz
-## pe    0    0    0    0    0 -0.0005920378    0    0    0 0.0005902289    0
-##            xxxxx xxxxy xxxxz xxxyy xxxyz xxxzz xxyyy xxyyz xxyzz xxzzz xyyyy
-## pe -2.117919e-05     0     0     0     0     0     0     0     0     0     0
-##    xyyyz xyyzz xyzzz xzzzz         yyyyy yyyyz yyyzz yyzzz yzzzz zzzzz
-## pe     0     0     0     0 -8.355355e-06     0     0     0     0     0
+## pe    0    0    0    0    0 -4.795096e-05    0    0    0 0.0004499205    0
+##           xxxxx xxxxy xxxxz xxxyy xxxyz xxxzz xxyyy xxyyz xxyzz xxzzz xyyyy
+## pe 2.915688e-05     0     0     0     0     0     0     0     0     0     0
+##    xyyyz xyyzz xyzzz xzzzz yyyyy yyyyz yyyzz yyzzz yzzzz zzzzz
+## pe     0     0     0     0     0     0     0     0     0     0
 ```
 
 ```r
@@ -246,8 +249,8 @@ zdot_pe_df
 ```
 
 ```
-##            1           x        y         z          xx        xy xz yy yz zz
-## pe 0.8906814 0.001939962 0.029838 -2.701481 0.006076659 0.9982641  0  0  0  0
+##            1           x          y         z          xx        xy xz yy yz zz
+## pe 0.4351693 -0.07341804 0.02259727 -2.696167 0.001012413 0.9980162  0  0  0  0
 ##    xxx xxy xxz xyy xyz xzz yyy yyz yzz zzz
 ## pe   0   0   0   0   0   0   0   0   0   0
 ```
@@ -286,7 +289,7 @@ print(end_time_xdot_alasso - start_time_xdot_alasso)
 ```
 
 ```
-## Time difference of 14.08839 mins
+## Time difference of 14.23916 mins
 ```
 
 ```r
@@ -310,7 +313,7 @@ print(end_time_ydot_alasso - start_time_ydot_alasso)
 ```
 
 ```
-## Time difference of 14.84103 mins
+## Time difference of 15.84679 mins
 ```
 
 ```r
@@ -334,7 +337,7 @@ print(end_time_zdot_alasso - start_time_zdot_alasso)
 ```
 
 ```
-## Time difference of 14.93555 mins
+## Time difference of 14.84244 mins
 ```
 
 ### Confidence Intervals
@@ -350,8 +353,8 @@ xdot_ci_df
 
 ```
 ##    1          x         y z
-## lo 0 -10.019930  9.981048 0
-## up 0  -9.980376 10.020370 0
+## lo 0 -10.020910  9.982519 0
+## up 0  -9.981183 10.019837 0
 ```
 
 ```r
@@ -363,9 +366,9 @@ ydot_ci_df
 ```
 
 ```
-##            1         x          y        z xx xy xz yy yz zz
-## lo -225.8070 0.8324606 -1.1020449 8.279385  0  0  0  0  0  0
-## up -221.3109 1.3919036 -0.7912223 8.520379  0  0  0  0  0  0
+##            1        x          y        z xx xy xz yy yz zz
+## lo -229.2260 0.000000 -1.3761990 7.951243  0  0  0  0  0  0
+## up -215.7221 1.910602 -0.3379833 8.730526  0  0  0  0  0  0
 ```
 
 ```r
@@ -377,9 +380,9 @@ zdot_ci_df
 ```
 
 ```
-##             1         x          y         z xx       xy xz yy yz zz
-## lo -84.631210 -6.401952 -9.5575755 -2.876165  0 0.000000  0  0  0  0
-## up   4.763995  0.340840  0.4313367 -1.779823  0 1.029728  0  0  0  0
+##             1          x          y         z xx       xy xz yy yz zz
+## lo -85.072306 -6.4126450 -9.5878080 -2.780754  0 0.000000  0  0  0  0
+## up   3.211956  0.1862119  0.3172373 -1.752677  0 1.026724  0  0  0  0
 ```
 
 ### Point Estimates
@@ -395,7 +398,7 @@ xdot_pe_df
 
 ```
 ##    1         x        y z
-## pe 0 -10.00029 10.00061 0
+## pe 0 -10.00104 10.00107 0
 ```
 
 ```r
@@ -407,8 +410,8 @@ ydot_pe_df
 ```
 
 ```
-##            1        x          y        z xx xy xz yy yz zz
-## pe -223.6015 1.121981 -0.9515123 8.403269  0  0  0  0  0  0
+##            1        x         y        z xx xy xz yy yz zz
+## pe -225.9044 1.468482 -1.130111 8.541453  0  0  0  0  0  0
 ```
 
 ```r
@@ -420,6 +423,47 @@ zdot_pe_df
 ```
 
 ```
-##            1           x          y         z xx       xy xz yy yz zz
-## pe 0.5790711 -0.06333582 0.04675173 -2.696229  0 1.001072  0  0  0  0
+##            1           x          y         z xx        xy xz yy yz zz
+## pe 0.3832569 -0.08429495 0.02541526 -2.695293  0 0.9984839  0  0  0  0
 ```
+
+### Identified Models
+
+
+```r
+# xdot
+xdot_identified_model <- t(data.frame(xdot_argos_alasso$identified_model))
+xdot_identified_model
+```
+
+```
+##                                    Intercept         x        y z
+## xdot_argos_alasso.identified_model         0 -10.00104 10.00107 0
+```
+
+```r
+# ydot
+ydot_identified_model <- t(data.frame(ydot_argos_alasso$identified_model))
+ydot_identified_model
+```
+
+```
+##                                    Intercept x         y        z xx xy xz yy
+## ydot_argos_alasso.identified_model -225.9044 0 -1.130111 8.541453  0  0  0  0
+##                                    yz zz
+## ydot_argos_alasso.identified_model  0  0
+```
+
+```r
+# zdot
+zdot_identified_model <- t(data.frame(zdot_argos_alasso$identified_model))
+zdot_identified_model
+```
+
+```
+##                                    Intercept x y         z xx xy xz yy yz zz
+## zdot_argos_alasso.identified_model         0 0 0 -2.695293  0  0  0  0  0  0
+```
+
+
+

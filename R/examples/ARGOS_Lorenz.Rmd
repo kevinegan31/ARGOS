@@ -72,7 +72,7 @@ dt <- 0.001 # time-step
 snr <- 49
 lorenz_system <-
   lorenz_ode(
-    n = n_obs,
+    n_obs = n_obs,
     dt = dt,
     init_conditions = init_coniditons,
     snr = snr
@@ -314,7 +314,7 @@ zdot_pe_df
 
 ### Identified Models
 
-```{r xdot alasso point estimates}
+```{r alasso identified models}
 # xdot
 xdot_identified_model <- t(data.frame(xdot_argos_alasso$identified_model))
 xdot_identified_model
