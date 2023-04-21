@@ -29,5 +29,5 @@ The [**Additional_Functions**](https://github.com/kevinegan31/ARGOS/tree/main/ad
 
 ## Notice
 
-For users running Windows, please clone to the drive directly to a drive(e.g., 'C:\\' or 'D:\\') rather than a folder within the drive, as some file names may be too long for Windows to handle.
+For users running Windows, please clone to the drive directly to a drive (e.g., 'C:\\' or 'D:\\') rather than a folder within the drive, as some file names may be too long for Windows to handle.
 This issue does not affect macOS and Linux users.
