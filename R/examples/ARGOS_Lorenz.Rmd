@@ -63,9 +63,9 @@ $$\begin{equation}
 
 ```{r lorenz system generation}
 n_obs <- 5000
-init_coniditions <- c(x = -5.647961,
-                      y = -12.197597,
-                      z = 16.218816)
+init_coniditions <- c(x = -5,
+                      y = -12,
+                      z = 16)
 monomial_degree <- 5 # transform theta
 dt <- 0.001 # time-step
 snr <- 61
@@ -73,7 +73,7 @@ lorenz_system <-
   lorenz_ode(
     n_obs = n_obs,
     dt = dt,
-    init_conditions = init_coniditons,
+    init_conditions = init_coniditions,
     snr = snr
   )
 # 80/20 split
