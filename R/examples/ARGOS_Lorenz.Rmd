@@ -62,7 +62,7 @@ $$\begin{equation}
 \end{equation}$$
 
 ```{r lorenz system generation}
-n_obs <- 5000
+n_obs <- 10^4.5
 x <- runif(1, min = -15, max = 15) # x1 initial condition bounds
 y <- runif(1, min = -15, max = 15) # x2 initial condition bounds
 z <- runif(1, min = 10, max = 40) # x3 initial condition bounds
@@ -197,6 +197,23 @@ zdot_pe_df <- t(data.frame(zdot_argos_lasso$point_estimates))
 rownames(zdot_pe_df) <- "pe"
 colnames(zdot_pe_df) <- c("1", zdot_argos_lasso$theta_colnames[-1])
 zdot_pe_df
+
+```
+
+### Identified Models
+
+```{r lasso identified models}
+# xdot
+xdot_identified_model <- t(data.frame(xdot_argos_lasso$identified_model))
+xdot_identified_model
+
+# ydot
+ydot_identified_model <- t(data.frame(ydot_argos_lasso$identified_model))
+ydot_identified_model
+
+# zdot
+zdot_identified_model <- t(data.frame(zdot_argos_lasso$identified_model))
+zdot_identified_model
 
 ```
 
