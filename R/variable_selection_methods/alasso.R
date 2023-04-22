@@ -1,6 +1,6 @@
 ### Adaptive Lasso
 alasso_fn <- function(data, index, weights_method = c("ols", "ridge"),
-                   ols_ps = TRUE, ...) {
+                   ols_ps = TRUE) {
   x <- as.matrix(data[index, -1])
   y <- as.matrix(data[index, 1, drop = FALSE])
   if (weights_method == "ols") {

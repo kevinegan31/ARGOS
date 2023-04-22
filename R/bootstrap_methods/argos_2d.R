@@ -1,5 +1,5 @@
 ### Automatic Regression for Governing Equations (ARGOS) -- 2D
-boot_lasso <- function(x_t,
+argos_2d <- function(x_t,
                        monomial_degree = 5,
                        dt = 1,
                        alpha = 0.05,
@@ -156,10 +156,10 @@ boot_lasso <- function(x_t,
     q2_normal <- b
   }
   # Sort and determine value of lower and upper bound
-  bound_percentile_normal <- apply(boot_t, 2, function(u) {
+  ci <- apply(boot_t, 2, function(u) {
     sort(u)[c(round(q1_normal, 0), round(q2_normal, 0))]
   })
-  bound_percentile_normal[is.na(bound_percentile_normal)] <- 0
+  ci[is.na(ci)] <- 0
   count_zero <- apply(boot_t, 2, function(x) {
     length(which(x == 0))
   })
@@ -169,11 +169,10 @@ boot_lasso <- function(x_t,
   df_columns <- colnames(post_lasso_matrix)
   result_matrix <- matrix(data = NA, nrow = length(boot_t0))
   rownames(result_matrix) <- c("Intercept", df_columns[-1])
-  CI <- bound_percentile_normal
   ### Check if confidence intervals contain variable and do not cross zero
   for (i in seq_along(result_matrix)) {
-    if (CI[1, i] <= boot_t0[i] & CI[2, i] >= boot_t0[i] &
-        ((CI[1, i] <= 0 && CI[2, i] >= 0))==FALSE) {
+    if (ci[1, i] <= boot_t0[i] & ci[2, i] >= boot_t0[i] &
+        ((ci[1, i] <= 0 && ci[2, i] >= 0))==FALSE) {
       result_matrix[i,] <- boot_t0[i]
     } else {
       result_matrix[i,] <- 0
@@ -182,7 +181,7 @@ boot_lasso <- function(x_t,
   return(
     list(
       point_estimates = boot_t0,
-      ci = bound_percentile_normal,
+      ci = ci,
       identified_model = result_matrix,
       num_bs_zero = count_zero,
       percent_bs_zero = percent_zero,

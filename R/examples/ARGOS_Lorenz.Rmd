@@ -102,7 +102,7 @@ alpha <- 0.05 # 95% confidence intervals
 num_samples <- 2000 # 2000 BS samples in real example
 # xdot
 start_time_xdot_lasso <- Sys.time()
-xdot_argos_lasso <- boot_lasso(
+xdot_argos_lasso <- argos_3d(
   x_t = x_t_train,
   monomial_degree = monomial_degree,
   dt = dt,
@@ -119,7 +119,7 @@ end_time_xdot_lasso <- Sys.time()
 print(end_time_xdot_lasso - start_time_xdot_lasso)
 # ydot
 start_time_ydot_lasso <- Sys.time()
-ydot_argos_lasso <- boot_lasso(
+ydot_argos_lasso <- argos_3d(
   x_t = x_t_train,
   monomial_degree = monomial_degree,
   dt = dt,
@@ -138,7 +138,7 @@ print(end_time_ydot_lasso - start_time_ydot_lasso)
 
 # zdot
 start_time_zdot_lasso <- Sys.time()
-zdot_argos_lasso <- boot_lasso(
+zdot_argos_lasso <- argos_3d(
   x_t = x_t_train,
   monomial_degree = monomial_degree,
   dt = dt,
@@ -232,7 +232,7 @@ alpha <- 0.05 # 95% confidence intervals
 num_samples <- 2000 # 2000 BS samples in real example
 # xdot
 start_time_xdot_alasso <- Sys.time()
-xdot_argos_alasso <- boot_lasso(
+xdot_argos_alasso <- argos_3d(
   x_t = x_t_train,
   monomial_degree = monomial_degree,
   dt = dt,
@@ -249,7 +249,7 @@ end_time_xdot_alasso <- Sys.time()
 print(end_time_xdot_alasso - start_time_xdot_alasso)
 # ydot
 start_time_ydot_alasso <- Sys.time()
-ydot_argos_alasso <- boot_lasso(
+ydot_argos_alasso <- argos_3d(
   x_t = x_t_train,
   monomial_degree = monomial_degree,
   dt = dt,
@@ -267,7 +267,7 @@ print(end_time_ydot_alasso - start_time_ydot_alasso)
 
 # zdot
 start_time_zdot_alasso <- Sys.time()
-zdot_argos_alasso <- boot_lasso(
+zdot_argos_alasso <- argos_3d(
   x_t = x_t_train,
   monomial_degree = monomial_degree,
   dt = dt,
