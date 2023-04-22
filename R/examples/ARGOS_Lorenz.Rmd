@@ -63,10 +63,9 @@ $$\begin{equation}
 
 ```{r lorenz system generation}
 n_obs <- 5000
-x <- runif(1, min = -15, max = 15) # x1 initial condition bounds
-y <- runif(1, min = -15, max = 15) # x2 initial condition bounds
-z <- runif(1, min = 10, max = 40) # x3 initial condition bounds
-init_coniditons <- c(x, y, z)
+init_coniditions <- c(x = -5.647961,
+                      y = -12.197597,
+                      z = 16.218816)
 monomial_degree <- 5 # transform theta
 dt <- 0.001 # time-step
 snr <- 61
