@@ -1,5 +1,5 @@
 ### Automatic Regression for Governing Equations (ARGOS) -- 2D
-boot_lasso <- function(x_t,
+argos_2d <- function(x_t,
                        monomial_degree = 5,
                        dt = 1,
                        alpha = 0.05,
