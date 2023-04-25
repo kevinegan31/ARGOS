@@ -13,19 +13,11 @@ library(RColorBrewer)
 library(stringr)
 library(gridExtra)
 file_wd <- paste(
-  "~/Documents/GitHub.nosync/ARGOS/",
-  # "~/GitHub/ARGOS/",
+  "~/ARGOS/",
   sep = ""
 )
-# file_wd <- paste(
-#   # "/Users/kevinegan/Documents/",
-#   "~/GitHub/ARGOS/",
-#   sep = ""
-# )
-# file_wd <- "D:/GitHub/ARGOS/" # github path
 file_wd2 <- paste(file_wd, "Data/Lorenz/stacked_bar_csv/", sep = "")
 setwd(file_wd2)
-# setwd('C:/Users/cfzh32/Documents/GitHub/ARGOS/Data/Lorenz/stacked_bar_csv')
 ## never changed variables ------------------------
 n_init <- 2
 n_final <- 5
@@ -45,7 +37,6 @@ colors0 <- c(
 )
 
 ggplot_data_n <- function(algorithm, xdot_lorenz, ydot_lorenz, zdot_lorenz,threshold=40){
-  # xdot_lorenz = xdot_lorenz_sindy_reg_df;ydot_lorenz = ydot_lorenz_sindy_reg_df;zdot_lorenz = zdot_lorenz_sindy_reg_df;algorithm='STLS'
   ## x_dot
   xdot_lorenz_reg_list <- lapply(seq_along(n_seq), function(i){
     xdot_lorenz[((i-1)*100+1):((i-1)*100+1+99),]
@@ -246,17 +237,13 @@ ggplot_data_n <- function(algorithm, xdot_lorenz, ydot_lorenz, zdot_lorenz,thres
     labs(x = expression(italic("n")),
          y = "Frequency",
          title=algorithm,
-         # title = TeX('$\\dot{x}_2$')
     ) +
-    # scale_x_discrete(drop = FALSE, breaks=x_axis[3,],labels = x_labels) +
     scale_x_discrete(drop = FALSE, labels = x_labels) +
     theme(
       plot.title = element_text(size = 25),
       strip.text = element_text(size = 25),
-      # axis.line.x = element_line(colour = "black"),
       axis.line = element_line(colour = "black"),
       axis.ticks.length = unit(.25, "cm"),
-      # axis.ticks.y = element_blank(),
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
       panel.border = element_blank(),
@@ -265,10 +252,7 @@ ggplot_data_n <- function(algorithm, xdot_lorenz, ydot_lorenz, zdot_lorenz,thres
       legend.text = element_text(size = 16),
       # Changed for legend
       legend.title = element_text(face = "bold", size = 16),
-      # legend.key = element_rect(fill = "lightblue", color = NA),
       axis.text = element_text(size = 14),
-      # axis.text.x = element_text(size = 14),
-      # axis.text.y = element_blank(),
       axis.title.x = element_text(size = 20),
       axis.title.y = element_text(
         size = 20,
@@ -279,7 +263,6 @@ ggplot_data_n <- function(algorithm, xdot_lorenz, ydot_lorenz, zdot_lorenz,thres
     ) +
     scale_colour_manual(breaks=levels(plot_data_xyz_dot$eq),labels=unname(TeX(c('$\\dot{x}_1$', '$\\dot{x}_2$', '$\\dot{x}_3$'))),name='Equations',
                         values = hue_pal()(3))+
-    # scale_alpha_manual(values = c(0.5,1))+
     guides(color = guide_legend(override.aes = list(fill = NA)),
            linetype = guide_legend(override.aes = list(fill = NA)),
            alpha='none')
@@ -336,9 +319,8 @@ stacked_lorenz_n <-
     # ggplot_legend,
     nrow = 4,
     ncol = 1,
-    # layout_matrix = layout_matrix
     heights = c(1,10,10,10)
   )
-ggsave(stacked_lorenz_n, filename = 'Figures/stacked_lorenz_n.pdf', width = 10, height = 15, dpi = 300)
-ggsave(stacked_lorenz_n, filename = 'Figures/stacked_lorenz_n.png', width = 10, height = 15, dpi = 300)
-ggsave(stacked_lorenz_n, filename = 'Figures/stacked_lorenz_n.svg', width = 10, height = 15, dpi = 300)
+ggsave(stacked_lorenz_n, filename = './stacked_lorenz_n.pdf', width = 10, height = 15, dpi = 300)
+ggsave(stacked_lorenz_n, filename = './stacked_lorenz_n.png', width = 10, height = 15, dpi = 300)
+ggsave(stacked_lorenz_n, filename = './stacked_lorenz_n.svg', width = 10, height = 15, dpi = 300)

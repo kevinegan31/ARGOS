@@ -12,14 +12,11 @@ library(reticulate)
 library(RColorBrewer)
 library(stringr)
 file_wd <- paste(
-  "/Users/kevinegan/Documents/GitHub.nosync/ARGOS/",
-  # "~//GitHub/ARGOS/",
+  "~/ARGOS/",
   sep = ""
 )
-# file_wd <- "D:/GitHub/ARGOS/" # github path
 file_wd2 <- paste(file_wd, "Data/Lorenz/stacked_bar_csv/", sep = "")
 setwd(file_wd2)
-# setwd('C:/Users/cfzh32/Documents/GitHub/ARGOS/Data/Lorenz/stacked_bar_csv')
 ## never changed variables ------------------------
 snr_seq <- c(seq(1, 61, 3), Inf)
 snr_seq_desired <- c(1, 5, 9, 13, 17, 21, 22)
@@ -36,7 +33,6 @@ colors0 <- c(
 )
 
 ggplot_data_snr <- function(algorithm, xdot_lorenz, ydot_lorenz, zdot_lorenz, threshold=40){
-  # xdot_lorenz = xdot_lorenz_alasso;ydot_lorenz = ydot_lorenz_alasso;zdot_lorenz = zdot_lorenz_alasso;algorithm='alasso'
   ## x_dot
   xdot_lorenz_reg_list <- lapply(seq_along(snr_seq), function(i){
     xdot_lorenz[((i-1)*100+1):((i-1)*100+1+99),]
@@ -234,17 +230,13 @@ ggplot_data_snr <- function(algorithm, xdot_lorenz, ydot_lorenz, zdot_lorenz, th
     labs(x = TeX("$SNR(dB)$"),
          y = "Frequency",
          title=algorithm,
-         # title = TeX('$\\dot{x}_2$')
     ) +
-    # scale_x_discrete(drop = FALSE, breaks=x_axis[3,],labels = x_labels) +
     scale_x_discrete(drop = FALSE, labels = x_labels) +
     theme(
       plot.title = element_text(size = 25),
       strip.text = element_text(size = 25),
-      # axis.line.x = element_line(colour = "black"),
       axis.line = element_line(colour = "black"),
       axis.ticks.length = unit(.25, "cm"),
-      # axis.ticks.y = element_blank(),
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
       panel.border = element_blank(),
@@ -253,10 +245,7 @@ ggplot_data_snr <- function(algorithm, xdot_lorenz, ydot_lorenz, zdot_lorenz, th
       legend.text = element_text(size = 16),
       # Changed for legend
       legend.title = element_text(face = "bold", size = 16),
-      # legend.key = element_rect(fill = "lightblue", color = NA),
       axis.text = element_text(size = 14),
-      # axis.text.x = element_text(size = 14),
-      # axis.text.y = element_blank(),
       axis.title.x = element_text(size = 20),
       axis.title.y = element_text(
         size = 20,
@@ -267,7 +256,6 @@ ggplot_data_snr <- function(algorithm, xdot_lorenz, ydot_lorenz, zdot_lorenz, th
     ) +
     scale_colour_manual(breaks=levels(plot_data_xyz_dot$eq),labels=unname(TeX(c('$\\dot{x}_1$', '$\\dot{x}_2$', '$\\dot{x}_3$'))),name='Equations',
                         values = hue_pal()(3))+
-    # scale_alpha_manual(values = c(0.5,1))+
     guides(alpha='none')
   return(original_ggplot)
 }
@@ -316,15 +304,8 @@ stacked_lorenz_snr <-
     # ggplot_legend,
     nrow = 4,
     ncol = 1,
-    # layout_matrix = layout_matrix
     heights = c(1,10,10,10)
   )
-file_wd <- paste(
-  "/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/",
-  # "~//GitHub/ARGOS/",
-  sep = ""
-)
-setwd(file_wd)
-ggsave(stacked_lorenz_snr, filename = './Figures/stacked_lorenz_snr.pdf', width = 10, height = 15, dpi = 300)
-ggsave(stacked_lorenz_snr, filename = './Figures/stacked_lorenz_snr.png', width = 10, height = 15, dpi = 300)
-ggsave(stacked_lorenz_snr, filename = './Figures/stacked_lorenz_snr.svg', width = 10, height = 15, dpi = 300)
+ggsave(stacked_lorenz_snr, filename = './stacked_lorenz_snr.pdf', width = 10, height = 15, dpi = 300)
+ggsave(stacked_lorenz_snr, filename = './stacked_lorenz_snr.png', width = 10, height = 15, dpi = 300)
+ggsave(stacked_lorenz_snr, filename = './stacked_lorenz_snr.svg', width = 10, height = 15, dpi = 300)

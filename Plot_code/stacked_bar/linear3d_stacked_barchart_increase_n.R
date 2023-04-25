@@ -13,14 +13,11 @@ library(RColorBrewer)
 library(stringr)
 library(gridExtra)
 file_wd <- paste(
-  "/Users/kevinegan/Documents/GitHub.nosync/ARGOS/",
-  # "~//GitHub/ARGOS/",
+  "~/ARGOS/",
   sep = ""
 )
-# file_wd <- "D:/GitHub/ARGOS/" # github path
-file_wd2 <- paste(file_wd, "Data/Linear3D/stacked_bar_csv/", sep = "")
+file_wd2 <- paste(file_wd, "Data/Linear3d/stacked_bar_csv/", sep = "")
 setwd(file_wd2)
-# setwd('C:/Users/cfzh32/Documents/GitHub/ARGOS/Data/Linear2D/stacked_bar_csv')
 ## never changed variables ------------------------
 n_init <- 2
 n_final <- 5
@@ -40,7 +37,6 @@ colors0 <- c(
 )
 
 ggplot_data_n <- function(algorithm, xdot_linear3d, ydot_linear3d, zdot_linear3d, threshold=40){
-  # xdot_linear3d = xdot_linear3d_lasso_reg_df;ydot_linear3d = ydot_linear3d_lasso_reg_df;zdot_linear3d = zdot_linear3d_lasso_reg_df;algorithm='STLS'
   ## x_dot
   xdot_linear3d_reg_list <- lapply(seq_along(n_seq), function(i){
     xdot_linear3d[((i-1)*100+1):((i-1)*100+1+99),]
@@ -262,17 +258,13 @@ ggplot_data_n <- function(algorithm, xdot_linear3d, ydot_linear3d, zdot_linear3d
     labs(x = expression(italic("n")),
          y = "Frequency",
          title=algorithm,
-         # title = TeX('$\\dot{x}_2$')
     ) +
-    # scale_x_discrete(drop = FALSE, breaks=x_axis[3,],labels = x_labels) +
     scale_x_discrete(drop = FALSE, labels = x_labels) +
     theme(
       plot.title = element_text(size = 25),
       strip.text = element_text(size = 25),
-      # axis.line.x = element_line(colour = "black"),
       axis.line = element_line(colour = "black"),
       axis.ticks.length = unit(.25, "cm"),
-      # axis.ticks.y = element_blank(),
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
       panel.border = element_blank(),
@@ -281,10 +273,7 @@ ggplot_data_n <- function(algorithm, xdot_linear3d, ydot_linear3d, zdot_linear3d
       legend.text = element_text(size = 16),
       # Changed for legend
       legend.title = element_text(face = "bold", size = 16),
-      # legend.key = element_rect(fill = "lightblue", color = NA),
       axis.text = element_text(size = 14),
-      # axis.text.x = element_text(size = 14),
-      # axis.text.y = element_blank(),
       axis.title.x = element_text(size = 20),
       axis.title.y = element_text(
         size = 20,
@@ -295,7 +284,6 @@ ggplot_data_n <- function(algorithm, xdot_linear3d, ydot_linear3d, zdot_linear3d
     ) +
     scale_colour_manual(breaks=levels(plot_data_xyz_dot$eq),labels=unname(TeX(c('$\\dot{x}_1$', '$\\dot{x}_2$', '$\\dot{x}_3$'))),name='Equations',
                         values = hue_pal()(3))+
-    # scale_alpha_manual(values = c(0.5,1))+
     guides(color = guide_legend(override.aes = list(fill = NA)),
            linetype = guide_legend(override.aes = list(fill = NA)),
            alpha='none')
@@ -383,14 +371,8 @@ stacked_linear3d_n <-
     # ggplot_legend,
     nrow = 4,
     ncol = 1,
-    # layout_matrix = layout_matrix
     heights = c(1,10,10,10)
   )
-file_wd <- paste(
-  "/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/",
-  # "~//GitHub/ARGOS/",
-  sep = ""
-)
 setwd(file_wd)
-ggsave(stacked_linear3d_n, filename = './Figures/stacked_linear3d_n.pdf', width = 10, height = 15, dpi = 300)
-ggsave(stacked_linear3d_n, filename = './Figures/stacked_linear3d_n.png', width = 10, height = 15, dpi = 300)
+ggsave(stacked_linear3d_n, filename = './stacked_linear3d_n.pdf', width = 10, height = 15, dpi = 300)
+ggsave(stacked_linear3d_n, filename = './stacked_linear3d_n.png', width = 10, height = 15, dpi = 300)

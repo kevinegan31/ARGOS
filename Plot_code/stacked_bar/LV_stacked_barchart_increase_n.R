@@ -12,14 +12,11 @@ library(reticulate)
 library(RColorBrewer)
 library(stringr)
 file_wd <- paste(
-  "/Users/kevinegan/Documents/GitHub.nosync/ARGOS/",
-  # "~//GitHub/ARGOS/",
+  "~/ARGOS/",
   sep = ""
 )
-# file_wd <- "D:/GitHub/ARGOS/" # github path
 file_wd2 <- paste(file_wd, "Data/LV/stacked_bar_csv/", sep = "")
 setwd(file_wd2)
-# setwd('C:/Users/cfzh32/Documents/GitHub/ARGOS/Data/LV/stacked_bar_csv')
 ## never changed variables ------------------------
 n_init <- 2
 n_final <- 5
@@ -39,7 +36,6 @@ colors0 <- c(
 )
 
 ggplot_data_n <- function(algorithm, xdot_LV, ydot_LV, threshold=40){
-  # xdot_LV = xdot_LV_lasso_reg_df;ydot_LV = ydot_LV_lasso_reg_df;algorithm='lasso'
   ## x_dot
   xdot_LV_reg_list <- lapply(seq_along(n_seq), function(i){
     xdot_LV[((i-1)*100+1):((i-1)*100+1+99),]
@@ -92,7 +88,6 @@ ggplot_data_n <- function(algorithm, xdot_LV, ydot_LV, threshold=40){
              c(rownames(x_dot_LV_terms_data),'others'))
   ## need to replace x,y,z,... to x_1,x_2,x_3,...
   terms_show <- as.character(unique(sort(plot_data2$names)))
-  # terms_show <- subset(terms_show, terms_show!='others')
   plot_data2$names <-
     factor(plot_data2$names,
            levels = terms_show)
@@ -209,17 +204,13 @@ ggplot_data_n <- function(algorithm, xdot_LV, ydot_LV, threshold=40){
     labs(x = expression(italic("n")),
          y = "Frequency",
          title=algorithm,
-         # title = TeX('$\\dot{x}_2$')
     ) +
-    # scale_x_discrete(drop = FALSE, breaks=x_axis[3,],labels = x_labels) +
     scale_x_discrete(drop = FALSE, labels = x_labels) +
     theme(
       plot.title = element_text(size = 25),
       strip.text = element_text(size = 25),
-      # axis.line.x = element_line(colour = "black"),
       axis.line = element_line(colour = "black"),
       axis.ticks.length = unit(.25, "cm"),
-      # axis.ticks.y = element_blank(),
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
       panel.border = element_blank(),
@@ -228,10 +219,7 @@ ggplot_data_n <- function(algorithm, xdot_LV, ydot_LV, threshold=40){
       legend.text = element_text(size = 16),
       # Changed for legend
       legend.title = element_text(face = "bold", size = 16),
-      # legend.key = element_rect(fill = "lightblue", color = NA),
       axis.text = element_text(size = 14),
-      # axis.text.x = element_text(size = 14),
-      # axis.text.y = element_blank(),
       axis.title.x = element_text(size = 20),
       axis.title.y = element_text(
         size = 20,
@@ -242,7 +230,6 @@ ggplot_data_n <- function(algorithm, xdot_LV, ydot_LV, threshold=40){
     ) +
     scale_colour_manual(breaks=levels(plot_data_xy_dot$eq),labels=unname(TeX(c('$\\dot{x}_1$', '$\\dot{x}_2$'))),name='Equations',
                         values = hue_pal()(3))+
-    # scale_alpha_manual(values = c(0.5,1))+
     guides(color = guide_legend(override.aes = list(fill = NA)),
            linetype = guide_legend(override.aes = list(fill = NA)),
            alpha='none')
@@ -302,14 +289,7 @@ stacked_LV_n <-
     # ggplot_legend,
     nrow = 4,
     ncol = 1,
-    # layout_matrix = layout_matrix
     heights = c(1,10,10,10)
   )
-file_wd <- paste(
-  "/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/",
-  # "~//GitHub/ARGOS/",
-  sep = ""
-)
-setwd(file_wd)
-ggsave(stacked_LV_n, filename = './Figures/stacked_LV_n.pdf', width = 10, height = 15, dpi = 300)
-ggsave(stacked_LV_n, filename = './Figures/stacked_LV_n.png', width = 10, height = 15, dpi = 300)
+ggsave(stacked_LV_n, filename = './stacked_LV_n.pdf', width = 10, height = 15, dpi = 300)
+ggsave(stacked_LV_n, filename = './stacked_LV_n.png', width = 10, height = 15, dpi = 300)

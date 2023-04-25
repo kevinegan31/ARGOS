@@ -13,14 +13,11 @@ library(RColorBrewer)
 library(stringr)
 library(gridExtra)
 file_wd <- paste(
-  "/Users/kevinegan/Documents/GitHub.nosync/ARGOS/",
-  # "~//GitHub/ARGOS/",
+  "~/ARGOS/",
   sep = ""
 )
-# file_wd <- "D:/GitHub/ARGOS/" # github path
-file_wd2 <- paste(file_wd, "Data/Linear2D/stacked_bar_csv/", sep = "")
+file_wd2 <- paste(file_wd, "Data/Linear2d/stacked_bar_csv/", sep = "")
 setwd(file_wd2)
-# setwd('C:/Users/cfzh32/Documents/GitHub/ARGOS/Data/Linear2D/stacked_bar_csv')
 ## never changed variables ------------------------
 n_init <- 2
 n_final <- 5
@@ -40,7 +37,6 @@ colors0 <- c(
 )
 
 ggplot_data_n <- function(algorithm, xdot_linear2d, ydot_linear2d,threshold=40){
-  # xdot_linear2d = xdot_linear2d_lasso_reg_df;ydot_linear2d = ydot_linear2d_lasso_reg_df;zdot_linear2d = zdot_linear2d_lasso_reg_df;algorithm='STLS'
   ## x_dot
   xdot_linear2d_reg_list <- lapply(seq_along(n_seq), function(i){
     xdot_linear2d[((i-1)*100+1):((i-1)*100+1+99),]
@@ -212,17 +208,13 @@ ggplot_data_n <- function(algorithm, xdot_linear2d, ydot_linear2d,threshold=40){
     labs(x = expression(italic("n")),
          y = "Frequency",
          title=algorithm,
-         # title = TeX('$\\dot{x}_2$')
     ) +
-    # scale_x_discrete(drop = FALSE, breaks=x_axis[3,],labels = x_labels) +
     scale_x_discrete(drop = FALSE, labels = x_labels) +
     theme(
       plot.title = element_text(size = 25),
       strip.text = element_text(size = 25),
-      # axis.line.x = element_line(colour = "black"),
       axis.line = element_line(colour = "black"),
       axis.ticks.length = unit(.25, "cm"),
-      # axis.ticks.y = element_blank(),
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
       panel.border = element_blank(),
@@ -231,10 +223,7 @@ ggplot_data_n <- function(algorithm, xdot_linear2d, ydot_linear2d,threshold=40){
       legend.text = element_text(size = 16),
       # Changed for legend
       legend.title = element_text(face = "bold", size = 16),
-      # legend.key = element_rect(fill = "lightblue", color = NA),
       axis.text = element_text(size = 14),
-      # axis.text.x = element_text(size = 14),
-      # axis.text.y = element_blank(),
       axis.title.x = element_text(size = 20),
       axis.title.y = element_text(
         size = 20,
@@ -245,7 +234,6 @@ ggplot_data_n <- function(algorithm, xdot_linear2d, ydot_linear2d,threshold=40){
     ) +
     scale_colour_manual(breaks=levels(plot_data_xy_dot$eq),labels=unname(TeX(c('$\\dot{x}_1$', '$\\dot{x}_2$'))),name='Equations',
                         values = hue_pal()(3))+
-    # scale_alpha_manual(values = c(0.5,1))+
     guides(color = guide_legend(override.aes = list(fill = NA)),
            linetype = guide_legend(override.aes = list(fill = NA)),
            alpha='none')
@@ -275,19 +263,10 @@ STLS_plot2_n <- STLS_plot_n+theme(legend.position='none')
 STLS_plot2_n <- STLS_plot_n+theme(legend.position='none')+
   annotate("rect", xmin = 3.5, xmax = 7.5, ymin = -10, ymax = 250,
            alpha = 0, color= "purple",lwd=1)
-# n_seq_desired <- c(6, 11, 16, 21, 26, 31)
-# STLS_plot_n <- ggplot_data_n('SINDy with AIC', xdot_linear2d_sindy_reg_df, ydot_linear2d_sindy_reg_df)
-# STLS_plot2_n2 <- STLS_plot_n+theme(legend.position='none')
-# 
-# 
-# layout_matrix <- matrix(c(rep(2,1),rep(1,4)),nrow=1)
-# n_STLS <- grid.arrange(STLS_plot2_n2,STLS_plot2_n,layout_matrix = layout_matrix,nrow=1,ncol=2)
 ### Legend
 legend <- get_legend(STLS_plot2_n+theme(legend.position='bottom'))
 ggplot_legend <- cowplot::plot_grid(legend)
 ## compose -----------------
-# layout_matrix <- matrix(c(1,1,2,2,2,3,3,3,4,4,4),ncol=1)
-# grid.arrange(n_box1,lasso_plot2_n,alasso_plot2_n,STLS_plot2_n,nrow=4,ncol=1,layout_matrix = layout_matrix)
 layout_matrix <-matrix(c(0,rep(1,20),rep(2,20),rep(3,20)), ncol=1)
 stacked_linear2d_n <-
   grid.arrange(
@@ -302,14 +281,8 @@ stacked_linear2d_n <-
     # ggplot_legend,
     nrow = 4,
     ncol = 1,
-    # layout_matrix = layout_matrix
     heights = c(1,10,10,10)
   )
-file_wd <- paste(
-  "/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/",
-  # "~//GitHub/ARGOS/",
-  sep = ""
-)
-setwd(file_wd)
-ggsave(stacked_linear2d_n, filename = './Figures/stacked_linear2d_n.pdf', width = 10, height = 15, dpi = 300)
-ggsave(stacked_linear2d_n, filename = './Figures/stacked_linear2d_n.png', width = 10, height = 15, dpi = 300)
+
+ggsave(stacked_linear2d_n, filename = './stacked_linear2d_n.pdf', width = 10, height = 15, dpi = 300)
+ggsave(stacked_linear2d_n, filename = './stacked_linear2d_n.png', width = 10, height = 15, dpi = 300)

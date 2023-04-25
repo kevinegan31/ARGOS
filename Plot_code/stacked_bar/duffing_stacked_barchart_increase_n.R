@@ -13,14 +13,11 @@ library(RColorBrewer)
 library(stringr)
 library(gridExtra)
 file_wd <- paste(
-  "~/Documents/GitHub.nosync/ARGOS/",
-  # "~/GitHub/ARGOS/",
+  "~/ARGOS/",
   sep = ""
 )
-# file_wd <- "D:/GitHub/ARGOS/" # github path
 file_wd2 <- paste(file_wd, "Data/Duffing/stacked_bar_csv/", sep = "")
 setwd(file_wd2)
-# setwd('C:/Users/cfzh32/Documents/GitHub/ARGOS/Data/Duffing/stacked_bar_csv')
 ## never changed variables ------------------------
 n_init <- 2
 n_final <- 5
@@ -40,7 +37,6 @@ colors0 <- c(
 )
 
 ggplot_data_n <- function(algorithm, xdot_duffing, ydot_duffing,threshold=40){
-  # xdot_duffing = xdot_duffing_lasso_reg_df;ydot_duffing = ydot_duffing_lasso_reg_df;zdot_duffing = zdot_duffing_lasso_reg_df;algorithm='STLS'
   ## x_dot
   xdot_duffing_reg_list <- lapply(seq_along(n_seq), function(i){
     xdot_duffing[((i-1)*100+1):((i-1)*100+1+99),]
@@ -97,7 +93,6 @@ ggplot_data_n <- function(algorithm, xdot_duffing, ydot_duffing,threshold=40){
   
   ## need to replace x,y,z,... to x_1,x_2,x_3,...
   terms_show <- as.character(unique(sort(plot_data2$names)))
-  # terms_show <- subset(terms_show, terms_show!='others')
   plot_data2$names <-
     factor(plot_data2$names,
            levels = terms_show)
@@ -218,17 +213,13 @@ ggplot_data_n <- function(algorithm, xdot_duffing, ydot_duffing,threshold=40){
     labs(x = expression(italic("n")),
          y = "Frequency",
          title=algorithm,
-         # title = TeX('$\\dot{x}_2$')
     ) +
-    # scale_x_discrete(drop = FALSE, breaks=x_axis[3,],labels = x_labels) +
     scale_x_discrete(drop = FALSE, labels = x_labels) +
     theme(
       plot.title = element_text(size = 25),
       strip.text = element_text(size = 25),
-      # axis.line.x = element_line(colour = "black"),
       axis.line = element_line(colour = "black"),
       axis.ticks.length = unit(.25, "cm"),
-      # axis.ticks.y = element_blank(),
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
       panel.border = element_blank(),
@@ -237,10 +228,7 @@ ggplot_data_n <- function(algorithm, xdot_duffing, ydot_duffing,threshold=40){
       legend.text = element_text(size = 16),
       # Changed for legend
       legend.title = element_text(face = "bold", size = 16),
-      # legend.key = element_rect(fill = "lightblue", color = NA),
       axis.text = element_text(size = 14),
-      # axis.text.x = element_text(size = 14),
-      # axis.text.y = element_blank(),
       axis.title.x = element_text(size = 20),
       axis.title.y = element_text(
         size = 20,
@@ -251,7 +239,6 @@ ggplot_data_n <- function(algorithm, xdot_duffing, ydot_duffing,threshold=40){
     ) +
     scale_colour_manual(breaks=levels(plot_data_xy_dot$eq),labels=unname(TeX(c('$\\dot{x}_1$', '$\\dot{x}_2$'))),name='Equations',
                         values = hue_pal()(3))+
-    # scale_alpha_manual(values = c(0.5,1))+
     guides(color = guide_legend(override.aes = list(fill = NA)),
            linetype = guide_legend(override.aes = list(fill = NA)),
            alpha='none')
@@ -277,11 +264,6 @@ alasso_plot2_n <- alasso_plot_n+theme(legend.position='none')+
 ## STLS -------------------------
 xdot_duffing_sindy_reg_df <- read.csv("N/duffing_inc_n_xdot_sindy_pred_models_new_sg.csv")[-1]
 ydot_duffing_sindy_reg_df <- read.csv("N/duffing_inc_n_ydot_sindy_pred_models_new_sg.csv")[-1]
-# STLS_plot_n <- ggplot_data_n('SINDy with AIC', xdot_duffing_sindy_reg_df, ydot_duffing_sindy_reg_df)
-# STLS_plot2_n <- STLS_plot_n+theme(legend.position='none')
-# STLS_plot2_n <- STLS_plot_n+theme(legend.position='none')+
-#   annotate("rect", xmin = 2.5, xmax = 7.5, ymin = -10, ymax = 320,
-#            alpha = 0, color= "purple",lwd=1)
 
 n_seq_desired <- c(1)
 STLS_plot_n <- ggplot_data_n('SINDy with AIC',
@@ -318,11 +300,6 @@ stacked_duffing_n <-
     ncol = 1,
     heights = c(1,10,10,10)
   )
-file_wd <- paste(
-  "~/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/",
-  # "~/GitHub/ARGOS/",
-  sep = ""
-)
 setwd(file_wd)
-ggsave(stacked_duffing_n, filename = './Figures/stacked_duffing_n.pdf', width = 10, height = 15, dpi = 300)
-ggsave(stacked_duffing_n, filename = './Figures/stacked_duffing_n.png', width = 10, height = 15, dpi = 300)
+ggsave(stacked_duffing_n, filename = './stacked_duffing_n.pdf', width = 10, height = 15, dpi = 300)
+ggsave(stacked_duffing_n, filename = './stacked_duffing_n.png', width = 10, height = 15, dpi = 300)

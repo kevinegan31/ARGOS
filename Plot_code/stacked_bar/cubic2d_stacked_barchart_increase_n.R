@@ -12,14 +12,11 @@ library(RColorBrewer)
 library(stringr)
 library(gridExtra)
 file_wd <- paste(
-  "~/Documents/GitHub.nosync/ARGOS/",
-  # "~/GitHub/ARGOS/",
+  "~/ARGOS/",
   sep = ""
 )
-# file_wd <- "D:/GitHub/ARGOS/" # github path
 file_wd2 <- paste(file_wd, "Data/Cubic2D/stacked_bar_csv/", sep = "")
 setwd(file_wd2)
-# setwd('C:/Users/cfzh32/Documents/GitHub/ARGOS/Data/Cubic2D/stacked_bar_csv')
 ## never changed variables ------------------------
 n_init <- 2
 n_final <- 5
@@ -39,7 +36,6 @@ colors0 <- c(
 )
 
 ggplot_data_n <- function(algorithm, xdot_cubic2d, ydot_cubic2d, threshold=40){
-  # xdot_cubic2d = xdot_cubic2d_alasso_reg_df;ydot_cubic2d = ydot_cubic2d_alasso_reg_df;algorithm='alasso'
   ## x_dot
   xdot_cubic2d_reg_list <- lapply(seq_along(n_seq), function(i){
     xdot_cubic2d[((i-1)*100+1):((i-1)*100+1+99),]
@@ -141,8 +137,6 @@ ggplot_data_n <- function(algorithm, xdot_cubic2d, ydot_cubic2d, threshold=40){
   plot_data2$x_axis <- NA
   for(i in 1:length(colnames(plot_data)[-c(1,2)])){
     for(j in 1:length(unique(plot_data$eq))){
-      # print(which(plot_data2$eq==eqs[j] & plot_data2$n==n_value[i]))
-      # print(x_aixs[j,i])
       plot_data2$x_axis[which(plot_data2$eq==eqs[j] & plot_data2$n==n_value[i])] <- x_axis[j,i]
     }
   }
@@ -175,14 +169,12 @@ ggplot_data_n <- function(algorithm, xdot_cubic2d, ydot_cubic2d, threshold=40){
   try(plot_data4[which(plot_data4$value<threshold),]$label2 <- NA, T)
   latex_index <- which(plot_data4$label2!='Others' & !is.na(plot_data4$label2) & plot_data4$label2!='break')
   if(length(latex_index)!=0){plot_data4[latex_index,]$label2 <- TeX(paste0('$',plot_data4[latex_index,]$label2,'$'))}
-  # plot_data4[latex_index,]$label2 <- TeX(paste0('$',plot_data4[latex_index,]$label2,'$'))
   plot_data4$label2[which(plot_data4$eq=='xdot'&plot_data4$names=='break')] <- TeX('$\\dot{x}_1$')
   plot_data4$label2[which(plot_data4$eq=='ydot'&plot_data4$names=='break')] <- TeX('$\\dot{x}_2$')
   
   n_levels <- levels(plot_data4$n)
   names_levels <- levels(plot_data4$names)
   
-  # plot_data2$label2 <- plot_data4$label
   plot_data2$label2[which(plot_data2$names=='break')] <- "         "
   plot_data2$label2[which(plot_data2$names=='others'&!is.na(plot_data2$label2))] <- "            "
   x_labels <- unname(TeX(paste0('$','10^{',n_seq[n_seq_desired],'}','$')))
@@ -229,10 +221,8 @@ ggplot_data_n <- function(algorithm, xdot_cubic2d, ydot_cubic2d, threshold=40){
     theme(
       plot.title = element_text(size = 25),
       strip.text = element_text(size = 25),
-      # axis.line.x = element_line(colour = "black"),
       axis.line = element_line(colour = "black"),
       axis.ticks.length = unit(.25, "cm"),
-      # axis.ticks.y = element_blank(),
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
       panel.border = element_blank(),
@@ -241,10 +231,7 @@ ggplot_data_n <- function(algorithm, xdot_cubic2d, ydot_cubic2d, threshold=40){
       legend.text = element_text(size = 16),
       # Changed for legend
       legend.title = element_text(face = "bold", size = 16),
-      # legend.key = element_rect(fill = "lightblue", color = NA),
       axis.text = element_text(size = 14),
-      # axis.text.x = element_text(size = 14),
-      # axis.text.y = element_blank(),
       axis.title.x = element_text(size = 20),
       axis.title.y = element_text(
         size = 20,
@@ -255,7 +242,6 @@ ggplot_data_n <- function(algorithm, xdot_cubic2d, ydot_cubic2d, threshold=40){
     ) +
     scale_colour_manual(breaks=levels(plot_data_xy_dot$eq),labels=unname(TeX(c('$\\dot{x}_1$', '$\\dot{x}_2$'))),name='Equations',
                         values = hue_pal()(3))+
-    # scale_alpha_manual(values = c(0.5,1))+
     guides(color = guide_legend(override.aes = list(fill = NA)),
            linetype = guide_legend(override.aes = list(fill = NA)),
            alpha='none')
@@ -317,11 +303,6 @@ stacked_cubic2d_n <-
     ncol = 1,
     heights = c(1,10,10,10)
   )
-file_wd <- paste(
-  "~/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/",
-  # "~/GitHub/ARGOS/",
-  sep = ""
-)
 setwd(file_wd)
-ggsave(stacked_cubic2d_n, filename = './Figures/stacked_cubic2d_n.pdf', width = 10, height = 15, dpi = 300)
-ggsave(stacked_cubic2d_n, filename = './Figures/stacked_cubic2d_n.png', width = 10, height = 15, dpi = 300)
+ggsave(stacked_cubic2d_n, filename = '../../../Figures/stacked_cubic2d_n.pdf', width = 10, height = 15, dpi = 300)
+ggsave(stacked_cubic2d_n, filename = '../../../Figures/stacked_cubic2d_n.png', width = 10, height = 15, dpi = 300)

@@ -13,14 +13,11 @@ library(RColorBrewer)
 library(stringr)
 library(gridExtra)
 file_wd <- paste(
-  "/Users/kevinegan/Documents/GitHub.nosync/ARGOS/",
-  # "~//GitHub/ARGOS/",
+  "~/ARGOS/",
   sep = ""
 )
-# file_wd <- "D:/GitHub/ARGOS/" # github path
-file_wd2 <- paste(file_wd, "Data/Linear3D/stacked_bar_csv/", sep = "")
+file_wd2 <- paste(file_wd, "Data/Linear3d/stacked_bar_csv/", sep = "")
 setwd(file_wd2)
-# setwd('C:/Users/cfzh32/Documents/GitHub/ARGOS/Data/Linear2D/stacked_bar_csv')
 ## never changed variables ------------------------
 snr_seq <- c(seq(1, 61, 3), Inf)
 snr_seq_desired <- c(1, 5, 9, 13, 17, 21, 22)
@@ -37,7 +34,6 @@ colors0 <- c(
 )
 
 ggplot_data_snr <- function(algorithm, xdot_linear3d, ydot_linear3d, zdot_linear3d, threshold=40){
-  # xdot_linear3d = xdot_linear3d_STLS;ydot_linear3d = ydot_linear3d_STLS;zdot_linear3d = zdot_linear3d_STLS;algorithm='SINDy with AIC'
   ## x_dot
   xdot_linear3d_reg_list <- lapply(seq_along(snr_seq), function(i){
     xdot_linear3d[((i-1)*100+1):((i-1)*100+1+99),]
@@ -112,7 +108,6 @@ ggplot_data_snr <- function(algorithm, xdot_linear3d, ydot_linear3d, zdot_linear
   plot_data2$names <-
     factor(plot_data2$names,
            levels = terms_show)
-             # c('others',terms_show[length(terms_show):1]))
   colors <- c(colors0[match(terms_show[-length(terms_show)],rownames(x_dot_linear3d_terms_data))], "#6c6c6c")
   
   ## terms frequency label 
@@ -238,17 +233,13 @@ ggplot_data_snr <- function(algorithm, xdot_linear3d, ydot_linear3d, zdot_linear
     labs(x = TeX("$SNR(dB)$"),
          y = "Frequency",
          title=algorithm,
-         # title = TeX('$\\dot{x}_2$')
     ) +
-    # scale_x_discrete(drop = FALSE, breaks=x_axis[3,],labels = x_labels) +
     scale_x_discrete(drop = FALSE, labels = x_labels) +
     theme(
       plot.title = element_text(size = 25),
       strip.text = element_text(size = 25),
-      # axis.line.x = element_line(colour = "black"),
       axis.line = element_line(colour = "black"),
       axis.ticks.length = unit(.25, "cm"),
-      # axis.ticks.y = element_blank(),
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
       panel.border = element_blank(),
@@ -257,10 +248,7 @@ ggplot_data_snr <- function(algorithm, xdot_linear3d, ydot_linear3d, zdot_linear
       legend.text = element_text(size = 16),
       # Changed for legend
       legend.title = element_text(face = "bold", size = 16),
-      # legend.key = element_rect(fill = "lightblue", color = NA),
       axis.text = element_text(size = 14),
-      # axis.text.x = element_text(size = 14),
-      # axis.text.y = element_blank(),
       axis.title.x = element_text(size = 20),
       axis.title.y = element_text(
         size = 20,
@@ -271,7 +259,6 @@ ggplot_data_snr <- function(algorithm, xdot_linear3d, ydot_linear3d, zdot_linear
     ) +
     scale_colour_manual(breaks=levels(plot_data_xyz_dot$eq),labels=unname(TeX(c('$\\dot{x}_1$', '$\\dot{x}_2$', '$\\dot{x}_3$'))),name='Equations',
                         values = hue_pal()(3))+
-    # scale_alpha_manual(values = c(0.5,1))+
     guides(color = guide_legend(override.aes = list(fill = NA)),
            linetype = guide_legend(override.aes = list(fill = NA)),
            alpha='none')
@@ -325,14 +312,8 @@ stacked_linear3d_snr <-
     # ggplot_legend,
     nrow = 4,
     ncol = 1,
-    # layout_matrix = layout_matrix
     heights = c(1,10,10,10)
   )
-file_wd <- paste(
-  "/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/",
-  # "~//GitHub/ARGOS/",
-  sep = ""
-)
 setwd(file_wd)
-ggsave(stacked_linear3d_snr, filename = './Figures/stacked_linear3d_snr.pdf', width = 10, height = 15, dpi = 300)
-ggsave(stacked_linear3d_snr, filename = './Figures/stacked_linear3d_snr.png', width = 10, height = 15, dpi = 300)
+ggsave(stacked_linear3d_snr, filename = './stacked_linear3d_snr.pdf', width = 10, height = 15, dpi = 300)
+ggsave(stacked_linear3d_snr, filename = './stacked_linear3d_snr.png', width = 10, height = 15, dpi = 300)

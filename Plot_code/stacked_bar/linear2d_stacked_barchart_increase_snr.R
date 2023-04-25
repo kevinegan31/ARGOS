@@ -13,14 +13,11 @@ library(RColorBrewer)
 library(stringr)
 library(gridExtra)
 file_wd <- paste(
-  "/Users/kevinegan/Documents/GitHub.nosync/ARGOS/",
-  # "~//GitHub/ARGOS/",
+  "~/ARGOS/",
   sep = ""
 )
-# file_wd <- "D:/GitHub/ARGOS/" # github path
-file_wd2 <- paste(file_wd, "Data/Linear2D/stacked_bar_csv/", sep = "")
+file_wd2 <- paste(file_wd, "Data/Linear2d/stacked_bar_csv/", sep = "")
 setwd(file_wd2)
-# setwd('C:/Users/cfzh32/Documents/GitHub/ARGOS/Data/Linear2D/stacked_bar_csv')
 ## never changed variables ------------------------
 snr_seq <- c(seq(1, 61, 3), Inf)
 snr_seq_desired <- c(1, 5, 9, 13, 17, 21, 22)
@@ -36,7 +33,6 @@ colors0 <- c(
   "#e49486","#69773d","#9a5738","#c8b275","#6c6214","#dda55c","#916f38"
 )
 ggplot_data_snr <- function(algorithm, xdot_linear2d, ydot_linear2d,threshold=40){
-  # xdot_linear2d = xdot_linear2d_alasso;ydot_linear2d = ydot_linear2d_alasso;algorithm='alasso'
   ## x_dot
   xdot_linear2d_reg_list <- lapply(seq_along(snr_seq), function(i){
     xdot_linear2d[((i-1)*100+1):((i-1)*100+1+99),]
@@ -212,17 +208,13 @@ ggplot_data_snr <- function(algorithm, xdot_linear2d, ydot_linear2d,threshold=40
     labs(x = TeX("${SNR}(dB)$"),
          y = "Frequency",
          title=algorithm,
-         # title = TeX('$\\dot{x}_2$')
     ) +
-    # scale_x_discrete(drop = FALSE, breaks=x_axis[3,],labels = x_labels) +
     scale_x_discrete(drop = FALSE, labels = x_labels) +
     theme(
       plot.title = element_text(size = 25),
       strip.text = element_text(size = 25),
-      # axis.line.x = element_line(colour = "black"),
       axis.line = element_line(colour = "black"),
       axis.ticks.length = unit(.25, "cm"),
-      # axis.ticks.y = element_blank(),
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
       panel.border = element_blank(),
@@ -231,10 +223,7 @@ ggplot_data_snr <- function(algorithm, xdot_linear2d, ydot_linear2d,threshold=40
       legend.text = element_text(size = 16),
       # Changed for legend
       legend.title = element_text(face = "bold", size = 16),
-      # legend.key = element_rect(fill = "lightblue", color = NA),
       axis.text = element_text(size = 14),
-      # axis.text.x = element_text(size = 14),
-      # axis.text.y = element_blank(),
       axis.title.x = element_text(size = 20),
       axis.title.y = element_text(
         size = 20,
@@ -245,7 +234,6 @@ ggplot_data_snr <- function(algorithm, xdot_linear2d, ydot_linear2d,threshold=40
     ) +
     scale_colour_manual(breaks=levels(plot_data_xy_dot$eq),labels=unname(TeX(c('$\\dot{x}_1$', '$\\dot{x}_2$'))),name='Equations',
                         values = hue_pal()(3))+
-    # scale_alpha_manual(values = c(0.5,1))+
     guides(color = guide_legend(override.aes = list(fill = NA)),
            linetype = guide_legend(override.aes = list(fill = NA)),
            alpha='none')
@@ -302,11 +290,6 @@ stacked_linear2d_snr <-
     # layout_matrix = layout_matrix
     heights = c(1,10,10,10)
   )
-file_wd <- paste(
-  "/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/",
-  # "~//GitHub/ARGOS/",
-  sep = ""
-)
 setwd(file_wd)
-ggsave(stacked_linear2d_snr, filename = './Figures/stacked_linear2d_snr.pdf', width = 10, height = 15, dpi = 300)
-ggsave(stacked_linear2d_snr, filename = './Figures/stacked_linear2d_snr.png', width = 10, height = 15, dpi = 300)
+ggsave(stacked_linear2d_snr, filename = './stacked_linear2d_snr.pdf', width = 10, height = 15, dpi = 300)
+ggsave(stacked_linear2d_snr, filename = './stacked_linear2d_snr.png', width = 10, height = 15, dpi = 300)

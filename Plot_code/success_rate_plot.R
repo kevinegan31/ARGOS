@@ -11,13 +11,10 @@ library(ggpubr)
 library(gridExtra)
 library(patchwork)
 
-file_wd <- "/Users/kevinegan/Documents/GitHub.nosync/ARGOS/" # github path
+file_wd <- "~/ARGOS/" # github path
 file_wd2 <-
   paste(file_wd, "Data/", sep = "")
 setwd(file_wd2)
-# setwd('D:/GitHub/ARGOS/Data')
-# setwd('/Users/cfzh32/GitHub/ARGOS/Data')
-# setwd('C:/Users/cfzh32/Documents/GitHub/ARGOS/Data')
 ## main ---------------
 noise_levels <- c(1, 25, Inf)
 n_obs = c(10 ^ 2, 10 ^ 3.5, 10 ^ 4)+1
@@ -57,23 +54,14 @@ empty_ggplot <- ggplot()+
   theme(panel.background = element_blank(),
         plot.background = element_blank(),
         plot.margin = unit(c(15,5.5,5.5,5.5),'pt'))
-
-# layout_matrix <- matrix(c(rep(0,1),rep(1,8),rep(2,20)), ncol = 1)
 height_rate_label <- c(8,20)
 height_rate_title <- c(1,8,1)
 widths_traj <- c(1,6,6,6,1)
 colors_correct <- c("#9c72be", "#87a14d", "#cb6054")
 shapes <- c(15, 16, 17)
-# grid_label <- function(text, color="#f4f0e6", fontsize=27){
-#   grobTree(rectGrob(gp=gpar(fill=color,col=color)), textGrob(text, x=0.02, vjust=0.5, gp=gpar(fontsize=fontsize, fontface=2)))
-# }
-# grid_title <- function(text, color="#f4f0e6", fontsize=35){
-#   grobTree(rectGrob(gp=gpar(fill=color,col=color)), textGrob(text, y=0.5,vjust=0.5, gp=gpar(fontsize=fontsize, fontface=2)))
-# }
 rect1<- data.frame(xmin=-Inf, xmax=Inf, ymin=0.8, ymax=Inf)
 ## ggplot theme ------------------
 ggplot_theme0 <- theme(
-  # plot.background = element_rect(fill = 0, colour = 1),
   axis.line = element_line(colour = "black"),
   axis.ticks.length = unit(.25, "cm"),
   panel.grid.major = element_blank(),
@@ -93,7 +81,6 @@ ggplot_theme0 <- theme(
   ),
   plot.title = element_text(size = 24),
   plot.tag = element_text(size = 18),
-  # plot.background = element_rect(fill = "#f4f0e6", colour = 1),
   legend.position = "none",
   legend.text.align = 0
 )
@@ -101,13 +88,9 @@ ggplot_theme <- ggplot_theme0 + theme(plot.background = element_rect(fill = "#f4
 ggplot_theme1 <- ggplot_theme0 + theme(plot.background = element_rect(fill = 0, colour = 0))
 
 dynamics2d_theme0 <- theme(
-  # panel.border = element_rect(color='black',fill=0),
-  # aspect.ratio = 2/(1+sqrt(5)),
   panel.grid.major = element_blank(),
   panel.grid.minor = element_blank(),
   panel.background = element_blank(),
-  #element_rect(color = 0),
-  # plot.background = element_rect(fill = "#f4f0e6", colour = 1),
   axis.text = element_blank(),
   axis.ticks = element_blank(),
   plot.title = element_text(hjust = 0.5, size = 22)
@@ -159,7 +142,6 @@ for (i in seq_along(snr_data)) {
     dynamics2d_theme1
 }
 # arrangeGrob
-# grid.arrange(snr_ggplot_list[[1]], snr_ggplot_list[[2]], snr_ggplot_list[[3]], snr_ggplot_list[[4]], nrow=1,ncol=4)
 snr_plot_all <-
   arrangeGrob(
     empty_ggplot,
@@ -173,9 +155,7 @@ snr_plot_all <-
     widths = widths_traj
   )
 ## n plot
-# n_obs = c(10 ^ 2, 10 ^ 3, 10 ^ 4, 10 ^ 5)+1 #c(10 ^ 2, 10 ^ 3, 10 ^ 4, 10 ^ 5)+1
 n_data <- lapply(n_obs, function(i) {
-  # t_span = seq(0, n_obs[i]*dt, dt)
   as.data.frame(linear2d_system(i, init_conditions, dt, snr = 49)[seq(1,i,10),])
 })
 
@@ -195,7 +175,6 @@ n_plot_all <-
     n_ggplot_list[[1]],
     n_ggplot_list[[2]],
     n_ggplot_list[[3]],
-    # n_ggplot_list[[4]],
     empty_ggplot,
     nrow = 1,
     ncol = 5,
@@ -251,8 +230,7 @@ prob_increase_n <-
   scale_shape_manual(values = shapes, breaks = models_name, labels  = models_name)
 
 linear2d_n <-
-  arrangeGrob(#gglabel('a'), 
-              n_plot_all, prob_increase_n, heights=height_rate_label)
+  arrangeGrob(n_plot_all, prob_increase_n, heights = height_rate_label)
 
 ## linear2d success rate snr bic intercept -------------------------------------
 load(
@@ -266,9 +244,7 @@ total_correct$Model <- factor(total_correct$Model, levels = new_levels)
 total_correct <- arrange(total_correct, Model)
 models_name <- new_levels[c(1,3,2)]
 
-# x_labels <- x_breaks <- pretty_breaks()(c(0, max(total_correct$eta)))
 x_labels <- x_breaks <- seq(1, 73, by = 12)
-# x_labels[length(x_labels)] <- "Inf"
 x_labels[length(x_labels)] <- TeX("$\\infty$")
 
 y_labels <-
@@ -281,7 +257,6 @@ extra_x <- 1
 y_sep <- min(total_correct$Value) - 0.05*(min(total_correct$Value))
 myseg <- create_separators(c(xstart, xend), extra_x = 1, y = y_sep, extra_y = 0.1, angle = 75)
 
-# myseg$y <- -0.00005
 prob_inrease_snr_bic_inter <-
   ggplot() +
   geom_hline(yintercept = 0.8, lty=2)+
@@ -317,8 +292,7 @@ prob_inrease_snr_bic_inter <-
            y = myseg$y + 0.05, yend = myseg$yend)  +
   coord_cartesian(clip = "off", ylim = c(-0.0005, NA))
 linear2d_snr <-
-  arrangeGrob(#gglabel('b'), 
-              snr_plot_all, prob_inrease_snr_bic_inter, heights=height_rate_label)
+  arrangeGrob(snr_plot_all, prob_inrease_snr_bic_inter, heights=height_rate_label)
 ## linear3d plot -----------------
 source('../Additional_functions/dynamical_systems_models/R/linear3d_system.R')
 
@@ -330,8 +304,6 @@ dt = 0.01
 
 ## noisy plot
 n_obs2 = 5000+1
-# noise_levels <- c(1, 25, 49, Inf)
-# snr_volt = 10 ** -(noise_levels / 20)
 t_span = seq(0, n_obs2 * dt, dt)
 
 snr_data <-
@@ -356,7 +328,6 @@ for (i in seq_along(snr_data)) {
       geom = 'path',
       color = '#3b9a9c'
     ) +
-    # axis_labs_3D(theta=theta, phi=phi, size=3, hjust=c(1,1,1.2,1.2,1.2,1.2), vjust=c(-.5,-.5,-.2,-.2,1.2,1.2)) +
     labs_3D(
       theta = theta,
       phi = phi,
@@ -368,23 +339,19 @@ for (i in seq_along(snr_data)) {
     dynamic3d_theme
 }
 # arrangeGrob
-# grid.arrange(snr_ggplot_list[[1]], snr_ggplot_list[[2]], snr_ggplot_list[[3]], snr_ggplot_list[[4]], nrow=1,ncol=4)
 snr_plot_all <-
   arrangeGrob(
     empty_ggplot,
     snr_ggplot_list[[1]],
     snr_ggplot_list[[2]],
     snr_ggplot_list[[3]],
-    # snr_ggplot_list[[4]],
     empty_ggplot,
     nrow = 1,
     ncol = 5,
     widths = widths_traj
   )
 ## n plot
-# n_obs = c(10 ^ 2, 10 ^ 3, 10 ^ 4, 10 ^ 5)+1
 n_data <- lapply(n_obs, function(i) {
-  # t_span = seq(0, n_obs[i]*dt, dt)
   as.data.frame(linear3d_system(i, init_conditions, dt, snr = 49)[seq(1,i,10),])
 })
 
@@ -409,8 +376,6 @@ for (i in seq_along(n_data)) {
       color = '#3b9a9c',
       axis_lims = axis_lims
     ) +
-    # axis_labs_3D(theta=theta, phi=phi, size=3, hjust=c(1,1,1.2,1.2,1.2,1.2), vjust=c(-.5,-.5,-.2,-.2,1.2,1.2),
-    #              axis_lims = axis_lims) +
     labs_3D(
       theta = theta,
       phi = phi,
@@ -422,14 +387,12 @@ for (i in seq_along(n_data)) {
     labs(title = plot_title) +
     dynamic3d_theme
 }
-# grid.arrange(n_ggplot_list[[1]], n_ggplot_list[[2]], n_ggplot_list[[3]], n_ggplot_list[[4]], nrow=1,ncol=4)
 n_plot_all <-
   arrangeGrob(
     empty_ggplot,
     n_ggplot_list[[1]],
     n_ggplot_list[[2]],
     n_ggplot_list[[3]],
-    # n_ggplot_list[[4]],
     empty_ggplot,
     nrow = 1,
     ncol = 5,
@@ -484,8 +447,7 @@ prob_increase_n <-
   scale_colour_manual(values = colors_correct, breaks = models_name, labels  = models_name) +
   scale_shape_manual(values = shapes, breaks = models_name, labels  = models_name)
 linear3d_n <-
-  arrangeGrob(#gglabel('c'), 
-    n_plot_all, prob_increase_n, heights=height_rate_label)
+  arrangeGrob(n_plot_all, prob_increase_n, heights = height_rate_label)
 
 ## linear3d success rate snr bic intercept -------------------------------------
 load("Linear3D/success_rate_RData/linear3d_inc_snr_success_rate_new_sg.RData")
@@ -497,9 +459,7 @@ total_correct$Model <- factor(total_correct$Model, levels = new_levels)
 total_correct <- arrange(total_correct, Model)
 models_name <- new_levels[c(1,3,2)]
 
-# x_labels <- x_breaks <- pretty_breaks()(c(0, max(total_correct$eta)))
 x_labels <- x_breaks <- seq(1, 73, by = 12)
-# x_labels[length(x_labels)] <- "Inf"
 x_labels[length(x_labels)] <- TeX("$\\infty$")
 
 y_labels <-
@@ -546,8 +506,7 @@ prob_inrease_snr_bic_inter <-
            y = myseg$y + 0.05, yend = myseg$yend)  +
   coord_cartesian(clip = "off", ylim = c(-0.0005, NA))
 linear3d_snr <-
-  arrangeGrob(#gglabel('d'), 
-              snr_plot_all, prob_inrease_snr_bic_inter, heights=height_rate_label)
+  arrangeGrob(snr_plot_all, prob_inrease_snr_bic_inter, heights = height_rate_label)
 ## cubic2d plot -----------------
 source('../Additional_functions/dynamical_systems_models/R/cubic2d_system.R')
 
@@ -557,8 +516,6 @@ dt = 0.01
 
 ## noisy plot
 n_obs2 = 5000+1
-# noise_levels <- c(1, 25, 49, Inf)
-# snr_volt = 10 ** -(noise_levels / 20)
 t_span = seq(0, n_obs2 * dt, dt)
 
 snr_data <-
@@ -579,23 +536,19 @@ for (i in seq_along(snr_data)) {
     dynamics2d_theme1
 }
 # arrangeGrob
-# grid.arrange(snr_ggplot_list[[1]], snr_ggplot_list[[2]], snr_ggplot_list[[3]], snr_ggplot_list[[4]], nrow=1,ncol=4)
 snr_plot_all <-
   arrangeGrob(
     empty_ggplot,
     snr_ggplot_list[[1]],
     snr_ggplot_list[[2]],
     snr_ggplot_list[[3]],
-    # snr_ggplot_list[[4]],
     empty_ggplot,
     nrow = 1,
     ncol = 5,
     widths = widths_traj
   )
 ## n plot
-# n_obs = c(10 ^ 2, 10 ^ 3, 10 ^ 4, 10 ^ 5)+1
 n_data <- lapply(n_obs, function(i) {
-  # t_span = seq(0, n_obs[i]*dt, dt)
   as.data.frame(cubic2d_system(i, init_conditions, dt, snr = 49)[seq(1,i,3),])
 })
 
@@ -608,14 +561,12 @@ for (i in seq_along(n_data)) {
     lims(x = c(min(n_data[[i]][, 1]), max(n_data[[i]][, 1])), y = c(min(n_data[[i]][, 2]), max(n_data[[i]][, 2]))) +
     dynamics2d_theme1
 }
-# grid.arrange(n_ggplot_list[[1]], n_ggplot_list[[2]], n_ggplot_list[[3]], n_ggplot_list[[4]], nrow=1,ncol=4)
 n_plot_all <-
   arrangeGrob(
     empty_ggplot,
     n_ggplot_list[[1]],
     n_ggplot_list[[2]],
     n_ggplot_list[[3]],
-    # n_ggplot_list[[4]],
     empty_ggplot,
     nrow = 1,
     ncol = 5,
@@ -671,8 +622,7 @@ prob_increase_n <-
   scale_shape_manual(values = shapes, breaks = models_name, labels  = models_name)
 
 cubic2d_n <-
-  arrangeGrob(#gglabel('e'), 
-              n_plot_all, prob_increase_n, heights=height_rate_label)
+  arrangeGrob(n_plot_all, prob_increase_n, heights = height_rate_label)
 
 ## cubic2d success rate snr bic intercept -------------------------------------
 load("Cubic2D/success_rate_RData/cubic2d_inc_snr_success_rate_new_sg.RData")
@@ -684,10 +634,7 @@ total_correct$Model <- factor(total_correct$Model, levels = new_levels)
 total_correct <- arrange(total_correct, Model)
 models_name <- new_levels[c(1,3,2)]
 
-
-# x_labels <- x_breaks <- pretty_breaks()(c(0, max(total_correct$eta)))
 x_labels <- x_breaks <- seq(1, 73, by = 12)
-# x_labels[length(x_labels)] <- "Inf"
 x_labels[length(x_labels)] <- TeX("$\\infty$")
 
 y_labels <-
@@ -733,10 +680,8 @@ prob_inrease_snr_bic_inter <-
            x = myseg$x, xend = myseg$xend,
            y = myseg$y + 0.05, yend = myseg$yend)  +
   coord_cartesian(clip = "off", ylim = c(-0.0005, NA))
-  # coord_flip()
 cubic2d_snr <-
-  arrangeGrob(#gglabel('f'), 
-              snr_plot_all, prob_inrease_snr_bic_inter, heights=height_rate_label)
+  arrangeGrob(snr_plot_all, prob_inrease_snr_bic_inter, heights=height_rate_label)
 ## LV plot -----------------
 source("../Additional_functions/dynamical_systems_models/R/lotka_volterra.R")
 
@@ -745,8 +690,6 @@ dt = 0.01
 
 ## noisy plot
 n_obs2 = 5001
-# noise_levels <- c(1, 25, 49, Inf)
-# snr_volt = 10 ** -(noise_levels / 20)
 t_span = seq(0, n_obs2 * dt, dt)
 
 snr_data <-
@@ -767,23 +710,19 @@ for (i in seq_along(snr_data)) {
     dynamics2d_theme1
 }
 # arrangeGrob
-# grid.arrange(snr_ggplot_list[[1]], snr_ggplot_list[[2]], snr_ggplot_list[[3]], snr_ggplot_list[[4]], nrow=1,ncol=4)
 snr_plot_all <-
   arrangeGrob(
     empty_ggplot,
     snr_ggplot_list[[1]],
     snr_ggplot_list[[2]],
     snr_ggplot_list[[3]],
-    # snr_ggplot_list[[4]],
     empty_ggplot,
     nrow = 1,
     ncol = 5,
     widths = widths_traj
   )
 ## n plot
-# n_obs = c(10 ^ 2, 10 ^ 3, 10 ^ 4, 10 ^ 5)+1 #c(10 ^ 2, 10 ^ 3, 10 ^ 4, 10 ^ 5)+1
 n_data <- lapply(n_obs, function(i){
-  # t_span = seq(0, n_obs[i]*dt, dt) 
   as.data.frame(lotka_volterra(i, init_conditions, dt, snr = 49))
 })
 
@@ -803,7 +742,6 @@ n_plot_all <-
     n_ggplot_list[[1]],
     n_ggplot_list[[2]],
     n_ggplot_list[[3]],
-    # n_ggplot_list[[4]],
     empty_ggplot,
     nrow = 1,
     ncol = 5,
@@ -859,8 +797,7 @@ prob_increase_n <-
   scale_shape_manual(values = shapes, breaks = models_name, labels  = models_name)
 
 LV_n <-
-  arrangeGrob(#gglabel('a'), 
-    n_plot_all, prob_increase_n, heights=height_rate_label)
+  arrangeGrob(n_plot_all, prob_increase_n, heights = height_rate_label)
 
 ## LV success rate snr bic intercept -------------------------------------
 load(
@@ -874,9 +811,7 @@ total_correct$Model <- factor(total_correct$Model, levels = new_levels)
 total_correct <- arrange(total_correct, Model)
 models_name <- new_levels[c(1,3,2)]
 
-# x_labels <- x_breaks <- pretty_breaks()(c(0, max(total_correct$eta)))
 x_labels <- x_breaks <- seq(1, 73, by = 12)
-# x_labels[length(x_labels)] <- "Inf"
 x_labels[length(x_labels)] <- TeX("$\\infty$")
 
 y_labels <-
@@ -889,7 +824,6 @@ extra_x <- 1
 y_sep <- min(total_correct$Value) - 0.05*(min(total_correct$Value))
 myseg <- create_separators(c(xstart, xend), extra_x = 1, y = y_sep, extra_y = 0.1, angle = 75)
 
-# myseg$y <- -0.00005
 prob_inrease_snr_bic_inter <-
   ggplot() +
   geom_hline(yintercept = 0.8, lty=2)+
@@ -925,8 +859,7 @@ prob_inrease_snr_bic_inter <-
            y = myseg$y + 0.05, yend = myseg$yend)  +
   coord_cartesian(clip = "off", ylim = c(-0.0005, NA))
 LV_snr <-
-  arrangeGrob(#gglabel('b'), 
-    snr_plot_all, prob_inrease_snr_bic_inter, heights=height_rate_label)
+  arrangeGrob(snr_plot_all, prob_inrease_snr_bic_inter, heights = height_rate_label)
 
 ## rossler plot -----------------
 source('../Additional_functions/dynamical_systems_models/R/rossler_system.R')
@@ -937,8 +870,6 @@ c = 5.7
 dt = 0.01
 ## noisy plot
 n_obs2 = 5000+1
-# noise_levels <- c(1, 25, 49, Inf)
-# snr_volt = 10 ** -(noise_levels / 20)
 t_span = seq(0, n_obs2 * dt, dt)
 
 snr_data <-
@@ -962,7 +893,6 @@ for (i in seq_along(snr_data)) {
       geom = 'path',
       color = '#3b9a9c'
     ) +
-    # axis_labs_3D(theta=theta, phi=phi, size=3, hjust=c(1,1,1.2,1.2,1.2,1.2), vjust=c(-.5,-.5,-.2,-.2,1.2,1.2)) +
     labs_3D(
       theta = theta,
       phi = phi,
@@ -974,23 +904,19 @@ for (i in seq_along(snr_data)) {
     dynamic3d_theme
 }
 # arrangeGrob
-# grid.arrange(snr_ggplot_list[[1]], snr_ggplot_list[[2]], snr_ggplot_list[[3]], snr_ggplot_list[[4]], nrow=1,ncol=4)
 snr_plot_all <-
   arrangeGrob(
     empty_ggplot,
     snr_ggplot_list[[1]],
     snr_ggplot_list[[2]],
     snr_ggplot_list[[3]],
-    # snr_ggplot_list[[4]],
     empty_ggplot,
     nrow = 1,
     ncol = 5,
     widths = widths_traj
   )
 ## n plot
-# n_obs = c(10 ^ 2, 10 ^ 3, 10 ^ 4, 10 ^ 5)+1
 n_data <- lapply(n_obs, function(i) {
-  # t_span = seq(0, n_obs[i]*dt, dt)
   as.data.frame(rossler_system(i, dt, init_conditions, a, b, c, snr = 49)[seq(1,i,5),])
 })
 
@@ -1015,8 +941,6 @@ for (i in seq_along(n_data)) {
       color = '#3b9a9c',
       axis_lims = axis_lims
     ) +
-    # axis_labs_3D(theta=theta, phi=phi, size=3, hjust=c(1,1,1.2,1.2,1.2,1.2), vjust=c(-.5,-.5,-.2,-.2,1.2,1.2),
-    #              axis_lims = axis_lims) +
     labs_3D(
       theta = theta,
       phi = phi,
@@ -1028,14 +952,13 @@ for (i in seq_along(n_data)) {
     labs(title = plot_title) +
     dynamic3d_theme
 }
-# grid.arrange(n_ggplot_list[[1]], n_ggplot_list[[2]], n_ggplot_list[[3]], n_ggplot_list[[4]], nrow=1,ncol=4)
+
 n_plot_all <-
   arrangeGrob(
     empty_ggplot,
     n_ggplot_list[[1]],
     n_ggplot_list[[2]],
     n_ggplot_list[[3]],
-    # n_ggplot_list[[4]],
     empty_ggplot,
     nrow = 1,
     ncol = 5,
@@ -1091,8 +1014,7 @@ prob_increase_n <-
   scale_colour_manual(values = colors_correct, breaks = models_name, labels  = models_name) +
   scale_shape_manual(values = shapes, breaks = models_name, labels  = models_name)
 rossler_n <-
-  arrangeGrob(#gglabel('g')+theme(plot.title = element_text(vjust = 3.4)), 
-              n_plot_all, prob_increase_n, heights=height_rate_label)
+  arrangeGrob(n_plot_all, prob_increase_n, heights = height_rate_label)
 ## rossler success rate snr bic intercept -------------------------------------
 load("Rossler/success_rate_RData/rossler_inc_snr_success_rate_new_sg.RData")
 total_correct <- total_correct_increasing_snr_df
@@ -1103,9 +1025,7 @@ total_correct$Model <- factor(total_correct$Model, levels = new_levels)
 total_correct <- arrange(total_correct, Model)
 models_name <- new_levels[c(1,3,2)]
 
-# x_labels <- x_breaks <- pretty_breaks()(c(0, max(total_correct$eta)))
 x_labels <- x_breaks <- seq(1, 73, by = 12)
-# x_labels[length(x_labels)] <- "Inf"
 x_labels[length(x_labels)] <- TeX("$\\infty$")
 
 y_labels <-
@@ -1152,8 +1072,7 @@ prob_inrease_snr_bic_inter <-
            y = myseg$y + 0.05, yend = myseg$yend)  +
   coord_cartesian(clip = "off", ylim = c(-0.0005, NA))
 rossler_snr <-
-  arrangeGrob(#gglabel('h'), 
-              snr_plot_all, prob_inrease_snr_bic_inter, heights=height_rate_label)
+  arrangeGrob(snr_plot_all, prob_inrease_snr_bic_inter, heights = height_rate_label)
 
 ## lorenz plot -----------------
 source('../Additional_functions/dynamical_systems_models/R/lorenz_system.R')
@@ -1166,8 +1085,6 @@ dt = 0.01
 
 ## noisy plot
 n_obs2 = 5000+1
-# noise_levels <- c(1, 25, 49, Inf)
-# snr_volt = 10 ** -(noise_levels / 20)
 t_span = seq(0, n_obs2 * dt, dt)
 
 snr_data <-
@@ -1193,7 +1110,6 @@ for (i in seq_along(snr_data)) {
       geom = 'path',
       color = '#3b9a9c'
     ) +
-    # axis_labs_3D(theta=theta, phi=phi, size=3, hjust=c(1,1,1.2,1.2,1.2,1.2), vjust=c(-.5,-.5,-.2,-.2,1.2,1.2)) +
     labs_3D(
       theta = theta,
       phi = phi,
@@ -1205,23 +1121,19 @@ for (i in seq_along(snr_data)) {
     dynamic3d_theme
 }
 # arrangeGrob
-# grid.arrange(snr_ggplot_list[[1]], snr_ggplot_list[[2]], snr_ggplot_list[[3]], snr_ggplot_list[[4]], nrow=1,ncol=4)
 snr_plot_all <-
   arrangeGrob(
     empty_ggplot,
     snr_ggplot_list[[1]],
     snr_ggplot_list[[2]],
     snr_ggplot_list[[3]],
-    # snr_ggplot_list[[4]],
     empty_ggplot,
     nrow = 1,
     ncol = 5,
     widths = widths_traj
   )
 ## n plot
-# n_obs = c(10 ^ 2, 10 ^ 3, 10 ^ 4, 10 ^ 5)+1
 n_data <- lapply(n_obs, function(i) {
-  # t_span = seq(0, n_obs[i]*dt, dt)
   as.data.frame(lorenz_system(i, init_conditions, dt, snr = 49)[seq(1,i,1),])
 })
 
@@ -1246,8 +1158,6 @@ for (i in seq_along(n_data)) {
       color = '#3b9a9c',
       axis_lims = axis_lims
     ) +
-    # axis_labs_3D(theta=theta, phi=phi, size=3, hjust=c(1,1,1.2,1.2,1.2,1.2), vjust=c(-.5,-.5,-.2,-.2,1.2,1.2),
-    #              axis_lims = axis_lims) +
     labs_3D(
       theta = theta,
       phi = phi,
@@ -1259,14 +1169,13 @@ for (i in seq_along(n_data)) {
     labs(title = plot_title) +
     dynamic3d_theme
 }
-# grid.arrange(n_ggplot_list[[1]], n_ggplot_list[[2]], n_ggplot_list[[3]], n_ggplot_list[[4]], nrow=1,ncol=4)
+
 n_plot_all <-
   arrangeGrob(
     empty_ggplot,
     n_ggplot_list[[1]],
     n_ggplot_list[[2]],
     n_ggplot_list[[3]],
-    # n_ggplot_list[[4]],
     empty_ggplot,
     nrow = 1,
     ncol = 5,
@@ -1321,8 +1230,7 @@ prob_increase_n <-
   scale_colour_manual(values = colors_correct, breaks = models_name, labels  = models_name) +
   scale_shape_manual(values = shapes, breaks = models_name, labels  = models_name)
 lorenz_n <-
-  arrangeGrob(#gglabel('i'), 
-              n_plot_all, prob_increase_n, heights=height_rate_label)
+  arrangeGrob(n_plot_all, prob_increase_n, heights = height_rate_label)
 
 ## lorenz success rate snr bic intercept -------------------------------------
 load("Lorenz/success_rate_RData/lorenz_inc_snr_success_rate_new_sg.RData")
@@ -1334,9 +1242,7 @@ total_correct$Model <- factor(total_correct$Model, levels = new_levels)
 total_correct <- arrange(total_correct, Model)
 models_name <- new_levels[c(1,3,2)]
 
-# x_labels <- x_breaks <- pretty_breaks()(c(0, max(total_correct$eta)))
 x_labels <- x_breaks <- seq(1, 73, by = 12)
-# x_labels[length(x_labels)] <- "Inf"
 x_labels[length(x_labels)] <- TeX("$\\infty$")
 
 y_labels <-
@@ -1383,8 +1289,7 @@ prob_inrease_snr_bic_inter <-
            y = myseg$y + 0.05, yend = myseg$yend)  +
   coord_cartesian(clip = "off", ylim = c(-0.0005, NA))
 lorenz_snr <-
-  arrangeGrob(#gglabel('j')+theme(plot.title = element_text(vjust = 3.4)), 
-              snr_plot_all, prob_inrease_snr_bic_inter, heights=height_rate_label)
+  arrangeGrob(snr_plot_all, prob_inrease_snr_bic_inter, heights = height_rate_label)
 ## vdp plots ----------------------
 source('../Additional_functions/dynamical_systems_models/R/vdp_oscillator.R')
 init_conditions = c(2, 0)
@@ -1393,8 +1298,6 @@ dt = 0.01
 
 ## noisy plot
 n_obs2 = 5000+1
-# noise_levels <- c(1, 25, 49, Inf)
-# snr_volt = 10 ** -(noise_levels / 20)
 t_span = seq(0, n_obs2 * dt, dt)
 
 snr_data <-
@@ -1415,23 +1318,19 @@ for (i in seq_along(snr_data)) {
     dynamics2d_theme1
 }
 # arrangeGrob
-# grid.arrange(snr_ggplot_list[[1]], snr_ggplot_list[[2]], snr_ggplot_list[[3]], snr_ggplot_list[[4]], nrow=1,ncol=4)
 snr_plot_all <-
   arrangeGrob(
     empty_ggplot,
     snr_ggplot_list[[1]],
     snr_ggplot_list[[2]],
     snr_ggplot_list[[3]],
-    # snr_ggplot_list[[4]],
     empty_ggplot,
     nrow = 1,
     ncol = 5,
     widths = widths_traj
   )
 ## n plot
-# n_obs = c(10 ^ 2, 10 ^ 3, 10 ^ 4, 10 ^ 5)+1
 n_data <- lapply(n_obs, function(i) {
-  # t_span = seq(0, n_obs[i]*dt, dt)
   as.data.frame(vdp_oscillator(i, dt, init_conditions, mu, snr = 49)[seq(1,i,10),])
 })
 
@@ -1444,14 +1343,12 @@ for (i in seq_along(n_data)) {
     lims(x = c(min(n_data[[3]][, 1]), max(n_data[[3]][, 1])), y = c(min(n_data[[3]][, 2]), max(n_data[[3]][, 2]))) +
     dynamics2d_theme1
 }
-# grid.arrange(n_ggplot_list[[1]], n_ggplot_list[[2]], n_ggplot_list[[3]], n_ggplot_list[[4]], nrow=1,ncol=4)
 n_plot_all <-
   arrangeGrob(
     empty_ggplot,
     n_ggplot_list[[1]],
     n_ggplot_list[[2]],
     n_ggplot_list[[3]],
-    # n_ggplot_list[[4]],
     empty_ggplot,
     nrow = 1,
     ncol = 5,
@@ -1505,8 +1402,7 @@ prob_increase_n <-
   scale_colour_manual(values = colors_correct, breaks = models_name, labels  = models_name) +
   scale_shape_manual(values = shapes, breaks = models_name, labels  = models_name)
 vdp_n <-
-  arrangeGrob(#gglabel('k'), 
-              n_plot_all, prob_increase_n, heights=height_rate_label)
+  arrangeGrob(n_plot_all, prob_increase_n, heights=height_rate_label)
 
 ## vdp success rate snr bic intercept -------------------------------------
 load("VdP/success_rate_RData/vdp_inc_snr_success_rate_new_sg.RData")
@@ -1518,9 +1414,7 @@ total_correct$Model <- factor(total_correct$Model, levels = new_levels)
 total_correct <- arrange(total_correct, Model)
 models_name <- new_levels[c(1,3,2)]
 
-# x_labels <- x_breaks <- pretty_breaks()(c(0, max(total_correct$eta)))
 x_labels <- x_breaks <- seq(1, 73, by = 12)
-# x_labels[length(x_labels)] <- "Inf"
 x_labels[length(x_labels)] <- TeX("$\\infty$")
 
 y_labels <-
@@ -1567,8 +1461,7 @@ prob_inrease_snr_bic_inter <-
            y = myseg$y + 0.05, yend = myseg$yend)  +
   coord_cartesian(clip = "off", ylim = c(-0.0005, NA))
 vdp_snr <-
-  arrangeGrob(#gglabel('l'), 
-              snr_plot_all, prob_inrease_snr_bic_inter, heights=height_rate_label)
+  arrangeGrob(snr_plot_all, prob_inrease_snr_bic_inter, heights=height_rate_label)
 ## duffing plot -----------------
 source('../Additional_functions/dynamical_systems_models/R/duffing_oscillator.R')
 
@@ -1581,8 +1474,6 @@ kappa_value = 1
 epsilon_value = 5
 ## noisy plot
 n_obs2 = 5000+1
-# noise_levels <- c(1, 25, 49, Inf)
-# snr_volt = 10 ** -(noise_levels / 20)
 t_span = seq(0, n_obs2 * dt, dt)
 
 snr_data <- lapply(noise_levels, function(i)
@@ -1612,23 +1503,19 @@ for (i in seq_along(snr_data)) {
     dynamics2d_theme1
 }
 # arrangeGrob
-# grid.arrange(snr_ggplot_list[[1]], snr_ggplot_list[[2]], snr_ggplot_list[[3]], snr_ggplot_list[[4]], nrow=1,ncol=4)
 snr_plot_all <-
   arrangeGrob(
     empty_ggplot,
     snr_ggplot_list[[1]],
     snr_ggplot_list[[2]],
     snr_ggplot_list[[3]],
-    # snr_ggplot_list[[4]],
     empty_ggplot,
     nrow = 1,
     ncol = 5,
     widths = widths_traj
   )
 ## n plot
-# n_obs = c(10 ^ 2, 10 ^ 3, 10 ^ 4, 10 ^ 5)+1
 n_data <- lapply(n_obs, function(i) {
-  # t_span = seq(0, n_obs[i]*dt, dt)
   as.data.frame(
     duffing_oscillator(
       i,
@@ -1658,7 +1545,6 @@ n_plot_all <-
     n_ggplot_list[[1]],
     n_ggplot_list[[2]],
     n_ggplot_list[[3]],
-    # n_ggplot_list[[4]],
     empty_ggplot,
     nrow = 1,
     ncol = 5,
@@ -1713,8 +1599,7 @@ prob_increase_n <-
   scale_colour_manual(values = colors_correct, breaks = models_name, labels  = models_name) +
   scale_shape_manual(values = shapes, breaks = models_name, labels  = models_name)
 duffing_n <-
-  arrangeGrob(#gglabel('m'), 
-              n_plot_all, prob_increase_n, heights=height_rate_label)
+  arrangeGrob(n_plot_all, prob_increase_n, heights=height_rate_label)
 
 ## duffing success rate snr bic intercept -------------------------------------
 load("Duffing/success_rate_RData/duffing_inc_snr_success_rate_new_sg.RData")
@@ -1726,9 +1611,7 @@ total_correct$Model <- factor(total_correct$Model, levels = new_levels)
 total_correct <- arrange(total_correct, Model)
 models_name <- new_levels[c(1,3,2)]
 
-# x_labels <- x_breaks <- pretty_breaks()(c(0, max(total_correct$eta)))
 x_labels <- x_breaks <- seq(1, 73, by = 12)
-# x_labels[length(x_labels)] <- "Inf"
 x_labels[length(x_labels)] <- TeX("$\\infty$")
 
 y_labels <-
@@ -1775,8 +1658,7 @@ prob_inrease_snr_bic_inter <-
            y = myseg$y + 0.05, yend = myseg$yend)  +
   coord_cartesian(clip = "off", ylim = c(-0.0005, NA))
 duffing_snr <-
-  arrangeGrob(#gglabel('n'), 
-              snr_plot_all, prob_inrease_snr_bic_inter, heights=height_rate_label)
+  arrangeGrob(snr_plot_all, prob_inrease_snr_bic_inter, heights=height_rate_label)
 ## out plot ---------------
 # linear system
 ## linear2d --------------------
@@ -1811,7 +1693,6 @@ linear3d_exp <- ggplot() +
   theme_nothing()
 linear3d_out <- grid.arrange(
   arrangeGrob(gg_title('b',0,label_size=65,vjust=0.3),gg_title('Three-dimensional linear',0,vjust=-0.5),nrow=1,widths=c(1,9)),
-  # gg_title('Three-dimensional linear system'),
   arrangeGrob(linear3d_n,
               linear3d_snr,
               ncol = 2),
@@ -1833,7 +1714,6 @@ cubic2d_exp <- ggplot() +
   theme_nothing()
 cubic2d_out <- grid.arrange(
   arrangeGrob(gg_title('c',0,label_size=65,vjust=1),gg_title('Two-dimensional cubic',0,vjust=-0.5),nrow=1,widths=c(1,9)),
-  # gg_title('Two-dimensional cubic system'),
   arrangeGrob(cubic2d_n,
               cubic2d_snr,
               ncol = 2),
@@ -1855,7 +1735,6 @@ LV_exp <- ggplot() +
   theme_nothing()
 LV_out <- grid.arrange(
   arrangeGrob(gg_title('d',0,label_size=65,vjust=0.3),gg_title('Lotka–Volterra',0,vjust=-0.5),nrow=1,widths=c(1,9)),
-  # gg_title('Two-dimensional cubic system'),
   arrangeGrob(LV_n,
               LV_snr,
               ncol = 2),
@@ -1879,7 +1758,6 @@ rossler_exp <- ggplot() +
   theme_nothing()
 rossler_out <- grid.arrange(
   arrangeGrob(gg_title('e',0,label_size=65,vjust=1),gg_title('Rossler',0,vjust=-0.5),nrow=1,widths=c(1,9)),
-  # gg_title('Rossler system'),
   arrangeGrob(rossler_n,
               rossler_snr,
               ncol = 2),
@@ -1901,7 +1779,6 @@ lorenz_exp <- ggplot()+
   theme_nothing()
 lorenz_out <- grid.arrange(
   arrangeGrob(gg_title('f',0,label_size=65,vjust=0.3),gg_title('Lorenz',0,vjust=-0.5),nrow=1,widths=c(1,9)),
-  # gg_title('Lorenz system'),
   arrangeGrob(lorenz_n,
               lorenz_snr,
               ncol = 2),
@@ -1922,7 +1799,6 @@ vdp_exp <- ggplot()+
   theme_nothing()
 vdp_out <- grid.arrange(
   arrangeGrob(gg_title('g',0,label_size=65,vjust=1),gg_title('Van der Pol',0,vjust=-0.5),nrow=1,widths=c(1,9)),
-  # gg_title('Van der Pol oscillator'),
   arrangeGrob(vdp_n,
               vdp_snr,
               ncol = 2),
@@ -1943,7 +1819,6 @@ duffing_exp <- ggplot()+
   theme_nothing()
 duffing_out <- grid.arrange(
   arrangeGrob(gg_title('h',0,label_size=65,vjust=0.3),gg_title('Duffing',0,vjust=-0.5),nrow=1,widths=c(1,9)),
-  # gg_title('Duffing oscillator'),
   arrangeGrob(duffing_n,
               duffing_snr,
               ncol = 2),
