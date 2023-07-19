@@ -9,8 +9,8 @@ true_matrix_a = np.array([-0.1, 2, -2, -0.1])
 def linear2d(x_t, time, parameters):
     """Two-dimensional damped harmonic oscillator with linear dynamics"""
     return [
-        parameters[0] * x_t[0] + parameters[1] * parameters[1],
-        parameters[2] * x_t[0] + parameters[3] * parameters[1],
+        parameters[0] * x_t[0] + parameters[1] * x_t[1],
+        parameters[2] * x_t[0] + parameters[3] * x_t[1],
     ]
 
 
