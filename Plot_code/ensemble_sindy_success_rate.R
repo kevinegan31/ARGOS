@@ -351,3 +351,60 @@ ggsave(lorenz_out,
        width = 13,
        height = 7)
 
+total_correct$Model <- factor(total_correct$Model,
+                              levels = c("Adaptive Lasso", "Lasso", "Ensemble-SINDy"))
+# lines are for model
+legend_ggplot <- ggplot(total_correct, aes(x = eta, y = Value,
+                                           fill = Model,
+                                           col = Model,
+                                           shape = Model)) +
+  geom_point(size = 5) +
+  # geom_bar(stat = "identity", position = "dodge", width = 0.0065) +
+  # geom_bar(stat="identity", position=position_dodge(0.7),width=0.5) +
+  ylab("Identification Probability") +
+  xlab(TeX("$\\eta$")) +
+  ggtitle("Two-dimensional damped linear oscillator") +
+  # scale_x_continuous(limits = c(0, 0.3),
+  #                    labels = seq(0, 0.3, by = 0.1)) +
+  # scale_x_discrete(
+  #   breaks = x_breaks
+  #   # labels = x_limits
+  #   # limits = x_limits
+  # ) +
+  scale_x_continuous(#limits = c(-0.01, 0.11),
+    #expand = c(0, 0),
+    labels = seq(0, 0.1, by = 0.01),
+    breaks = seq(0, 0.1, by = 0.01)) +
+  scale_y_continuous(#limits = c(0, 0.3),
+    #labels = seq(0, 0.3, by = 0.1),
+    expand = expansion(mult = c(0, .05))) +
+  theme(
+    axis.line = element_line(colour = "black"),
+    axis.ticks.length = unit(.25, "cm"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.border = element_blank(),
+    panel.background = element_blank(),
+    legend.key = element_blank(),
+    legend.text = element_text(size = 12),
+    # Changed for legend
+    legend.title = element_blank(),
+    legend.key.size = unit(0.5, "cm"),
+    axis.text = element_text(size = 16),
+    axis.title.x = element_text(size = 36),
+    axis.title.y = element_text(
+      size = 20,
+      angle = 90,
+      vjust = 0.5
+    ),
+    plot.title = element_text(size = 20),
+    legend.position = "bottom",
+    legend.text.align = 0
+  ) +
+  scale_fill_manual(values = colors_correct) +
+  scale_colour_manual(values = colors_correct) +
+  scale_shape_manual(values = shapes)
+
+legend <- get_legend(legend_ggplot)
+
+cowplot::plot_grid(legend)
