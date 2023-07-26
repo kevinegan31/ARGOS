@@ -1,3 +1,4 @@
+library(signal)
 library(Metrics)
 ### SG Combination Finder
 sg_optimal_combination <- function(x_t, dt = 1, polyorder) {
