@@ -185,7 +185,8 @@ argos_2d <- function(x_t,
       identified_model = result_matrix,
       num_bs_zero = count_zero,
       percent_bs_zero = percent_zero,
-      theta_colnames = df_columns
+      theta_colnames = df_columns,
+      sorted_theta = cbind(1, sorted_theta)
     )
   )
 }
