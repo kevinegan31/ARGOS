@@ -11,7 +11,8 @@ library(ggpubr)
 library(gridExtra)
 library(patchwork)
 
-file_wd <- "~/ARGOS/" # github path
+# file_wd <- "~/ARGOS/" # github path
+file_wd <- "/Users/kevinegan/Documents/GitHub.nosync/ARGOS/" # github path
 file_wd2 <-
   paste(file_wd, "Data/", sep = "")
 setwd(file_wd2)
@@ -1184,8 +1185,10 @@ n_plot_all <-
 
 
 ## lorenz success rate n ---------------------------------
-load("Lorenz/success_rate_RData/lorenz_inc_n_success_rate_new_sg.RData")
-total_correct <- total_correct_increasing_n_df
+# load("Lorenz/success_rate_RData/lorenz_inc_n_success_rate_new_sg.RData")
+load("Lorenz/success_rate_RData/lorenz_inc_n_success_rate_1051.RData")
+# total_correct <- total_correct_increasing_n_df
+total_correct <- total_correct_n1051_df
 total_correct[which(total_correct$Model == 'STLS'), ]$Model <- 'SINDy-AIC'
 models_name <- unique(total_correct$Model)
 new_levels <- models_name[c(2,3,1)]
@@ -1786,8 +1789,12 @@ lorenz_out <- grid.arrange(
   nrow = 3,
   heights = height_rate_title
 )
+# ggsave(lorenz_out,
+#        filename = '../Figures/succ_rate/lorenz_systems_success_rate.pdf',
+#        width = 13,
+#        height = 7)
 ggsave(lorenz_out,
-       filename = '../Figures/succ_rate/lorenz_systems_success_rate.pdf',
+       filename = '/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/Figures/succ_rate/lorenz_systems_success_rate_1051.pdf',
        width = 13,
        height = 7)
 

@@ -220,7 +220,7 @@ n_plot_all <-
 
 
 ## lorenz success rate n ---------------------------------
-load("Lorenz/success_rate_RData/ensemble_sindy_increasing_n_success_rate_snr_49_n_models_100.RData")
+load("Lorenz/success_rate_RData/ensemble_sindy_increasing_n_success_rate_snr_40_n_models_100.RData")
 total_correct <- total_correct_increasing_n_df
 # total_correct[which(total_correct$Model == 'STLS'), ]$Model <- 'SINDy-AIC'
 models_name <- unique(total_correct$Model)
@@ -250,6 +250,8 @@ x_labels <- c(
 x_breaks <- pretty_breaks()(n_seq)
 y_breaks <-
   y_labels <- pretty_breaks()(c(0, max(total_correct$Value)))
+x_position <- 2
+y_position <- 0.75
 prob_increase_n <-
   ggplot() +
   geom_hline(yintercept = 0.8, lty=2)+
@@ -280,7 +282,8 @@ prob_increase_n <-
   # ggplot_theme1 +
   scale_fill_manual(values = colors_correct, breaks = models_name, labels  = models_name) +
   scale_colour_manual(values = colors_correct, breaks = models_name, labels  = models_name) +
-  scale_shape_manual(values = shapes, breaks = models_name, labels  = models_name)
+  scale_shape_manual(values = shapes, breaks = models_name, labels  = models_name) +
+  annotate("text", x = x_position, y = y_position, label = paste("SNR = 40"), hjust = 0, vjust = 0)
 lorenz_n <-
   arrangeGrob(n_plot_all, prob_increase_n, heights = height_rate_label)
 
