@@ -1186,9 +1186,10 @@ n_plot_all <-
 
 ## lorenz success rate n ---------------------------------
 # load("Lorenz/success_rate_RData/lorenz_inc_n_success_rate_new_sg.RData")
-load("Lorenz/success_rate_RData/lorenz_inc_n_success_rate_1051.RData")
+# load("Lorenz/success_rate_RData/lorenz_inc_n_success_rate_1051.RData")
+load("Lorenz/success_rate_RData/lorenz_inc_n_success_rate_new_seed_105.RData")
 # total_correct <- total_correct_increasing_n_df
-total_correct <- total_correct_n1051_df
+total_correct <- total_correct_updated_seed_df
 total_correct[which(total_correct$Model == 'STLS'), ]$Model <- 'SINDy-AIC'
 models_name <- unique(total_correct$Model)
 new_levels <- models_name[c(2,3,1)]
@@ -1793,8 +1794,12 @@ lorenz_out <- grid.arrange(
 #        filename = '../Figures/succ_rate/lorenz_systems_success_rate.pdf',
 #        width = 13,
 #        height = 7)
+# ggsave(lorenz_out,
+#        filename = '/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/Figures/succ_rate/lorenz_systems_success_rate_1051.pdf',
+#        width = 13,
+#        height = 7)
 ggsave(lorenz_out,
-       filename = '/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/Figures/succ_rate/lorenz_systems_success_rate_1051.pdf',
+       filename = '/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/Figures/succ_rate/lorenz_systems_success_rate_new_seed_105.pdf',
        width = 13,
        height = 7)
 
