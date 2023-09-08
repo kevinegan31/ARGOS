@@ -55,7 +55,8 @@ empty_ggplot <- ggplot()+
         plot.background = element_blank(),
         plot.margin = unit(c(15,5.5,5.5,5.5),'pt'))
 height_rate_label <- c(8,20)
-height_rate_title <- c(1,8,1)
+# height_rate_title <- c(1,8,1)
+height_rate_title <- c(1,8)
 widths_traj <- c(1,6,6,6,1)
 colors_correct <- c("#9c72be", "#87a14d", "#cb8a69")
 shapes <- c(15, 16, 17)
@@ -220,7 +221,7 @@ n_plot_all <-
 
 
 ## lorenz success rate n ---------------------------------
-load("Lorenz/success_rate_RData/ensemble_sindy_increasing_n_success_rate_snr_49_n_models_100.RData")
+load("Lorenz/success_rate_RData/ensemble_sindy_increasing_n_success_rate_snr_49_n_models_100_updated_seed.RData")
 total_correct <- total_correct_increasing_n_df
 # total_correct[which(total_correct$Model == 'STLS'), ]$Model <- 'SINDy-AIC'
 models_name <- unique(total_correct$Model)
@@ -261,14 +262,12 @@ prob_increase_n <-
                fill = Model,
                col = Model,
                shape = Model
-             ),size = 2) +
+             ),size = 3) +
   geom_line(data=total_correct,
             aes(
               x = eta,
               y = Value,
-              fill = Model,
               col = Model,
-              shape = Model
             ),linewidth = 0.5) +
   labs(y = "Success Rate",
        x = expression(italic("n"))) +
@@ -277,12 +276,16 @@ prob_increase_n <-
   scale_y_continuous(labels = y_labels,
                      breaks = y_breaks,
                      limits = c(0, max(y_labels))) +
-  # ggplot_theme1 +
+  ggplot_theme1 +
   scale_fill_manual(values = colors_correct, breaks = models_name, labels  = models_name) +
   scale_colour_manual(values = colors_correct, breaks = models_name, labels  = models_name) +
   scale_shape_manual(values = shapes, breaks = models_name, labels  = models_name)
+# lorenz_n <-
+#   arrangeGrob(#n_plot_all,
+#               prob_increase_n, heights = height_rate_label)
 lorenz_n <-
-  arrangeGrob(n_plot_all, prob_increase_n, heights = height_rate_label)
+  arrangeGrob(#n_plot_all,
+    prob_increase_n)
 
 ## lorenz success rate snr bic intercept -------------------------------------
 load("Lorenz/success_rate_RData/ensemble_sindy_increasing_snr_success_rate_N5000_n_models_100.RData")
@@ -308,26 +311,67 @@ extra_x <- 1
 y_sep <- min(total_correct$Value) - 0.05*(min(total_correct$Value))
 myseg <- create_separators(c(xstart, xend), extra_x = 1, y = y_sep, extra_y = 0.1, angle = 75)
 
+# prob_inrease_snr_bic_inter <-
+#   ggplot() +
+#   geom_hline(yintercept = 0.8, lty=2)+
+#   geom_rect(data=rect1,aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),alpha=0.2,fill="#9de0e6")+
+#   geom_point(data=total_correct,
+#              aes(
+#                x = eta,
+#                y = Value,
+#                fill = Model,
+#                col = Model,
+#                shape = Model
+#              ),size = 2) +
+#   geom_line(data=total_correct,
+#             aes(
+#               x = eta,
+#               y = Value,
+#               col = Model,
+#             ),linewidth = 0.5) +
+#   labs(y = "Success Rate",
+#        x = TeX("SNR(dB)")) +
+#   scale_x_continuous(limits = c(min(x_breaks),
+#                                 max(x_breaks)),
+#                      labels = x_labels,
+#                      breaks = x_breaks) +
+#   scale_y_continuous(labels = y_labels,
+#                      breaks = y_breaks,
+#                      limits = c(NA, max(y_breaks))) +
+#   ggplot_theme1 +
+#   scale_fill_manual(values = colors_correct, breaks = models_name, labels  = models_name) +
+#   scale_colour_manual(values = colors_correct, breaks = models_name, labels  = models_name) +
+#   scale_shape_manual(values = shapes, breaks = models_name, labels  = models_name)+
+#   guides(x = guide_axis_truncated(
+#     trunc_lower = c(-Inf, xend + extra_x/2),
+#     trunc_upper = c(xstart + extra_x/2, Inf)
+#   )) +
+#   annotate("segment", 
+#            x = myseg$x, xend = myseg$xend,
+#            y = myseg$y + 0.05, yend = myseg$yend)  +
+#   coord_cartesian(clip = "off", ylim = c(-0.0005, NA))
+# Create a subset of the data excluding the part where eta is between 61 and 73
+total_correct_sub <- subset(total_correct, !(eta > 61 & eta <= 73))
+
+# Create the ggplot
 prob_inrease_snr_bic_inter <-
   ggplot() +
-  geom_hline(yintercept = 0.8, lty=2)+
-  geom_rect(data=rect1,aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),alpha=0.2,fill="#9de0e6")+
-  geom_point(data=total_correct,
+  geom_hline(yintercept = 0.8, lty = 2) +
+  geom_rect(data = rect1, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax), alpha = 0.2, fill = "#9de0e6") +
+  geom_point(data = total_correct,  # using the original data set to maintain all points
              aes(
                x = eta,
                y = Value,
                fill = Model,
                col = Model,
                shape = Model
-             ),size = 2) +
-  geom_line(data=total_correct,
+             ), size = 3) +
+  geom_line(data = total_correct_sub,  # using the subset to exclude the segment
             aes(
               x = eta,
               y = Value,
-              fill = Model,
-              col = Model,
-              shape = Model
-            ),linewidth = 0.5) +
+              col = Model
+            ), linewidth = 0.5) +
   labs(y = "Success Rate",
        x = TeX("SNR(dB)")) +
   scale_x_continuous(limits = c(min(x_breaks),
@@ -337,20 +381,29 @@ prob_inrease_snr_bic_inter <-
   scale_y_continuous(labels = y_labels,
                      breaks = y_breaks,
                      limits = c(NA, max(y_breaks))) +
-  # ggplot_theme1 +
+  ggplot_theme1 +
   scale_fill_manual(values = colors_correct, breaks = models_name, labels  = models_name) +
   scale_colour_manual(values = colors_correct, breaks = models_name, labels  = models_name) +
-  scale_shape_manual(values = shapes, breaks = models_name, labels  = models_name)+
+  scale_shape_manual(values = shapes, breaks = models_name, labels  = models_name) +
   guides(x = guide_axis_truncated(
-    trunc_lower = c(-Inf, xend + extra_x/2),
-    trunc_upper = c(xstart + extra_x/2, Inf)
+    trunc_lower = c(-Inf, xend + extra_x / 2),
+    trunc_upper = c(xstart + extra_x / 2, Inf)
   )) +
   annotate("segment", 
            x = myseg$x, xend = myseg$xend,
            y = myseg$y + 0.05, yend = myseg$yend)  +
   coord_cartesian(clip = "off", ylim = c(-0.0005, NA))
+
+# Print the plot
+print(prob_inrease_snr_bic_inter)
+
+
+# lorenz_snr <-
+#   arrangeGrob(#snr_plot_all,
+#               prob_inrease_snr_bic_inter, heights = height_rate_label)
 lorenz_snr <-
-  arrangeGrob(snr_plot_all, prob_inrease_snr_bic_inter, heights = height_rate_label)
+  arrangeGrob(#snr_plot_all,
+    prob_inrease_snr_bic_inter)
 
 
 ## Lorenz -----------------------------
@@ -360,30 +413,76 @@ lorenz_exp <- ggplot()+
      $\\dot{x}_3 = x_1x_2 - 8/3 x_3.$'),
            size=10, fill = 'grey90',label.size=NA)+
   theme_nothing()
+# height_rate_title <- c(3,1)
+# height_rate_title <- c(1,8)
+# height_rate_title <- c(8,1)
+# lorenz_out <- grid.arrange(
+#   arrangeGrob(#gg_title('f',0,label_size=65,vjust=0.3),
+#               top = gg_title('Lorenz',0,vjust=-0.5),
+#               nrow=1,widths=c(1,9)),
+#   arrangeGrob(lorenz_n,
+#               lorenz_snr,
+#               ncol = 2),
+#   lorenz_exp,
+#   nrow = 2,
+#   heights = height_rate_title
+# )
+# Combine the lorenz_n and lorenz_snr horizontally
+# # Assemble plots and title horizontally
+lorenz_plots <- arrangeGrob(lorenz_n, lorenz_snr, ncol = 2)
+# 
+# Assemble everything
+gg_title <- function(label, bg_col = "#f4f0e6", label_size = 52, vjust=0){ # the label of each plot
+  ggplot() + ggtitle(label) + theme(plot.title = element_text(size = label_size,face = "bold",vjust=vjust),
+                                    plot.margin = unit(c(2,0,0,0),'pt'),
+                                    plot.background = element_rect(fill = bg_col, color = bg_col),
+                                    panel.background = element_rect(fill = bg_col, color = bg_col))
+}
 lorenz_out <- grid.arrange(
-  arrangeGrob(#gg_title('f',0,label_size=65,vjust=0.3),
-              gg_title('Lorenz',0,vjust=-0.5),
-              nrow=1,widths=c(1,9)),
-  arrangeGrob(lorenz_n,
-              lorenz_snr,
-              ncol = 2),
+  arrangeGrob(gg_title('Lorenz', 0, vjust = -0.5),
+              nrow = 1,
+              heights = 2), # Adjust as needed
+  lorenz_plots,
   lorenz_exp,
   nrow = 3,
-  heights = height_rate_title
+  heights = c(1, 4, 1)  # Adjust these numbers
 )
+# title_size <- 36
+# label_size <- 65
+# lorenz_out <- arrangeGrob(
+#   arrangeGrob(#gg_title('a',0,label_size=label_size,vjust=1),
+#               gg_title('Lorenz',0,vjust=-0.5),nrow=1,widths=c(1,9)),
+#   arrangeGrob(lorenz_n,
+#               lorenz_snr,
+#               ncol = 2),
+#   nrow=2,
+#   heights=height_rate_title
+# )
+# ggsave(lorenz_out,
+#        filename = '/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/Figures/succ_rate/ensemble_sindy_lorenz_systems_success_rate.pdf',
+#        width = 13,
+#        height = 7)
+
+
 ggsave(lorenz_out,
-       filename = '/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/Figures/succ_rate/ensemble_sindy_lorenz_systems_success_rate.pdf',
+       filename = '/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/Figures/succ_rate/ensemble_sindy_lorenz_systems_success_rate_updated_seed.pdf',
        width = 13,
        height = 7)
 
+legend_levels <- unique(total_correct$Model)
+# c("Lasso", "Adaptive Lasso", "SINDy-AIC", "ESINDy-Bagging",
+#   "ESINDy-Bragging", "Lib-ESINDy-Bagging", "Lib-ESINDy-Bragging")
 total_correct$Model <- factor(total_correct$Model,
-                              levels = c("Adaptive Lasso", "Lasso", "Ensemble-SINDy"))
+                              levels = legend_levels)
+
+
 # lines are for model
 legend_ggplot <- ggplot(total_correct, aes(x = eta, y = Value,
                                            fill = Model,
                                            col = Model,
                                            shape = Model)) +
-  geom_point(size = 5) +
+  geom_point(size = 4) +
+  geom_line(linewidth = 0.5) +
   # geom_bar(stat = "identity", position = "dodge", width = 0.0065) +
   # geom_bar(stat="identity", position=position_dodge(0.7),width=0.5) +
   ylab("Identification Probability") +
@@ -411,7 +510,8 @@ legend_ggplot <- ggplot(total_correct, aes(x = eta, y = Value,
     panel.border = element_blank(),
     panel.background = element_blank(),
     legend.key = element_blank(),
-    legend.text = element_text(size = 12),
+    # legend.text = element_text(size = 12),
+    legend.text = element_text(size = 10),
     # Changed for legend
     legend.title = element_blank(),
     legend.key.size = unit(0.5, "cm"),
