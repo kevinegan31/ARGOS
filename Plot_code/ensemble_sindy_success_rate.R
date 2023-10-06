@@ -262,7 +262,7 @@ prob_increase_n <-
                fill = Model,
                col = Model,
                shape = Model
-             ),size = 3) +
+             ),size = 3.5) +
   geom_line(data=total_correct,
             aes(
               x = eta,
@@ -365,7 +365,7 @@ prob_inrease_snr_bic_inter <-
                fill = Model,
                col = Model,
                shape = Model
-             ), size = 3) +
+             ), size = 3.5) +
   geom_line(data = total_correct_sub,  # using the subset to exclude the segment
             aes(
               x = eta,
