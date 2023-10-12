@@ -223,6 +223,15 @@ n_plot_all <-
 ## lorenz success rate n ---------------------------------
 load("Lorenz/success_rate_RData/ensemble_sindy_increasing_n_success_rate_snr_49_n_models_100_updated_seed.RData")
 total_correct <- total_correct_increasing_n_df
+total_correct <- total_correct %>%
+  mutate(Model = case_when(
+    Model == "SINDy-AIC" ~ "SINDy with AIC",
+    Model == "ESINDy-Bagging" ~ "ESINDy Bagging",
+    Model == "ESINDy-Bragging" ~ "ESINDy Bragging",
+    Model == "Lib-ESINDy-Bagging" ~ "Library ESINDy Bagging",
+    Model == "Lib-ESINDy-Bragging" ~ "Library ESINDy Bragging",
+    TRUE ~ Model  # leaves the other model names unchanged
+  ))
 # total_correct[which(total_correct$Model == 'STLS'), ]$Model <- 'SINDy-AIC'
 models_name <- unique(total_correct$Model)
 # new_levels <- models_name[c(2,3,1)]
@@ -290,6 +299,15 @@ lorenz_n <-
 ## lorenz success rate snr bic intercept -------------------------------------
 load("Lorenz/success_rate_RData/ensemble_sindy_increasing_snr_success_rate_N5000_n_models_100.RData")
 total_correct <- total_correct_increasing_snr_df
+total_correct <- total_correct %>%
+  mutate(Model = case_when(
+    Model == "SINDy-AIC" ~ "SINDy with AIC",
+    Model == "ESINDy-Bagging" ~ "ESINDy Bagging",
+    Model == "ESINDy-Bragging" ~ "ESINDy Bragging",
+    Model == "Lib-ESINDy-Bagging" ~ "Library ESINDy Bagging",
+    Model == "Lib-ESINDy-Bragging" ~ "Library ESINDy Bragging",
+    TRUE ~ Model  # leaves the other model names unchanged
+  ))
 total_correct$eta[total_correct$eta == Inf] <- 73
 # total_correct[which(total_correct$Model == 'STLS'), ]$Model <- 'SINDy-AIC'
 models_name <- unique(total_correct$Model)
@@ -475,7 +493,6 @@ legend_levels <- unique(total_correct$Model)
 total_correct$Model <- factor(total_correct$Model,
                               levels = legend_levels)
 
-
 # lines are for model
 legend_ggplot <- ggplot(total_correct, aes(x = eta, y = Value,
                                            fill = Model,
@@ -533,3 +550,7 @@ legend_ggplot <- ggplot(total_correct, aes(x = eta, y = Value,
 legend <- get_legend(legend_ggplot)
 
 cowplot::plot_grid(legend)
+ggsave(cowplot::plot_grid(legend),
+       filename = '/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/esindy_success_legend.pdf',
+       width = 7,
+       height = 3)
