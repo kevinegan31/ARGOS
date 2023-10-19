@@ -80,8 +80,8 @@ ggplot_theme0 <- theme(
     angle = 90,
     vjust = 0.5
   ),
-  plot.title = element_text(size = 24),
-  plot.tag = element_text(size = 18),
+  plot.title = element_text(size = 18),
+  plot.tag = element_text(size = 36),
   legend.position = "none",
   legend.text.align = 0
 )
@@ -279,7 +279,8 @@ prob_increase_n <-
               col = Model,
             ),linewidth = 0.5) +
   labs(y = "Success Rate",
-       x = expression(italic("n"))) +
+       x = expression(italic("n")),
+       tag = expression(bold('a'))) +
   scale_x_continuous(labels = x_labels,
                      breaks = x_breaks) +
   scale_y_continuous(labels = y_labels,
@@ -391,7 +392,8 @@ prob_inrease_snr_bic_inter <-
               col = Model
             ), linewidth = 0.5) +
   labs(y = "Success Rate",
-       x = TeX("SNR(dB)")) +
+       x = TeX("SNR(dB)"),
+       tag = expression(bold('b'))) +
   scale_x_continuous(limits = c(min(x_breaks),
                                 max(x_breaks)),
                      labels = x_labels,
