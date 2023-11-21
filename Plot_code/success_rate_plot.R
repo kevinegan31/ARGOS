@@ -1844,4 +1844,9 @@ ggsave(duffing_out,
        width = 13,
        height = 7)
 
+# ggsave(duffing_out,
+#        filename = '/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/Figures/succ_rate/duffing_systems_success_rate.pdf',
+#        width = 13,
+#        height = 7)
+
 
