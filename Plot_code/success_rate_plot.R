@@ -1474,6 +1474,7 @@ mu = matrix(c(-0.1,-2, 2,-0.1), 2, 2)
 dt = 0.01
 
 gamma_value = 0.1
+# gamma_value = 1
 kappa_value = 1
 epsilon_value = 5
 ## noisy plot
@@ -1826,7 +1827,7 @@ ggsave(vdp_out,
 ## duffing -----------------------------
 duffing_exp <- ggplot()+
   annotate('label',x=0,y=0,label=TeX('$\\dot{x}_1 = x_2,$\n
-    $\\dot{x}_2 = - x_2 -  x_1 - 5 x_1^3.$'),
+    $\\dot{x}_2 = - 0.1 x_2 -  x_1 - 5 x_1^3.$'),
            size=10, fill = 'grey90', label.size=NA)+
   theme_nothing()
 duffing_out <- grid.arrange(
