@@ -14,7 +14,7 @@ Upon identification, users can apply the resulting models to generalize and pred
 
 The [**R**](https://github.com/kevinegan31/ARGOS/tree/main/R) folder contains all code used for implementing our method in `R`.
 We provide code for ARGOS, including the bootstrap, lasso and adaptive lasso, and Savitzky-Golay filter.
-We also provide all tests run for the _Automatically identifying dynamical systems from data_ paper.
+We also provide all tests run for the _Automatically discovering ordinary differential equations from data with sparse regression_ paper.
 
 The [**Python**](https://github.com/kevinegan31/ARGOS/tree/main/Python_Code) folder contains all code and tests we used for SINDy-AIC.
 
