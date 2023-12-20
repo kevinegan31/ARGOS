@@ -5,7 +5,7 @@ rossler_system <-
            dt,
            init_conditions,
            a, b, c,
-           snr = Inf, ...) {
+           snr = Inf) {
     n <- round(n, 0)
     dt <- dt
     # n = number of time points rounded to nearest integer
@@ -33,8 +33,7 @@ rossler_system <-
       times = times,
       parms = rossler_parameters,
       atol = 1.49012e-8,
-      rtol = 1.49012e-8,
-      ...
+      rtol = 1.49012e-8
     )[,-1]
     # Add Noise
     if (!is.infinite(snr)) {

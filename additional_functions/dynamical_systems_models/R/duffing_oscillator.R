@@ -50,3 +50,4 @@ duffing_oscillator <-
     # Return x_t
     return(x_t = out)
   }
+
