@@ -1,34 +1,30 @@
-# Automatic Regression for Governing Equations (ARGOS)
+# ARGOS: Automatic Regression for Governing Equations 
+An R package for the identification of dynamical systems.
 
-This Github repository contains codes for the paper _Automatically identifying dynamical systems from data_.
+## Overview
+
+**ARGOS** (Automatic Regression for Governing Equations) provides tools to perform system identification of both linear and nonlinear dynamical systems directly from data.
+Inspired by the research presented in the paper,[_"Automatically discovering ordinary differential equations from data"_](https://arxiv.org/abs/2304.11182), this package automates the complex task of building mathematical models of dynamical systems using observed input and output signals.
+
+## Code for Research Article
+
+For those interested in the original code accompanying the research article, it can be found at [this GitHub repository](https://github.com/kevinegan31/ARGOS).
+
+## Key Features
+
+- **System Identification**: Offers tools to derive mathematical models from real-world observations.
+- **Support for Various Systems**: Handles both discrete and continuous dynamical systems, using either ordinary differential equations.
+- **Optimal Numerical Derivatives**: Enhances accuracy and reliability in system identification.
+- **Formal Variable Selection**: Enables automatic discovery of dynamical systems, helping users discern the most relevant variables.
+- **Predictive Capabilities**: Once models are identified, they can be used to generalize and predict behaviors of systems within the data set.
 
 ## Motivation
 
-The purpose of this repository is to enable users to perform system identification of linear and nonlinear systems automatically.
-System identification refers to the process of building mathematical models of dynamical systems using measurements of the input and output signals.
-Dynamical systems can either be discrete or continuous and use ordinary or partial differential equations to describe their time-varying behavior.
-The Automatic Regression for Governing Equations (ARGOS) algorithm combines optimal numerical derivatives with formal variable selection procedures for automatic discovery of dynamical systems from data.
-Upon identification, users can apply the resulting models to generalize and predict the systems existing in their data.
+Modern research and industries demand accurate models of dynamical systems, yet building these models from raw data can be challenging.
+**ARGOS** streamlines this process, automating the identification of both linear and nonlinear systems.
+Whether dealing with discrete or continuous systems described by ordinary differential equations, this package provides the tools needed.
+By combining optimal numerical derivatives with formal variable selection procedures, ARGOS not only aids in the discovery of these systems but also empowers users to apply the resulting models to predict and understand the behaviors present in their data.
 
-## Folders
+## Getting Started
 
-The [**R**](https://github.com/kevinegan31/ARGOS/tree/main/R) folder contains all code used for implementing our method in `R`.
-We provide code for ARGOS, including the bootstrap, lasso and adaptive lasso, and Savitzky-Golay filter.
-We also provide all tests run for the _Automatically discovering ordinary differential equations from data with sparse regression_ paper.
-
-The [**Python**](https://github.com/kevinegan31/ARGOS/tree/main/Python_Code) folder contains all code and tests we used for SINDy-AIC.
-
-The [**Data**](https://github.com/kevinegan31/ARGOS/tree/main/Data) folder contains raw outputs (in .csv format) from test results for the _Automatically identifying dynamical systems from data_ paper.
-
-The [**Create_data**](https://github.com/kevinegan31/ARGOS/tree/main/Create_data) folder enables users to create each file necessary for plotting the results.
-
-The [**Plot_code**](https://github.com/kevinegan31/ARGOS/tree/main/Plot_code) folder contains code for figures shown in the paper.
-
-The [**Additional_Functions**](https://github.com/kevinegan31/ARGOS/tree/main/additional_functions/) folder provides code to run each dynamical system examined in the paper.
-
-## Notice
-
-For users running Windows, please clone to the drive directly to a drive (e.g., 'C:\\' or 'D:\\') rather than a folder within the drive, as some file names may be too long for Windows to handle.
-This issue does not affect macOS and Linux users.
-
-To access the data, users need to unzip the compressed `Data.zip` file.
+1. **Installation**: Install the package as such: ```r install.packages("ARGOS")```.
