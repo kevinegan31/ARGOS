@@ -1,30 +1,30 @@
-# ARGOS: Automatic Regression for Governing Equations 
-An R package for the identification of dynamical systems.
+# Automatically identifying dynamical systems from data
 
-## Overview
-
-**ARGOS** (Automatic Regression for Governing Equations) provides tools to perform system identification of both linear and nonlinear dynamical systems directly from data.
-Inspired by the research presented in the paper,[_"Automatically discovering ordinary differential equations from data"_](https://arxiv.org/abs/2304.11182), this package automates the complex task of building mathematical models of dynamical systems using observed input and output signals.
-
-## Code for Research Article
-
-For those interested in the original code accompanying the research article, it can be found at [this GitHub repository](https://github.com/kevinegan31/ARGOS).
-
-## Key Features
-
-- **System Identification**: Offers tools to derive mathematical models from real-world observations.
-- **Support for Various Systems**: Handles both discrete and continuous dynamical systems, using either ordinary differential equations.
-- **Optimal Numerical Derivatives**: Enhances accuracy and reliability in system identification.
-- **Formal Variable Selection**: Enables automatic discovery of dynamical systems, helping users discern the most relevant variables.
-- **Predictive Capabilities**: Once models are identified, they can be used to generalize and predict behaviors of systems within the data set.
+This Github repository contains codes for the paper _Automatically discovering ordinary differential equations from data with sparse regression_.
 
 ## Motivation
 
-Modern research and industries demand accurate models of dynamical systems, yet building these models from raw data can be challenging.
-**ARGOS** streamlines this process, automating the identification of both linear and nonlinear systems.
-Whether dealing with discrete or continuous systems described by ordinary differential equations, this package provides the tools needed.
-By combining optimal numerical derivatives with formal variable selection procedures, ARGOS not only aids in the discovery of these systems but also empowers users to apply the resulting models to predict and understand the behaviors present in their data.
+The purpose of this code is to enable users to perform system identification of linear and nonlinear systems automatically.
+System identification refers to the process of building mathematical models of dynamical systems using measurements of the input and output signals of the system.
+A dynamical system is a system whose state varies over time and follows sets of ordinary or partial differential equations.
+We propose a framework that applies sparse regression algorithms with model selection methods to identify the governing equations that describe the data automatically.
+Upon identification, users can apply the resulting models to generalize and predict the systems existing in their data.
 
-## Getting Started
+## Folders
 
-1. **Installation**: Install the package as such: ```r install.packages("ARGOS")```.
+[**R_code**](https://github.com/kevinegan31/AutomaticSparseRegression/tree/master/R_Code) contains all codes used for implementing our method in `R`.
+We provide code for the bootstrap, lasso and adaptive lasso, and Savitzky-Golay filter.
+We also provide all tests run for the _Automatically discovering ordinary differential equations from data with sparse regression_ paper.
+
+[**Python_code**](https://github.com/kevinegan31/AutomaticSparseRegression/tree/master/Python_Code) contains all code and tests we used for SINDy-AIC.
+
+[**Data**](https://github.com/kevinegan31/AutomaticSparseRegression/tree/master/Data) contains raw outputs (in .csv format) from test results for the _Automatically discovering ordinary differential equations from data with sparse regression_ paper.
+
+[**Plot_code**](https://github.com/kevinegan31/AutomaticSparseRegression/tree/master/Plot_Code) contains code for figures shown in the paper.
+
+[**RData**](https://github.com/kevinegan31/AutomaticSparseRegression/tree/master/RData) contains cleaned results data developed for the paper and implemented for the plots.
+
+## Notice
+
+When using Windows system, please clone to the drive directly like 'C:\\' or 'D:\\', not the folders in 'C:\\' or 'D:\\', because some file names are too long to be cloned in Windows.
+MAC OS and Linux do not have this problem.
