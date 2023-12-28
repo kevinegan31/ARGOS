@@ -12,17 +12,15 @@ Upon identification, users can apply the resulting models to generalize and pred
 
 ## Folders
 
-[**R_code**](https://github.com/kevinegan31/AutomaticSparseRegression/tree/master/R_Code) contains all codes used for implementing our method in `R`.
+[**Create_data**](https://github.com/kevinegan31/AutomaticSparseRegression/tree/master/Data) contains code to allow users to format test results for plotting.
+
+[**R**](https://github.com/kevinegan31/AutomaticSparseRegression/tree/master/R_Code) contains all codes used for implementing our method in `R`.
 We provide code for the bootstrap, lasso and adaptive lasso, and Savitzky-Golay filter.
 We also provide all tests run for the _Automatically discovering ordinary differential equations from data with sparse regression_ paper.
 
-[**Python_code**](https://github.com/kevinegan31/AutomaticSparseRegression/tree/master/Python_Code) contains all code and tests we used for SINDy-AIC.
-
-[**Data**](https://github.com/kevinegan31/AutomaticSparseRegression/tree/master/Data) contains raw outputs (in .csv format) from test results for the _Automatically discovering ordinary differential equations from data with sparse regression_ paper.
+[**Python**](https://github.com/kevinegan31/AutomaticSparseRegression/tree/master/Python_Code) contains all code and tests we used for SINDy-AIC.
 
 [**Plot_code**](https://github.com/kevinegan31/AutomaticSparseRegression/tree/master/Plot_Code) contains code for figures shown in the paper.
-
-[**RData**](https://github.com/kevinegan31/AutomaticSparseRegression/tree/master/RData) contains cleaned results data developed for the paper and implemented for the plots.
 
 ## Notice
 
