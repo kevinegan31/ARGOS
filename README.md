@@ -26,3 +26,6 @@ We also provide all tests run for the _Automatically discovering ordinary differ
 
 When using Windows system, please clone to the drive directly like 'C:\\' or 'D:\\', not the folders in 'C:\\' or 'D:\\', because some file names are too long to be cloned in Windows.
 MAC OS and Linux do not have this problem.
+
+We have recently published an `R` package on [CRAN](https://cran.r-project.org/web/packages/ARGOS/index.html).
+The corresponding GitHub page can be found [here](https://github.com/kevinegan31/ARGOS-Package).
