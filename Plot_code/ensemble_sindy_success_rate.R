@@ -11,7 +11,7 @@ library(ggpubr)
 library(gridExtra)
 library(patchwork)
 
-file_wd <- "/Users/kevinegan/Documents/GitHub.nosync/ARGOS/" # github path
+file_wd <- "~/ARGOS/" # github path
 file_wd2 <-
   paste(file_wd, "Data/", sep = "")
 setwd(file_wd2)
@@ -221,7 +221,7 @@ n_plot_all <-
 
 
 ## lorenz success rate n ---------------------------------
-load("Lorenz/success_rate_RData/ensemble_sindy_increasing_n_success_rate_snr_49_n_models_100_updated_seed.RData")
+load("Lorenz/success_rate_RData/ensemble_sindy_increasing_n_success_rate_new_sg.RData")
 total_correct <- total_correct_increasing_n_df
 total_correct <- total_correct %>%
   mutate(Model = case_when(
@@ -234,10 +234,6 @@ total_correct <- total_correct %>%
   ))
 # total_correct[which(total_correct$Model == 'STLS'), ]$Model <- 'SINDy-AIC'
 models_name <- unique(total_correct$Model)
-# new_levels <- models_name[c(2,3,1)]
-# total_correct$Model <- factor(total_correct$Model, levels = new_levels)
-# total_correct <- arrange(total_correct, Model)
-# models_name <- new_levels[c(1,3,2)]
 colors_correct <- c("#9a963f",
                     "#7878cd",
                     "#64ac48",
@@ -290,15 +286,12 @@ prob_increase_n <-
   scale_fill_manual(values = colors_correct, breaks = models_name, labels  = models_name) +
   scale_colour_manual(values = colors_correct, breaks = models_name, labels  = models_name) +
   scale_shape_manual(values = shapes, breaks = models_name, labels  = models_name)
-# lorenz_n <-
-#   arrangeGrob(#n_plot_all,
-#               prob_increase_n, heights = height_rate_label)
 lorenz_n <-
   arrangeGrob(#n_plot_all,
     prob_increase_n)
 
 ## lorenz success rate snr bic intercept -------------------------------------
-load("Lorenz/success_rate_RData/ensemble_sindy_increasing_snr_success_rate_N5000_n_models_100.RData")
+load("Lorenz/success_rate_RData/ensemble_sindy_increasing_snr_success_rate.RData")
 total_correct <- total_correct_increasing_snr_df
 total_correct <- total_correct %>%
   mutate(Model = case_when(
@@ -310,12 +303,7 @@ total_correct <- total_correct %>%
     TRUE ~ Model  # leaves the other model names unchanged
   ))
 total_correct$eta[total_correct$eta == Inf] <- 73
-# total_correct[which(total_correct$Model == 'STLS'), ]$Model <- 'SINDy-AIC'
 models_name <- unique(total_correct$Model)
-# new_levels <- models_name[c(2,3,1)]
-# total_correct$Model <- factor(total_correct$Model, levels = new_levels)
-# total_correct <- arrange(total_correct, Model)
-# models_name <- new_levels[c(1,3,2)]
 
 x_labels <- x_breaks <- seq(1, 73, by = 12)
 x_labels[length(x_labels)] <- TeX("$\\infty$")
@@ -330,45 +318,6 @@ extra_x <- 1
 y_sep <- min(total_correct$Value) - 0.05*(min(total_correct$Value))
 myseg <- create_separators(c(xstart, xend), extra_x = 1, y = y_sep, extra_y = 0.1, angle = 75)
 
-# prob_inrease_snr_bic_inter <-
-#   ggplot() +
-#   geom_hline(yintercept = 0.8, lty=2)+
-#   geom_rect(data=rect1,aes(xmin=xmin,xmax=xmax,ymin=ymin,ymax=ymax),alpha=0.2,fill="#9de0e6")+
-#   geom_point(data=total_correct,
-#              aes(
-#                x = eta,
-#                y = Value,
-#                fill = Model,
-#                col = Model,
-#                shape = Model
-#              ),size = 2) +
-#   geom_line(data=total_correct,
-#             aes(
-#               x = eta,
-#               y = Value,
-#               col = Model,
-#             ),linewidth = 0.5) +
-#   labs(y = "Success Rate",
-#        x = TeX("SNR(dB)")) +
-#   scale_x_continuous(limits = c(min(x_breaks),
-#                                 max(x_breaks)),
-#                      labels = x_labels,
-#                      breaks = x_breaks) +
-#   scale_y_continuous(labels = y_labels,
-#                      breaks = y_breaks,
-#                      limits = c(NA, max(y_breaks))) +
-#   ggplot_theme1 +
-#   scale_fill_manual(values = colors_correct, breaks = models_name, labels  = models_name) +
-#   scale_colour_manual(values = colors_correct, breaks = models_name, labels  = models_name) +
-#   scale_shape_manual(values = shapes, breaks = models_name, labels  = models_name)+
-#   guides(x = guide_axis_truncated(
-#     trunc_lower = c(-Inf, xend + extra_x/2),
-#     trunc_upper = c(xstart + extra_x/2, Inf)
-#   )) +
-#   annotate("segment", 
-#            x = myseg$x, xend = myseg$xend,
-#            y = myseg$y + 0.05, yend = myseg$yend)  +
-#   coord_cartesian(clip = "off", ylim = c(-0.0005, NA))
 # Create a subset of the data excluding the part where eta is between 61 and 73
 total_correct_sub <- subset(total_correct, !(eta > 61 & eta <= 73))
 
@@ -467,25 +416,9 @@ lorenz_out <- grid.arrange(
   nrow = 3,
   heights = c(1, 4, 1)  # Adjust these numbers
 )
-# title_size <- 36
-# label_size <- 65
-# lorenz_out <- arrangeGrob(
-#   arrangeGrob(#gg_title('a',0,label_size=label_size,vjust=1),
-#               gg_title('Lorenz',0,vjust=-0.5),nrow=1,widths=c(1,9)),
-#   arrangeGrob(lorenz_n,
-#               lorenz_snr,
-#               ncol = 2),
-#   nrow=2,
-#   heights=height_rate_title
-# )
-# ggsave(lorenz_out,
-#        filename = '/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/Figures/succ_rate/ensemble_sindy_lorenz_systems_success_rate.pdf',
-#        width = 13,
-#        height = 7)
-
 
 ggsave(lorenz_out,
-       filename = '/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/Figures/succ_rate/ensemble_sindy_lorenz_systems_success_rate_updated_seed.pdf',
+       filename = '../Figures/succ_rate/ensemble_sindy_lorenz_systems_success_rate_updated_seed.pdf',
        width = 13,
        height = 7)
 
@@ -553,6 +486,6 @@ legend <- get_legend(legend_ggplot)
 
 cowplot::plot_grid(legend)
 ggsave(cowplot::plot_grid(legend),
-       filename = '/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/esindy_success_legend.pdf',
+       filename = '../esindy_success_legend.pdf',
        width = 7,
        height = 3)

@@ -11,8 +11,7 @@ library(ggpubr)
 library(gridExtra)
 library(patchwork)
 
-# file_wd <- "~/ARGOS/" # github path
-file_wd <- "/Users/kevinegan/Documents/GitHub.nosync/ARGOS/" # github path
+file_wd <- "~/ARGOS/" # github path
 file_wd2 <-
   paste(file_wd, "Data/", sep = "")
 setwd(file_wd2)
@@ -1791,16 +1790,9 @@ lorenz_out <- grid.arrange(
   nrow = 3,
   heights = height_rate_title
 )
-# ggsave(lorenz_out,
-#        filename = '../Figures/succ_rate/lorenz_systems_success_rate.pdf',
-#        width = 13,
-#        height = 7)
-# ggsave(lorenz_out,
-#        filename = '/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/Figures/succ_rate/lorenz_systems_success_rate_1051.pdf',
-#        width = 13,
-#        height = 7)
+
 ggsave(lorenz_out,
-       filename = '/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/Figures/succ_rate/lorenz_systems_success_rate_new_seed_105.pdf',
+       filename = '../Figures/succ_rate/lorenz_systems_success_rate_new_seed_105.pdf',
        width = 13,
        height = 7)
 
@@ -1843,10 +1835,3 @@ ggsave(duffing_out,
        filename = '../Figures/succ_rate/duffing_systems_success_rate.pdf',
        width = 13,
        height = 7)
-
-# ggsave(duffing_out,
-#        filename = '/Users/kevinegan/Documents/GitHub.nosync/PrivateAutomaticSparseRegression/Figures/succ_rate/duffing_systems_success_rate.pdf',
-#        width = 13,
-#        height = 7)
-
-
